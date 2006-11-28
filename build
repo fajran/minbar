@@ -1,0 +1,1 @@
+gcc gprayer.c -o gprayer -Wall `pkg-config --cflags --libs gtk+-2.0` `pkg-config --cflags --libs libglade-2.0` `pkg-config --cflags --libs gconf-2.0` -export-dynamic -litl `pkg-config --cflags --libs libgnome-2.0`

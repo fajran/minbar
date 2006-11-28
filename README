@@ -1,0 +1,20 @@
+This is a Gnome prayer times application on top of libitl, with 
+athan sound playback and notifications etc.
+
+It is still in the works.
+
+To build, you need:
+libglade
+libitl
+libgtk
+gconf 
+
+the build file builds the program. It works on my system, you may 
+have to modify it for yours.
+
+When you go to your distribution's package instllation mechanism
+to get the needed libraries, make sure you fetch the development
+files
+
+--Djihed
+28-11-2006

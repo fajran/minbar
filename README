@@ -8,6 +8,7 @@ libglade
 libitl
 libgtk
 gconf 
+gsteamer-0.10
 
 the build file builds the program. It works on my system, you may 
 have to modify it for yours.

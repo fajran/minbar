@@ -5,12 +5,20 @@
 #include <string.h>
 #include <glib.h>
 #include <itl/prayer.h>
-#include <libgnome/libgnome.h>
+#include <gst/gst.h>
+
 
 void on_editcityokbutton_clicked(GtkWidget *widget, gpointer user_data); 
 void calculate_prayer_table();
 void play_athan_callback();
 void stop_athan_callback();
+static gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
+static void new_pad (GstElement *element, GstPad *pad, gpointer data);
+int init_pipelines();
+void setup_file_filters (void);
+void set_file_status(gboolean status);
+
+
 
 static GConfClient     		* client;
 static const GString		* prefRootString;
@@ -28,13 +36,21 @@ static gchar 			* normal_time_start;
 static gchar 			* normal_time_end;
 static gchar 			* special_time_start;
 static gchar 			* special_time_end;
-
+static gchar			* defaultAthanFile;
 
 /* for prayer.h functions */
 static Date 			* prayerDate;
 static Location 		* loc;
 static Method			* calcMethod;
 static Prayer 			ptList[6];
+
+/* For gstreamer */
+static GstElement *pipeline, *source, *parser, *decoder, *conv, *sink;
+static GMainLoop *loop;
+static GstBus *bus;
+static GtkFileFilter *filter_all;
+static GtkFileFilter *filter_supported;
+
 
 void calculate_prayer_table()
 {
@@ -48,7 +64,7 @@ void calculate_prayer_table()
 	gchar * timestring;
 	timestring = g_malloc(50);
 
-	g_snprintf(timestring, 50, "%s%d:%d%s", 
+	g_snprintf(timestring, 50, "%s%02d:%02d%s", 
 		normal_time_start, ptList[0].hour, 
 		ptList[0].minute, normal_time_end);
 	
@@ -58,34 +74,34 @@ void calculate_prayer_table()
 		(GtkLabel *) glade_xml_get_widget(xml, "subhtime"),
 		timestring);
 
-	g_snprintf(timestring, 50, "%s%d:%d%s",  
+	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
 			normal_time_start, ptList[1].hour,
 			ptList[1].minute, normal_time_end); 
 	gtk_label_set_markup(
 		(GtkLabel *) glade_xml_get_widget(xml, "shorooktime"),
 		timestring);
 
-	g_snprintf(timestring, 50, "%s%d:%d%s",  
+	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
 			normal_time_start, ptList[2].hour,
 			ptList[2].minute, normal_time_end); 
 	gtk_label_set_markup(
 		(GtkLabel *) glade_xml_get_widget(xml, "duhrtime"),
 		timestring);
 
-	g_snprintf(timestring, 50, "%s%d:%d%s",  
+	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
 			normal_time_start, ptList[3].hour,
 			ptList[3].minute, normal_time_end); 
 	gtk_label_set_markup(
 		(GtkLabel *) glade_xml_get_widget(xml, "asrtime"),
 		timestring);
-	g_snprintf(timestring, 50, "%s%d:%d%s",  
+	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
 			normal_time_start, ptList[4].hour,
 			ptList[4].minute, normal_time_end); 
 	gtk_label_set_markup(
 		(GtkLabel *) glade_xml_get_widget(xml, "maghrebtime"),
 		timestring);
 
-	g_snprintf(timestring, 50, "%s%d:%d%s",  
+	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
 			normal_time_start, ptList[5].hour,
 			ptList[5].minute, normal_time_end); 
 	gtk_label_set_markup(
@@ -103,13 +119,14 @@ void setDefaults()
 	lonstring	= g_string_new("city/lon");
 	citystring	= g_string_new("city/name");
 	heightstring	= g_string_new("city/height");
-	normal_time_start = "<span color=\"red\"><b>";
-	normal_time_end = "</b></span>";
-	special_time_start = "<span color=\"green\"><b>";
-	special_time_end = "</b></span>";
+	normal_time_start 	= "<span color=\"red\"><b>";
+	normal_time_end 	= "</b></span>";
+	special_time_start 	= "<span color=\"green\"><b>";
+	special_time_end 	= "</b></span>";
+	defaultAthanFile	= "/home/djihed/dev/gnome/myapps/prayer/athan.ogg";
 }
 
-/* needed post setting preferences.*/
+/* needed post loading preferences.*/
 void setVars()
 {
 	/* Allocate memory for variables */
@@ -118,6 +135,16 @@ void setVars()
 	loc 			= g_malloc(sizeof(Location));
 	calcMethod 		= g_malloc(sizeof(Method)); 	
 	
+	/* set UI vars */
+	gtk_file_chooser_set_filename  ((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")),
+			(const gchar *)defaultAthanFile);
+	setup_file_filters();
+	gtk_file_chooser_add_filter ((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")),
+	       	filter_supported);
+
+	gtk_file_chooser_add_filter ((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")),
+	       	filter_all);
+		
 	GDate * currentDate = g_date_new();
 	g_get_current_time(curtime);
 	g_date_set_time_val(currentDate, curtime);
@@ -282,7 +309,7 @@ void init_prefs ()
 	/* And set the city string in the main window */
 	gtk_label_set_text((GtkLabel *)(glade_xml_get_widget(xml, "locationname")),
 		       	(const gchar *)cityname);
-}
+	}
 
 int main(int argc, char *argv[]) 
 {
@@ -293,8 +320,7 @@ int main(int argc, char *argv[])
 	gtk_init(&argc, &argv);
 	glade_init();
  	gconf_init(argc, argv, NULL);
-	/*libgnome_init();*/
-
+	
 	/* load gconf client */
 	client = gconf_client_get_default();
 	
@@ -303,6 +329,11 @@ int main(int argc, char *argv[])
 	/* connect the signals in the interface */
 	glade_xml_signal_autoconnect(xml);
 	
+	/* initialize GStreamer */
+	gst_init (&argc, &argv);
+	loop = g_main_loop_new (NULL, FALSE);
+
+
 	/* Initialise preferenes and variables */	
 	init_prefs();
 	setVars();
@@ -314,8 +345,146 @@ int main(int argc, char *argv[])
 
 void play_athan_callback()
 {
+	
+	/* Stop previously played file */
+	stop_athan_callback();
+	int returned = init_pipelines();
+	if(returned < 0)
+	{
+		exit(-1);
+	}
+ 
+	/* set filename property on the file source. Also add a message
+	 * handler. */
+	gchar * athanfilename  = gtk_file_chooser_get_filename  
+		((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")));
+
+	g_object_set (G_OBJECT (source), "location", athanfilename, NULL);
+
+	bus = gst_pipeline_get_bus (GST_PIPELINE (pipeline));
+	gst_bus_add_watch (bus, bus_call, loop);
+	gst_object_unref (bus);
+
+	/* put all elements in a bin */
+	gst_bin_add_many (GST_BIN (pipeline),
+		    source, parser, decoder, conv, sink, NULL);
+
+	/* link together - note that we cannot link the parser and
+	 * decoder yet, becuse the parser uses dynamic pads. For that,
+	 * we set a pad-added signal handler. */
+	gst_element_link (source, parser);
+	gst_element_link_many (decoder, conv, sink, NULL);
+	g_signal_connect (parser, "pad-added", G_CALLBACK (new_pad), NULL);
+	
+
+	/* Now set to playing and iterate. */
+	g_print ("Setting to PLAYING\n");
+	gst_element_set_state (pipeline, GST_STATE_PLAYING);
+	g_print ("Running\n");
+	g_main_loop_run (loop);
 }
 
 void stop_athan_callback()
 {
+	/* clean up nicely */
+	g_print ("Returned, stopping playback\n");
+	gst_element_set_state (pipeline, GST_STATE_NULL);
+	g_print ("Deleting pipeline\n");
+	gst_object_unref (GST_OBJECT (pipeline));
+}
+
+static gboolean
+bus_call (GstBus     *bus,
+	  GstMessage *msg,
+	  gpointer    data)
+{
+	GMainLoop *loop = data;
+
+	switch (GST_MESSAGE_TYPE (msg)) {
+		case GST_MESSAGE_EOS:
+			g_print ("End-of-stream\n");
+			g_main_loop_quit (loop);
+			break;
+		case GST_MESSAGE_ERROR: {
+			gchar *debug;
+			GError *err;
+
+			gst_message_parse_error (msg, &err, &debug);
+			g_free (debug);
+
+			g_print ("Errorrr: %s\n", err->message);
+			g_error_free (err);
+
+			g_main_loop_quit (loop);
+			set_file_status(FALSE);
+			break;
+		}
+		default:
+			set_file_status(TRUE);
+			break;
+		}
+	return TRUE;
+}
+
+void set_file_status(gboolean status)
+{
+	if(status)
+	{
+		gtk_image_set_from_stock((GtkImage *)(glade_xml_get_widget(xml, "filestatusimage"))
+			, GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON);
+
+	}
+	else
+	{
+		gtk_image_set_from_stock((GtkImage *)(glade_xml_get_widget(xml, "filestatusimage"))
+			, GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_BUTTON);
+	}
+}
+
+
+void new_pad (GstElement *element,
+	 	GstPad     *pad,
+	 	gpointer    data)
+{
+	GstPad *sinkpad;
+	/* We can now link this pad with the audio decoder */
+	g_print ("Dynamic pad created, linking parser/decoder\n");
+
+	sinkpad = gst_element_get_pad (decoder, "sink");
+	gst_pad_link (pad, sinkpad);
+
+	gst_object_unref (sinkpad);
+}
+
+
+
+int init_pipelines()
+{
+	/* create elements */
+	pipeline = gst_pipeline_new ("audio-player");
+	source = gst_element_factory_make ("filesrc", "file-source");
+	parser = gst_element_factory_make ("oggdemux", "ogg-parser");
+	decoder = gst_element_factory_make ("vorbisdec", "vorbis-decoder");
+	conv = gst_element_factory_make ("audioconvert", "converter");
+	sink = gst_element_factory_make ("alsasink", "alsa-output");
+	if (!pipeline || !source || !parser || !decoder || !conv || !sink) {
+		g_print ("One element could not be created\n");
+		return -1;
+	}
+	return 1;
+}
+
+
+void setup_file_filters (void)
+{
+	filter_all = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter_all, "All files");
+	gtk_file_filter_add_pattern (filter_all, "*");
+	g_object_ref (filter_all);
+
+	filter_supported = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter_supported,
+		"Supported files");
+	gtk_file_filter_add_mime_type (filter_supported, "application/ogg");
+	g_object_ref (filter_supported);
 }

@@ -472,55 +472,20 @@ void setup_file_filters (void)
 }
 
 
-/* Thread to update date variable .. */
-void *watch_athan_thread(void *args)
-{
-	for(;;)
-	{
-		/* sleep a while */
-		sleep(10);
-	
-		g_print("Thread looping...\n");
-		lock_variables();	
-		update_date();	
-		calculate_prayer_table();
-		unlock_variables();
-
-		gdk_threads_enter();
-		update_prayer_labels();
-		gdk_flush ();
-		gdk_threads_leave();
-	}
-}
-
-
+/* Interval to update prayer times if time/date changes */
 gboolean update_interval(gpointer data)
 {
-	g_print("In intervali\n");
+	g_print("In interval\n");
 	update_date(); 
 	calculate_prayer_table(); 
 	update_prayer_labels();
 	return TRUE;
 }
 
-void lock_variables()
-{
-}
-
-void unlock_variables()
-{
-}
-
-
 int main(int argc, char *argv[]) 
 {
 	/* Set defaults */
 	setDefaults();
-
-/*	
-	g_thread_init(NULL);
-	gdk_threads_init();
-*/
 
 	/* init libraries */
 	gtk_init(&argc, &argv);
@@ -545,17 +510,8 @@ int main(int argc, char *argv[])
 	/* calculate the time table, and update the labels */
 	calculate_prayer_table();
 	update_prayer_labels();
-	
 
-	/* init threads *//*
-  	if (!g_thread_create(watch_athan_thread, NULL, FALSE, &err))
-    	{
-      		g_printerr ("Failed to create thread: %s\n", err->message);
-      		return 1;
-    	}
-	*/
-
-	g_timeout_add(30000, update_interval, NULL);
+	g_timeout_add(100000, update_interval, NULL);
 
 	/* start the event loop */
 	gdk_threads_enter();

@@ -6,7 +6,7 @@
 #include <glib.h>
 #include <itl/prayer.h>
 #include <gst/gst.h>
-
+#include <unistd.h>
 
 void on_editcityokbutton_clicked(GtkWidget *widget, gpointer user_data); 
 void calculate_prayer_table();
@@ -126,25 +126,12 @@ void setDefaults()
 	defaultAthanFile	= "/home/djihed/dev/gnome/myapps/prayer/athan.ogg";
 }
 
-/* needed post loading preferences.*/
-void setVars()
+
+void update_date()
 {
-	/* Allocate memory for variables */
 	GTimeVal * curtime 	= g_malloc(sizeof(GTimeVal));
 	prayerDate 		= g_malloc(sizeof(Date));
-	loc 			= g_malloc(sizeof(Location));
-	calcMethod 		= g_malloc(sizeof(Method)); 	
-	
-	/* set UI vars */
-	gtk_file_chooser_set_filename  ((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")),
-			(const gchar *)defaultAthanFile);
-	setup_file_filters();
-	gtk_file_chooser_add_filter ((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")),
-	       	filter_supported);
 
-	gtk_file_chooser_add_filter ((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")),
-	       	filter_all);
-		
 	GDate * currentDate = g_date_new();
 	g_get_current_time(curtime);
 	g_date_set_time_val(currentDate, curtime);
@@ -158,8 +145,27 @@ void setVars()
 	g_print("%d, %d, %d \n", g_date_get_day(currentDate),
 				g_date_get_month(currentDate),
 			       	g_date_get_year(currentDate));
-
+	g_free(currentDate);
+}
+/* needed post loading preferences.*/
+void setVars()
+{
+	/* Allocate memory for variables */
+		loc 			= g_malloc(sizeof(Location));
+	calcMethod 		= g_malloc(sizeof(Method)); 	
 	
+	/* set UI vars */
+	gtk_file_chooser_set_filename  ((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")),
+			(const gchar *)defaultAthanFile);
+	setup_file_filters();
+	gtk_file_chooser_add_filter ((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")),
+	       	filter_supported);
+
+	gtk_file_chooser_add_filter ((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")),
+	       	filter_all);
+
+	update_date();
+
 	/* Location variables */
 	loc->degreeLat 		= lat;
 	loc->degreeLong 	= lon;
@@ -311,38 +317,6 @@ void init_prefs ()
 		       	(const gchar *)cityname);
 	}
 
-int main(int argc, char *argv[]) 
-{
-	/* Set defaults */
-	setDefaults();
-
-	/* init libraries */
-	gtk_init(&argc, &argv);
-	glade_init();
- 	gconf_init(argc, argv, NULL);
-	
-	/* load gconf client */
-	client = gconf_client_get_default();
-	
-	/* load the interface */
-	xml = glade_xml_new("gprayer.xml", NULL, NULL);
-	/* connect the signals in the interface */
-	glade_xml_signal_autoconnect(xml);
-	
-	/* initialize GStreamer */
-	gst_init (&argc, &argv);
-	loop = g_main_loop_new (NULL, FALSE);
-
-
-	/* Initialise preferenes and variables */	
-	init_prefs();
-	setVars();
-
-	/* start the event loop */
-	gtk_main();
-	return 0;
-}
-
 void play_athan_callback()
 {
 	
@@ -381,16 +355,21 @@ void play_athan_callback()
 	g_print ("Setting to PLAYING\n");
 	gst_element_set_state (pipeline, GST_STATE_PLAYING);
 	g_print ("Running\n");
-	g_main_loop_run (loop);
 }
 
 void stop_athan_callback()
 {
 	/* clean up nicely */
 	g_print ("Returned, stopping playback\n");
-	gst_element_set_state (pipeline, GST_STATE_NULL);
-	g_print ("Deleting pipeline\n");
-	gst_object_unref (GST_OBJECT (pipeline));
+	
+	if(GST_IS_ELEMENT (pipeline))
+	{		
+		gst_element_set_state (pipeline, GST_STATE_NULL);
+		g_print ("Deleting pipeline\n");
+		gst_object_unref (GST_OBJECT (pipeline));
+	}
+	
+	
 }
 
 static gboolean
@@ -398,12 +377,9 @@ bus_call (GstBus     *bus,
 	  GstMessage *msg,
 	  gpointer    data)
 {
-	GMainLoop *loop = data;
-
 	switch (GST_MESSAGE_TYPE (msg)) {
 		case GST_MESSAGE_EOS:
 			g_print ("End-of-stream\n");
-			g_main_loop_quit (loop);
 			break;
 		case GST_MESSAGE_ERROR: {
 			gchar *debug;
@@ -415,7 +391,6 @@ bus_call (GstBus     *bus,
 			g_print ("Errorrr: %s\n", err->message);
 			g_error_free (err);
 
-			g_main_loop_quit (loop);
 			set_file_status(FALSE);
 			break;
 		}
@@ -440,7 +415,6 @@ void set_file_status(gboolean status)
 			, GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_BUTTON);
 	}
 }
-
 
 void new_pad (GstElement *element,
 	 	GstPad     *pad,
@@ -487,4 +461,64 @@ void setup_file_filters (void)
 		"Supported files");
 	gtk_file_filter_add_mime_type (filter_supported, "application/ogg");
 	g_object_ref (filter_supported);
+}
+
+
+
+void *watch_athan_thread(void *args)
+{
+	for(;;)
+	{
+		/* sleep a while */
+		sleep(10);
+	
+		gdk_threads_enter();
+		g_print("Thread looping...\n");
+		
+		update_date();
+			
+		calculate_prayer_table();
+		gdk_threads_leave();
+	}
+}
+
+
+int main(int argc, char *argv[]) 
+{
+	/* Set defaults */
+	setDefaults();
+
+	/* init libraries */
+	gtk_init(&argc, &argv);
+	glade_init();
+ 	gconf_init(argc, argv, NULL);
+	
+	/* load gconf client */
+	client = gconf_client_get_default();
+	
+	/* load the interface */
+	xml = glade_xml_new("gprayer.xml", NULL, NULL);
+	/* connect the signals in the interface */
+	glade_xml_signal_autoconnect(xml);
+	
+	/* initialize GStreamer */
+	gst_init (&argc, &argv);
+	
+	/* Initialise preferenes and variables */	
+	init_prefs();
+	setVars();
+
+	/* init threads */
+  	if (!g_thread_create(watch_athan_thread, NULL, FALSE, &err))
+    	{
+      		g_printerr ("Failed to create thread: %s\n", err->message);
+      		return 1;
+    	}
+	
+	/* start the event loop */
+	gdk_threads_enter();
+  	gtk_main();
+  	gdk_threads_leave();
+
+	return 0;
 }

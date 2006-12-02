@@ -7,6 +7,8 @@
 #include <itl/prayer.h>
 #include <gst/gst.h>
 #include <unistd.h>
+#include <time.h>
+
 
 void on_editcityokbutton_clicked(GtkWidget *widget, gpointer user_data); 
 void calculate_prayer_table();
@@ -20,6 +22,9 @@ void set_file_status(gboolean status);
 void update_prayer_labels();
 void lock_variables();
 void unlock_variables();
+void next_prayer();
+void play_athan();
+
 
 static GConfClient     		* client;
 static const GString		* prefRootString;
@@ -37,7 +42,14 @@ static gchar 			* normal_time_start;
 static gchar 			* normal_time_end;
 static gchar 			* special_time_start;
 static gchar 			* special_time_end;
+static gchar			* non_prayer_start;
+static gchar			* non_prayer_end;
+
 static gchar			* defaultAthanFile;
+
+/* TODO switch to using enum for these strings and structures */
+
+int next_prayer_id = -1;
 
 /* for prayer.h functions */
 static Date 			* prayerDate;
@@ -53,9 +65,6 @@ static GstBus *bus;
 static GtkFileFilter *filter_all;
 static GtkFileFilter *filter_supported;
 
-
-
-
 void calculate_prayer_table()
 {
 	/* Update the values */
@@ -63,76 +72,36 @@ void calculate_prayer_table()
 	loc->degreeLong 	= lon;
 	
 	getPrayerTimes (loc, calcMethod, prayerDate, ptList);
-
-
+	next_prayer();
 }
 
-void update_prayer_labels()
-{
-	/* getting labels and putting time strings */
-	gchar * timestring;
-	timestring = g_malloc(50);
 
-	g_snprintf(timestring, 50, "%s%02d:%02d%s", 
-		normal_time_start, ptList[0].hour, 
-		ptList[0].minute, normal_time_end);
+void next_prayer()
+{	
+	/* current time */
+	time_t result;
+	struct tm * curtime;
+	result = time(NULL);
+	curtime = localtime(&result);
+	g_print("%02d:%02d\n", curtime->tm_hour, curtime->tm_min);
 	
+	int i;
+	for (i = 0; i < 6; i++)
+	{
+		if ( i == 1 ) { continue ;} /* skip shorouk */
+		if(ptList[i].hour > curtime->tm_hour || 
+			(ptList[i].hour == curtime->tm_hour && ptList[i].minute >= curtime->tm_min))
+		{
+			next_prayer_id = i;
+			g_print("%d next prayer is \n", next_prayer_id);
+			return;
+		}
+	}
 	
-	g_print("%s\n", timestring);
-	gtk_label_set_markup(
-		(GtkLabel *) glade_xml_get_widget(xml, "subhtime"),
-		timestring);
-
-	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
-			normal_time_start, ptList[1].hour,
-			ptList[1].minute, normal_time_end); 
-	gtk_label_set_markup(
-		(GtkLabel *) glade_xml_get_widget(xml, "shorooktime"),
-		timestring);
-
-	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
-			normal_time_start, ptList[2].hour,
-			ptList[2].minute, normal_time_end); 
-	gtk_label_set_markup(
-		(GtkLabel *) glade_xml_get_widget(xml, "duhrtime"),
-		timestring);
-
-	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
-			normal_time_start, ptList[3].hour,
-			ptList[3].minute, normal_time_end); 
-	gtk_label_set_markup(
-		(GtkLabel *) glade_xml_get_widget(xml, "asrtime"),
-		timestring);
-	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
-			normal_time_start, ptList[4].hour,
-			ptList[4].minute, normal_time_end); 
-	gtk_label_set_markup(
-		(GtkLabel *) glade_xml_get_widget(xml, "maghrebtime"),
-		timestring);
-
-	g_snprintf(timestring, 50, "%s%02d:%02d%s",  
-			normal_time_start, ptList[5].hour,
-			ptList[5].minute, normal_time_end); 
-	gtk_label_set_markup(
-		(GtkLabel *) glade_xml_get_widget(xml, "ishatime"),
-		timestring);
+	/* time is after isha, so set to none for the day */
+	next_prayer_id = 0;
+	g_print("%d next prayer is \n", next_prayer_id);
 }
-
-/* needed pre gettting preferences */
-void setDefaults()
-{
-	prefRootString 	= g_string_new("/apps/prayertimes/");
-	latstring	= g_string_new("city/lat");
-	lonstring	= g_string_new("city/lon");
-	citystring	= g_string_new("city/name");
-	heightstring	= g_string_new("city/height");
-	normal_time_start 	= "<span color=\"red\"><b>";
-	normal_time_end 	= "</b></span>";
-	special_time_start 	= "<span color=\"green\"><b>";
-	special_time_end 	= "</b></span>";
-	defaultAthanFile	= "/home/djihed/dev/gnome/myapps/prayer/athan.ogg";
-}
-
 
 void update_date()
 {
@@ -152,8 +121,71 @@ void update_date()
 	g_print("%d, %d, %d \n", g_date_get_day(currentDate),
 				g_date_get_month(currentDate),
 			       	g_date_get_year(currentDate));
+
 	g_free(currentDate);
 }
+
+void update_prayer_labels()
+{
+	/* getting labels and putting time strings */
+	gchar * timestring;
+	gchar * timelabel;
+	timestring = g_malloc(50);
+	timelabel = g_malloc(20);
+
+	gchar * markupstart;
+	gchar * markupend;
+	int i;
+	for (i=0; i < 6; i++)
+	{
+		if( i == 1)
+		{
+			markupstart = non_prayer_start;
+			markupend = non_prayer_end;
+		}
+		else if ( i == next_prayer_id)
+		{
+			markupstart = special_time_start;
+			markupend = special_time_end;
+		}
+		else
+		{
+			markupstart = normal_time_start;
+			markupend = normal_time_end;
+		}
+
+		g_snprintf(timelabel, 20, "salatlabel%d", i);
+
+		g_print("%s label \n", timelabel);
+		g_snprintf(timestring, 50, "%s%02d:%02d%s", 
+		markupstart, ptList[i].hour, 
+		ptList[i].minute, markupend);
+	
+		g_print("%s\n", timestring);
+		gtk_label_set_markup(
+			(GtkLabel *) glade_xml_get_widget(xml, timelabel),
+				timestring);
+	}	
+}
+
+/* needed pre getting preferences */
+void setDefaults()
+{
+	prefRootString 	= g_string_new("/apps/prayertimes/");
+	latstring	= g_string_new("city/lat");
+	lonstring	= g_string_new("city/lon");
+	citystring	= g_string_new("city/name");
+	heightstring	= g_string_new("city/height");
+	normal_time_start 	= "<span color=\"blue\"><b>";
+	normal_time_end 	= "</b></span>";
+	special_time_start 	= "<span color=\"red\"><b>";
+	special_time_end 	= "</b></span>";
+	non_prayer_start	= "<span color=\"skyblue\"><b>";
+	non_prayer_end		= "</b></span>";
+	defaultAthanFile	= "/home/djihed/dev/gnome/myapps/prayer/athan.ogg";
+}
+
+
 /* needed post loading preferences.*/
 void setVars()
 {
@@ -479,9 +511,14 @@ gboolean update_interval(gpointer data)
 	update_date(); 
 	calculate_prayer_table(); 
 	update_prayer_labels();
+	
+	play_athan();
 	return TRUE;
 }
 
+void play_athan()
+{
+}
 int main(int argc, char *argv[]) 
 {
 	/* Set defaults */
@@ -511,7 +548,7 @@ int main(int argc, char *argv[])
 	calculate_prayer_table();
 	update_prayer_labels();
 
-	g_timeout_add(100000, update_interval, NULL);
+	g_timeout_add(5000, update_interval, NULL);
 
 	/* start the event loop */
 	gdk_threads_enter();

@@ -33,60 +33,86 @@
                         <property name="n_columns">2</property>
                         <property name="row_spacing">10</property>
                         <child>
-                          <widget class="GtkLabel" id="subh">
+                          <widget class="GtkLabel" id="salatlabel5">
                             <property name="visible">True</property>
-                            <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Subh:&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
-                            <property name="width_chars">12</property>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="shourouk">
-                            <property name="visible">True</property>
-                            <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Sunrise:&lt;/b&gt;</property>
+                            <property name="xalign">0.10000000149011612</property>
+                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:05&lt;/b&gt;&lt;/span&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="duhr">
+                          <widget class="GtkLabel" id="salatlabel3">
                             <property name="visible">True</property>
-                            <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Duhr:&lt;/b&gt;</property>
+                            <property name="xalign">0.10000000149011612</property>
+                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:03&lt;/b&gt;&lt;/span&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="asr">
-                            <property name="visible">True</property>
-                            <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Asr:&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
-                          </widget>
-                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
                             <property name="top_attach">3</property>
                             <property name="bottom_attach">4</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="maghreb">
+                          <widget class="GtkLabel" id="salatlabel4">
                             <property name="visible">True</property>
-                            <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Maghreb:&lt;/b&gt;</property>
+                            <property name="xalign">0.10000000149011612</property>
+                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:04&lt;/b&gt;&lt;/span&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
                             <property name="top_attach">4</property>
                             <property name="bottom_attach">5</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="salatlabel2">
+                            <property name="visible">True</property>
+                            <property name="xalign">0.10000000149011612</property>
+                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:02&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="salatlabel1">
+                            <property name="visible">True</property>
+                            <property name="xalign">0.10000000149011612</property>
+                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:01&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="salatlabel0">
+                            <property name="visible">True</property>
+                            <property name="xalign">0.10000000149011612</property>
+                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:00&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="use_markup">True</property>
+                            <property name="width_chars">7</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
                           </packing>
                         </child>
                         <child>
@@ -102,87 +128,61 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="subhtime">
+                          <widget class="GtkLabel" id="maghreb">
                             <property name="visible">True</property>
-                            <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;03:15&lt;/b&gt;&lt;/span&gt;</property>
-                            <property name="use_markup">True</property>
-                            <property name="width_chars">7</property>
-                          </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="shorooktime">
-                            <property name="visible">True</property>
-                            <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;07:15&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="xalign">0.89999997615814209</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Maghreb:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="duhrtime">
-                            <property name="visible">True</property>
-                            <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;12:15&lt;/b&gt;&lt;/span&gt;</property>
-                            <property name="use_markup">True</property>
-                          </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="maghrebtime">
-                            <property name="visible">True</property>
-                            <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;20:15&lt;/b&gt;&lt;/span&gt;</property>
-                            <property name="use_markup">True</property>
-                          </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
                             <property name="top_attach">4</property>
                             <property name="bottom_attach">5</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="asrtime">
+                          <widget class="GtkLabel" id="asr">
                             <property name="visible">True</property>
-                            <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;16:15&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="xalign">0.89999997615814209</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Asr:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
                             <property name="top_attach">3</property>
                             <property name="bottom_attach">4</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="ishatime">
+                          <widget class="GtkLabel" id="duhr">
                             <property name="visible">True</property>
-                            <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;24:15&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="xalign">0.89999997615814209</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Duhr:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">5</property>
-                            <property name="bottom_attach">6</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
                           </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="shourouk">
+                            <property name="visible">True</property>
+                            <property name="xalign">0.89999997615814209</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Sunrise:&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="subh">
+                            <property name="visible">True</property>
+                            <property name="xalign">0.89999997615814209</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Subh:&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                            <property name="width_chars">12</property>
+                          </widget>
                         </child>
                       </widget>
                     </child>

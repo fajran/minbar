@@ -75,6 +75,25 @@ void calculate_prayer_table()
 	next_prayer();
 }
 
+void play_athan()
+{
+	time_t 	result;
+	struct 	tm * curtime;
+	result 	= time(NULL);
+	curtime = localtime(&result);
+	
+	int i;
+	for (i = 0; i < 6; i++)
+	{
+		if ( i == 1 ) { continue ;} /* skip shorouk */
+		if ( (ptList[i].hour == curtime->tm_hour && ptList[i].minute == curtime->tm_min))
+		{
+			play_athan_callback();
+			return;
+		}
+	}
+
+}
 
 void next_prayer()
 {	
@@ -124,6 +143,7 @@ void update_date()
 
 	g_free(currentDate);
 }
+
 
 void update_prayer_labels()
 {
@@ -488,7 +508,6 @@ int init_pipelines()
 	return 1;
 }
 
-
 void setup_file_filters (void)
 {
 	filter_all = gtk_file_filter_new ();
@@ -503,7 +522,6 @@ void setup_file_filters (void)
 	g_object_ref (filter_supported);
 }
 
-
 /* Interval to update prayer times if time/date changes */
 gboolean update_interval(gpointer data)
 {
@@ -516,9 +534,6 @@ gboolean update_interval(gpointer data)
 	return TRUE;
 }
 
-void play_athan()
-{
-}
 int main(int argc, char *argv[]) 
 {
 	/* Set defaults */
@@ -548,7 +563,7 @@ int main(int argc, char *argv[])
 	calculate_prayer_table();
 	update_prayer_labels();
 
-	g_timeout_add(5000, update_interval, NULL);
+	g_timeout_add(60000, update_interval, NULL);
 
 	/* start the event loop */
 	gdk_threads_enter();

@@ -494,6 +494,15 @@ void *watch_athan_thread(void *args)
 }
 
 
+gboolean update_interval(gpointer data)
+{
+	g_print("In intervali\n");
+	update_date(); 
+	calculate_prayer_table(); 
+	update_prayer_labels();
+	return TRUE;
+}
+
 void lock_variables()
 {
 }
@@ -508,10 +517,10 @@ int main(int argc, char *argv[])
 	/* Set defaults */
 	setDefaults();
 
-	
+/*	
 	g_thread_init(NULL);
 	gdk_threads_init();
-
+*/
 
 	/* init libraries */
 	gtk_init(&argc, &argv);
@@ -538,13 +547,16 @@ int main(int argc, char *argv[])
 	update_prayer_labels();
 	
 
-	/* init threads */
+	/* init threads *//*
   	if (!g_thread_create(watch_athan_thread, NULL, FALSE, &err))
     	{
       		g_printerr ("Failed to create thread: %s\n", err->message);
       		return 1;
     	}
-	
+	*/
+
+	g_timeout_add(30000, update_interval, NULL);
+
 	/* start the event loop */
 	gdk_threads_enter();
   	gtk_main();

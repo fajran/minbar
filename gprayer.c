@@ -17,8 +17,9 @@ static void new_pad (GstElement *element, GstPad *pad, gpointer data);
 int init_pipelines();
 void setup_file_filters (void);
 void set_file_status(gboolean status);
-
-
+void update_prayer_labels();
+void lock_variables();
+void unlock_variables();
 
 static GConfClient     		* client;
 static const GString		* prefRootString;
@@ -44,12 +45,15 @@ static Location 		* loc;
 static Method			* calcMethod;
 static Prayer 			ptList[6];
 
+
 /* For gstreamer */
 static GstElement *pipeline, *source, *parser, *decoder, *conv, *sink;
 static GMainLoop *loop;
 static GstBus *bus;
 static GtkFileFilter *filter_all;
 static GtkFileFilter *filter_supported;
+
+
 
 
 void calculate_prayer_table()
@@ -60,6 +64,11 @@ void calculate_prayer_table()
 	
 	getPrayerTimes (loc, calcMethod, prayerDate, ptList);
 
+
+}
+
+void update_prayer_labels()
+{
 	/* getting labels and putting time strings */
 	gchar * timestring;
 	timestring = g_malloc(50);
@@ -107,9 +116,7 @@ void calculate_prayer_table()
 	gtk_label_set_markup(
 		(GtkLabel *) glade_xml_get_widget(xml, "ishatime"),
 		timestring);
-
 }
-
 
 /* needed pre gettting preferences */
 void setDefaults()
@@ -179,7 +186,6 @@ void setVars()
 	/* 5 is muslim world league */
 	getMethod(5, calcMethod);
 
-	calculate_prayer_table();
 }
 
 
@@ -242,6 +248,8 @@ void on_editcityokbutton_clicked(GtkWidget *widget, gpointer user_data) {
 
 	/* Now calculate new timetable */
 	calculate_prayer_table();
+	/* And set the new labels */
+	update_prayer_labels();
 }
 
 
@@ -464,7 +472,7 @@ void setup_file_filters (void)
 }
 
 
-
+/* Thread to update date variable .. */
 void *watch_athan_thread(void *args)
 {
 	for(;;)
@@ -472,14 +480,26 @@ void *watch_athan_thread(void *args)
 		/* sleep a while */
 		sleep(10);
 	
-		gdk_threads_enter();
 		g_print("Thread looping...\n");
-		
-		update_date();
-			
+		lock_variables();	
+		update_date();	
 		calculate_prayer_table();
+		unlock_variables();
+
+		gdk_threads_enter();
+		update_prayer_labels();
+		gdk_flush ();
 		gdk_threads_leave();
 	}
+}
+
+
+void lock_variables()
+{
+}
+
+void unlock_variables()
+{
 }
 
 
@@ -487,6 +507,11 @@ int main(int argc, char *argv[])
 {
 	/* Set defaults */
 	setDefaults();
+
+	
+	g_thread_init(NULL);
+	gdk_threads_init();
+
 
 	/* init libraries */
 	gtk_init(&argc, &argv);
@@ -507,6 +532,11 @@ int main(int argc, char *argv[])
 	/* Initialise preferenes and variables */	
 	init_prefs();
 	setVars();
+
+	/* calculate the time table, and update the labels */
+	calculate_prayer_table();
+	update_prayer_labels();
+	
 
 	/* init threads */
   	if (!g_thread_create(watch_athan_thread, NULL, FALSE, &err))

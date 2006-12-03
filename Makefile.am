@@ -16,7 +16,7 @@ INCLUDES = -DGPRAYER_GLADEDIR=\"$(datadir)/$(PACKAGE)\" \
 	   -DGPRAYER_ATHAN_DIR=\"$(datadir)/$(PACKAGE)\" \
 	   @PACKAGE_CFLAGS@
 
-EXTRA_DIST = gprayer.glade athan.ogg
+EXTRA_DIST = gprayer.glade athan.ogg quran.png
 
 ##schemadir   = @GCONF_SCHEMA_FILE_DIR@
 ##schema_DATA = gprayer.schemas
@@ -24,8 +24,7 @@ EXTRA_DIST = gprayer.glade athan.ogg
 install-data-local:
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/$(PACKAGE)
-	$(INSTALL_DATA) gprayer.glade $(DESTDIR)$(datadir)/$(PACKAGE)
-	$(INSTALL_DATA) athan.ogg $(DESTDIR)$(datadir)/$(PACKAGE)
+	$(INSTALL_DATA) athan.ogg gprayer.glade quran.png $(DESTDIR)$(datadir)/$(PACKAGE)
 ##	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
 ##	gconftool-2 --makefile-install-rule $(srcdir)/$(schema_DATA)
 

@@ -14,7 +14,7 @@ gprayer_LDADD = @PACKAGE_LIBS@ @ITL_LIBS@
 INCLUDES = -DGPRAYER_GLADEDIR=\"$(datadir)/$(PACKAGE)\" \
 	   -DGPRAYER_PREFDIR=\""/apps/prayertimes"\" \
 	   -DGPRAYER_ATHAN_DIR=\"$(datadir)/$(PACKAGE)\" \
-           @PACKAGE_CFLAGS@
+	   @PACKAGE_CFLAGS@
 
 EXTRA_DIST = gprayer.glade athan.ogg
 

@@ -159,7 +159,7 @@ void init_vars()
 	/* set UI vars */
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "selectathan")),
-			(const gchar *) GPRAYER_ATHAN_DIR GPRAYER_DEFAULT_ATHAN);
+			(const gchar *) GPRAYER_ATHAN_DIR"/"GPRAYER_DEFAULT_ATHAN);
 	setup_file_filters();
 	gtk_file_chooser_add_filter ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "selectathan")),
@@ -465,7 +465,7 @@ int main(int argc, char *argv[])
 	client = gconf_client_get_default();
 	
 	/* load the interface */
-	xml = glade_xml_new(GPRAYER_GLADEDIR GLADE_MAIN_INTERFACE, NULL, NULL);
+	xml = glade_xml_new(GPRAYER_GLADEDIR"/"GLADE_MAIN_INTERFACE, NULL, NULL);
 	/* connect the signals in the interface */
 	glade_xml_signal_autoconnect(xml);
 	

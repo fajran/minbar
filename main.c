@@ -191,10 +191,40 @@ void init_vars()
 
 }
 
+
+void on_enabledathanmenucheck_toggled_callback(GtkWidget *widget,
+				gpointer user_data)
+{
+	enable_athan = gtk_check_menu_item_get_active((GtkCheckMenuItem * ) widget);
+
+	gtk_toggle_button_set_active((GtkToggleButton * )
+			glade_xml_get_widget( xml, "enabledathancheck"),
+			enable_athan);
+	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
+			glade_xml_get_widget( xml, "playathan"),
+			enable_athan);
+
+	gconf_client_set_bool(client, PREF_ATHAN_PLAY, 
+				enable_athan, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+}
+
 void on_enabledathancheck_toggled_callback(GtkWidget *widget,
 				gpointer user_data)
 {
 	enable_athan = gtk_toggle_button_get_active((GtkToggleButton * ) widget);
+	
+	gtk_toggle_button_set_active((GtkToggleButton * )
+			glade_xml_get_widget( xml, "enabledathancheck"),
+			enable_athan);
+	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
+			glade_xml_get_widget( xml, "playathan"),
+			enable_athan);
+
 	gconf_client_set_bool(client, PREF_ATHAN_PLAY, 
 				enable_athan, &err);
 	if(err != NULL)
@@ -489,15 +519,31 @@ void load_system_tray()
 	
 }
 
-
+void quit_callback ( GtkWidget *widget, gpointer data)
+{
+	/* TODO cleanup? prefs? */
+	gtk_main_quit();
+}	
 void tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data)
 {
-	gtk_widget_show(glade_xml_get_widget(xml, "mainWindow"));
+	GtkMenu * popup_menu = (GtkMenu * )(glade_xml_get_widget(xml, "traypopup")); 
+	
+	gtk_menu_set_screen (GTK_MENU (popup_menu), NULL);
+	
+	gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL, NULL, NULL,
+			1, gtk_get_current_event_time());
 }
 
 void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data)
 {
-	gtk_widget_show(glade_xml_get_widget(xml, "mainWindow"));
+	if(gtk_window_is_active((GtkWindow *)glade_xml_get_widget(xml, "mainWindow")))
+	{
+		gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
+	}
+	else
+	{
+		gtk_window_present((GtkWindow *)glade_xml_get_widget(xml, "mainWindow"));
+	}
 }
 
 /* quit callback */

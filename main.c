@@ -5,32 +5,15 @@
 #include <gst/gst.h>
 #include "main.h"
 #include "prefs.h"
+#include "defines.h"
 
 /* Preferences */ 
-static GConfClient     		* client;
-static const GString		* pref_root_string;
-static const GString 		* lat_string;
-static const GString 		* lon_string;
-static const GString 		* city_string;
-static const GString 		* height_string;
-static const GString 		* play_athan_string;
-
-static GladeXML 		* xml;	
+	
 static gfloat 			lat;
 static gfloat 			height;
 static gfloat 			lon;
 static gchar 			* city_name;
-static GError 			* err 	= NULL;
-static gchar 			* normal_time_start;
-static gchar 			* normal_time_end;
-static gchar 			* special_time_start;
-static gchar 			* special_time_end;
-static gchar			* non_prayer_start;
-static gchar			* non_prayer_end;
-
-static gchar			* default_athan_file;
-
-/* TODO switch to using enum for these strings and structures */
+static gboolean 		enable_athan;
 
 int current_prayer_id = -1;
 
@@ -40,6 +23,10 @@ static Location 		* loc;
 static Method			* calcMethod;
 static Prayer 			ptList[6];
 
+/* For libraries */
+static GConfClient     		* client;
+static GladeXML 		* xml;
+static GError 			* err 	= NULL;
 /* For gstreamer */
 static GstElement *pipeline, *source, *parser, *decoder, *conv, *sink;
 static GMainLoop *loop;
@@ -88,17 +75,19 @@ void current_prayer()
 	for (i = 0; i < 6; i++)
 	{
 		if ( i == 1 ) { continue ;} /* skip shorouk */
-		current_prayer_id = 0;
-		if(ptList[i].hour < curtime->tm_hour || 
+		current_prayer_id = i-1;
+		if(ptList[i].hour > curtime->tm_hour || 
 		  	(ptList[i].hour == curtime->tm_hour && 
-		   	ptList[i].minute <= curtime->tm_min))
+		   	ptList[i].minute >= curtime->tm_min))
 		{
+
 			return;
 		}
 	}
 	
-	/* time is after isha, so set to  for the day */
-	current_prayer_id = 0;
+	/* time is after midnight and before subh, so set to Isha */
+
+	current_prayer_id = 5;
 }
 
 void update_date()
@@ -126,60 +115,39 @@ void update_prayer_labels()
 	/* getting labels and putting time strings */
 	gchar * timestring;
 	gchar * timelabel;
-	timestring = g_malloc(50);
-	timelabel = g_malloc(20);
+	timestring 	= g_malloc(50);
+	timelabel	= g_malloc(20);
 
-	gchar * markupstart;
-	gchar * markupend;
 	int i;
 	for (i=0; i < 6; i++)
 	{
+		g_snprintf(timelabel, 20, "salatlabel%d", i);
 		if( i == 1)
 		{
-			markupstart = non_prayer_start;
-			markupend = non_prayer_end;
+			g_snprintf(timestring, 50, "%s%02d:%02d%s", 
+				MARKUP_FAINT_START, ptList[i].hour, 
+				ptList[i].minute, MARKUP_FAINT_END);
 		}
 		else if ( i == current_prayer_id)
 		{
-			markupstart = special_time_start;
-			markupend = special_time_end;
+			g_snprintf(timestring, 50, "%s%02d:%02d%s", 
+				MARKUP_SPECIAL_START, ptList[i].hour, 
+				ptList[i].minute, MARKUP_SPECIAL_END);
 		}
 		else
 		{
-			markupstart = normal_time_start;
-			markupend = normal_time_end;
+			g_snprintf(timestring, 50, "%s%02d:%02d%s", 
+				MARKUP_NORMAL_START, ptList[i].hour, 
+				ptList[i].minute, MARKUP_NORMAL_END);
 		}
-
-		g_snprintf(timelabel, 20, "salatlabel%d", i);
-
-		g_snprintf(timestring, 50, "%s%02d:%02d%s", 
-		markupstart, ptList[i].hour, 
-		ptList[i].minute, markupend);
 	
-		gtk_label_set_markup(
-			(GtkLabel *) glade_xml_get_widget(xml, timelabel),
+		gtk_label_set_markup((GtkLabel *) glade_xml_get_widget(xml, timelabel),
 				timestring);
-	}	
+	}
+	
+	g_free(timestring);
+	g_free(timelabel);
 }
-
-/* needed pre getting preferences */
-void set_app_defaults()
-{
-	pref_root_string 	= g_string_new("/apps/prayertimes/");
-	lat_string		= g_string_new("city/lat");
-	lon_string		= g_string_new("city/lon");
-	city_string		= g_string_new("city/name");
-	height_string		= g_string_new("city/height");
-	play_athan_string	= g_string_new("athan/play");	
-	normal_time_start 	= "<span color=\"blue\"><b>";
-	normal_time_end 	= "</b></span>";
-	special_time_start 	= "<span color=\"red\"><b>";
-	special_time_end 	= "</b></span>";
-	non_prayer_start	= "<span color=\"skyblue\"><b>";
-	non_prayer_end		= "</b></span>";
-	default_athan_file	= "/home/djihed/dev/gnome/myapps/prayer/athan.ogg";
-}
-
 
 /* needed post loading preferences.*/
 void init_vars()
@@ -191,7 +159,7 @@ void init_vars()
 	/* set UI vars */
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "selectathan")),
-			(const gchar *)default_athan_file);
+			(const gchar *) GPRAYER_ATHAN_DIR GPRAYER_DEFAULT_ATHAN);
 	setup_file_filters();
 	gtk_file_chooser_add_filter ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "selectathan")),
@@ -217,7 +185,18 @@ void init_vars()
 
 }
 
-
+void on_enabledathancheck_toggled_callback(GtkWidget *widget,
+				gpointer user_data)
+{
+	enable_athan = gtk_toggle_button_get_active((GtkToggleButton * ) widget);
+	gconf_client_set_bool(client, PREF_ATHAN_PLAY, 
+				enable_athan, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+}
 
 void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	       				gpointer user_data) 
@@ -236,21 +215,21 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 
         /* set gconf settings */
 
-	gconf_client_set_float(client, GPRAYER_PREFDIR PREF_CITY_LAT, lat, &err);
+	gconf_client_set_float(client, PREF_CITY_LAT, lat, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
 
-	gconf_client_set_float(client, GPRAYER_PREFDIR PREF_CITY_LON, lon, &err);
+	gconf_client_set_float(client, PREF_CITY_LON, lon, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
 
-	gconf_client_set_string(client, GPRAYER_PREFDIR PREF_CITY_NAME, 
+	gconf_client_set_string(client, PREF_CITY_NAME, 
 						city_name, &err);
 	if(err != NULL)
 	{
@@ -275,42 +254,36 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 
 void init_prefs ()
 {
-	GString * pref_string;	
-	GString * gstmp;
-	
-	gstmp 		= g_string_new(pref_root_string->str);
-	pref_string 	= g_string_append (gstmp, lat_string->str);
-	lat 		= gconf_client_get_float(client, pref_string->str, &err);
+	lat 	= gconf_client_get_float(client, PREF_CITY_LAT, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-	gstmp 		= g_string_new(pref_root_string->str);
-	pref_string 	= g_string_append (gstmp, lon_string->str);
-	lon 		= gconf_client_get_float(client, pref_string->str, &err);
+	lon 	= gconf_client_get_float(client, PREF_CITY_LON, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-	gstmp 		= g_string_new(pref_root_string->str);
-	pref_string 	= g_string_append (gstmp, city_string->str);
-	city_name	= gconf_client_get_string(client, pref_string->str, &err);
+	city_name = gconf_client_get_string(client, PREF_CITY_NAME, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-	gstmp 		= g_string_new(pref_root_string->str);
-	pref_string 	= g_string_append (gstmp, height_string->str);
-	height 		= gconf_client_get_float(client, pref_string->str, &err);
+	height 	= gconf_client_get_float(client, PREF_CITY_HEIGHT, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
 		err = NULL;
-	}	
-	
+	}
+	enable_athan  = gconf_client_get_bool(client, PREF_ATHAN_PLAY, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
 	GtkWidget*  entrywidget;	
 	
 	/* Setting what was found to editcity dialog*/
@@ -323,12 +296,15 @@ void init_prefs ()
 	entrywidget = glade_xml_get_widget( xml, "cityname");	
 	gtk_entry_set_text((GtkEntry *)entrywidget, city_name);
 
+	/* Set the play athan check box */
+	entrywidget = glade_xml_get_widget( xml, "enabledathancheck");
+	gtk_toggle_button_set_active((GtkToggleButton *) entrywidget, enable_athan);
 
 	/* And set the city string in the main window */
 	gtk_label_set_text((GtkLabel *)
 			(glade_xml_get_widget(xml, "locationname")),
 		       	(const gchar *)city_name);
-	}
+}
 
 void play_athan_callback()
 {
@@ -474,15 +450,12 @@ gboolean update_interval(gpointer data)
 	calculate_prayer_table(); 
 	update_prayer_labels();
 	
-	play_athan_at_prayer();
+	if(enable_athan) { play_athan_at_prayer();}
 	return TRUE;
 }
 
 int main(int argc, char *argv[]) 
 {
-	/* Set defaults */
-	set_app_defaults();
-
 	/* init libraries */
 	gtk_init(&argc, &argv);
 	glade_init();
@@ -507,12 +480,10 @@ int main(int argc, char *argv[])
 	calculate_prayer_table();
 	update_prayer_labels();
 
+	/* start athan playing, time updating interval */
 	g_timeout_add(60000, update_interval, NULL);
 
 	/* start the event loop */
-	gdk_threads_enter();
   	gtk_main();
-  	gdk_threads_leave();
-
 	return 0;
 }

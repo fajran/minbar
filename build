@@ -1,1 +1,6 @@
-libtool --mode=link gcc main.c -o gprayer -Wall `pkg-config --cflags --libs gtk+-2.0 gstreamer-0.10 libglade-2.0 gconf-2.0` -export-dynamic -litl -DGPRAYER_GLADEDIR=\"./\" -DGPRAYER_PREFDIR="\"/apps/prayertimes\""
+libtool --mode=link gcc main.c -o gprayer -Wall \
+`pkg-config --cflags --libs gtk+-2.0 gstreamer-0.10 libglade-2.0 gconf-2.0`\
+ -export-dynamic -litl \
+	-DGPRAYER_GLADEDIR=\"./\" \
+	-DGPRAYER_PREFDIR="\"/apps/prayertimes\"" \
+	-DGPRAYER_ATHAN_DIR=\"`pwd`/\"

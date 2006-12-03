@@ -1,0 +1,5 @@
+prayer times timetable (calendar)
+city names (implicit): use gnome-applets-locations
+add volume manager for app.
+Memory management: eliminate potential leaks.
+memory optimisation.

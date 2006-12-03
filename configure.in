@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(gprayer.c)
+AC_INIT(main.c)
 AM_INIT_AUTOMAKE(gprayer, 0.1)
 
 AM_MAINTAINER_MODE

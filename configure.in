@@ -1,0 +1,27 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(gprayer.c)
+AM_INIT_AUTOMAKE(gprayer, 0.1)
+
+AM_MAINTAINER_MODE
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS -I m4")
+
+AC_PROG_CC
+AC_ISC_POSIX
+
+AM_PROG_LIBTOOL
+
+pkg_modules="gconf-2.0 glib gtk+-2.0 glib-2.0 libglade-2.0 gstreamer-0.10"
+PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
+AC_SUBST(PACKAGE_CFLAGS)
+AC_SUBST(PACKAGE_LIBS)
+
+AC_CHECK_HEADER(itl/prayer.h,ITL_LIBS=-litl,AC_MSG_ERROR("itl/prayer.h not found"))
+AC_SUBST(ITL_LIBS)
+
+AC_C_CONST
+AC_STRUCT_TM
+
+AM_GCONF_SOURCE_2
+
+AC_OUTPUT(Makefile)

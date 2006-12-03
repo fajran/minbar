@@ -1,11 +1,17 @@
-#include <gconf/gconf-client.h>
 #include <gtk/gtk.h>
+#include <gconf/gconf-client.h>
 #include <glade/glade.h>
 #include <itl/prayer.h>
 #include <gst/gst.h>
 #include "main.h"
 #include "prefs.h"
 #include "defines.h"
+
+void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data);
+void tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data);
+
+void load_system_tray();
+
 
 /* Preferences */ 
 	
@@ -339,7 +345,6 @@ void play_athan_callback()
 	gst_element_link_many (decoder, conv, sink, NULL);
 	g_signal_connect (parser, "pad-added", G_CALLBACK (new_pad), NULL);
 	
-
 	/* Now set to playing and iterate. */
 	gst_element_set_state (pipeline, GST_STATE_PLAYING);
 }
@@ -454,6 +459,57 @@ gboolean update_interval(gpointer data)
 	return TRUE;
 }
 
+struct tray_icon_struct
+{
+	/*GtkUIManager    *ui_manager;
+	GtkActionGroup  *actiongroup;*/
+	GtkWidget       *popup_menu;
+	GtkStatusIcon   *status_icon;
+	
+	gboolean         show_notifications;
+	gboolean         is_visible;
+};
+
+struct tray_icon_struct * tray_icon;
+
+/* System tray icon */
+/* TODO func pref */
+void load_system_tray()
+{
+	tray_icon = g_malloc(sizeof(struct tray_icon_struct));
+	tray_icon->status_icon 	= gtk_status_icon_new_from_file("quran.png");
+	tray_icon->show_notifications = TRUE;
+	tray_icon->is_visible = TRUE;
+
+	g_signal_connect ((GtkStatusIcon*)tray_icon->status_icon, "popup_menu", 
+			G_CALLBACK(tray_icon_right_clicked_callback) , NULL);
+	g_signal_connect ((GtkStatusIcon*)tray_icon->status_icon, "activate", 
+			G_CALLBACK(tray_icon_clicked_callback) , NULL);
+
+	
+}
+
+
+void tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data)
+{
+	gtk_widget_show(glade_xml_get_widget(xml, "mainWindow"));
+}
+
+void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data)
+{
+	gtk_widget_show(glade_xml_get_widget(xml, "mainWindow"));
+}
+
+/* quit callback */
+/* TODO tmp */
+void close_callback( GtkWidget *widget,
+	    gpointer data)
+{
+	    gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
+}
+
+
+
 int main(int argc, char *argv[]) 
 {
 	/* init libraries */
@@ -469,6 +525,9 @@ int main(int argc, char *argv[])
 	/* connect the signals in the interface */
 	glade_xml_signal_autoconnect(xml);
 	
+	/* System tray icon */
+	load_system_tray();
+
 	/* initialize GStreamer */
 	gst_init (&argc, &argv);
 	

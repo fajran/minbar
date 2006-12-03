@@ -40,6 +40,18 @@ static GstBus *bus;
 static GtkFileFilter *filter_all;
 static GtkFileFilter *filter_supported;
 
+/* tray icon */
+struct tray_icon_struct
+{
+	GtkWidget       * popup_menu;
+	GtkStatusIcon   * status_icon;
+	
+	gboolean         show_notifications;
+	gboolean         is_visible;
+};
+
+struct tray_icon_struct * tray_icon;
+
 void calculate_prayer_table()
 {
 	/* Update the values */
@@ -488,19 +500,6 @@ gboolean update_interval(gpointer data)
 	if(enable_athan) { play_athan_at_prayer();}
 	return TRUE;
 }
-
-struct tray_icon_struct
-{
-	/*GtkUIManager    *ui_manager;
-	GtkActionGroup  *actiongroup;*/
-	GtkWidget       *popup_menu;
-	GtkStatusIcon   *status_icon;
-	
-	gboolean         show_notifications;
-	gboolean         is_visible;
-};
-
-struct tray_icon_struct * tray_icon;
 
 /* System tray icon */
 /* TODO func pref */

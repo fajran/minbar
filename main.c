@@ -510,9 +510,9 @@ void load_system_tray()
 	tray_icon->show_notifications = TRUE;
 	tray_icon->is_visible = TRUE;
 
-	g_signal_connect ((GtkStatusIcon*)tray_icon->status_icon, "popup_menu", 
+	g_signal_connect ((GtkStatusIcon * ) (tray_icon->status_icon), "popup_menu", 
 			G_CALLBACK(tray_icon_right_clicked_callback) , NULL);
-	g_signal_connect ((GtkStatusIcon*)tray_icon->status_icon, "activate", 
+	g_signal_connect ((GtkStatusIcon * ) (tray_icon->status_icon), "activate", 
 			G_CALLBACK(tray_icon_clicked_callback) , NULL);
 
 	

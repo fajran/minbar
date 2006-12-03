@@ -1,4 +1,5 @@
 #define GPRAYER_DEFAULT_ATHAN "athan.ogg"
+#define GLADE_MAIN_INTERFACE  "gprayer.glade"
 
 /* Markup for time label */ 
 #define MARKUP_NORMAL_START	"<span color='blue'><b>"

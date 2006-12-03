@@ -465,7 +465,7 @@ int main(int argc, char *argv[])
 	client = gconf_client_get_default();
 	
 	/* load the interface */
-	xml = glade_xml_new(GPRAYER_GLADEDIR "gprayer.xml", NULL, NULL);
+	xml = glade_xml_new(GPRAYER_GLADEDIR GLADE_MAIN_INTERFACE, NULL, NULL);
 	/* connect the signals in the interface */
 	glade_xml_signal_autoconnect(xml);
 	

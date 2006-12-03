@@ -3,7 +3,7 @@
 ## Copyright 2002 GNU GPL
 
 bin_PROGRAMS = gprayer
-gprayer_SOURCES = gprayer.c
+gprayer_SOURCES = main.c
 gprayer_LDADD = @PACKAGE_LIBS@ @ITL_LIBS@
 INCLUDES = @PACKAGE_CFLAGS@
 

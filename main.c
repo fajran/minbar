@@ -7,6 +7,7 @@
 #include "prefs.h"
 #include "defines.h"
 
+
 void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data);
 void tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data);
 
@@ -93,7 +94,8 @@ void current_prayer()
 	for (i = 0; i < 6; i++)
 	{
 		if ( i == 1 ) { continue ;} /* skip shorouk */
-		current_prayer_id = i-1;
+		current_prayer_id = (i==0) ? 5 : i-1;
+		current_prayer_id = (i==2) ? 0 : i-1;
 		if(ptList[i].hour > curtime->tm_hour || 
 		  	(ptList[i].hour == curtime->tm_hour && 
 		   	ptList[i].minute >= curtime->tm_min))

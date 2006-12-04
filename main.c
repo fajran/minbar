@@ -7,10 +7,8 @@
 #include "prefs.h"
 #include "defines.h"
 
-
 void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data);
 void tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data);
-
 void load_system_tray();
 
 
@@ -349,6 +347,9 @@ void init_prefs ()
 	/* Set the play athan check box */
 	entrywidget = glade_xml_get_widget( xml, "enabledathancheck");
 	gtk_toggle_button_set_active((GtkToggleButton *) entrywidget, enable_athan);
+	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
+			glade_xml_get_widget( xml, "playathan"),
+			enable_athan);
 
 	/* And set the city string in the main window */
 	gtk_label_set_text((GtkLabel *)

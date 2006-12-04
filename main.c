@@ -9,35 +9,33 @@
 
 /* Preferences */ 
 	
-static gfloat 			lat;
-static gfloat 			height;
-static gfloat 			lon;
-static gchar 			* city_name;
-static gboolean 		enable_athan;
+static gfloat 		lat;
+static gfloat 		height;
+static gfloat 		lon;
+static gchar 		* city_name;
+static gboolean 	enable_athan;
 
-int current_prayer_id = -1;
+static int 		current_prayer_id = -1;
 
 /* for prayer.h functions */
-static Date 			* prayerDate;
-static Location 		* loc;
-static Method			* calcMethod;
-static Prayer 			ptList[6];
+static Date 		* prayerDate;
+static Location 	* loc;
+static Method		* calcMethod;
+static Prayer 		ptList[6];
 
 /* For libraries */
-static GConfClient     		* client;
-static GladeXML 		* xml;
-static GError 			* err 	= NULL;
+static GConfClient     	* client;
+static GladeXML 	* xml;
+static GError 		* err 	= NULL;
 /* For gstreamer */
-static GstElement *pipeline, *source, *parser, *decoder, *conv, *sink;
-static GMainLoop *loop;
-static GstBus *bus;
-static GtkFileFilter *filter_all;
-static GtkFileFilter *filter_supported;
+static GstElement 	*pipeline, *source, *parser, *decoder, *conv, *sink;
+static GMainLoop 	*loop;
+static GstBus 		*bus;
+static GtkFileFilter 	*filter_all;
+static GtkFileFilter 	*filter_supported;
 
 /* tray icon */
-GtkStatusIcon   * status_icon;	
-
-
+static GtkStatusIcon   	* status_icon;	
 
 void calculate_prayer_table()
 {

@@ -1,6 +1,10 @@
 #define GPRAYER_DEFAULT_ATHAN "athan.ogg"
 #define GLADE_MAIN_INTERFACE  "gprayer.glade"
 
+/* Pictures, Icons, Graphics, etc */
+#define GPRAYER_KAABA_ICON	"kaabatrayicon.png"
+#define GPRAYER_BIG_LOGO	"gprayerlogo.png"
+
 /* Markup for time label */ 
 #define MARKUP_NORMAL_START	"<span color='blue'><b>"
 #define	MARKUP_NORMAL_END 	"</b></span>"

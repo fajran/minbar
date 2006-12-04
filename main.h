@@ -17,4 +17,7 @@ void 		init_vars();
 void 		on_enabledathancheck_toggled_callback(GtkWidget *widget,
 				gpointer user_data);
 
+void 		tray_icon_clicked_callback ( GtkWidget *widget, gpointer data);
+void 		tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data);
+void 		load_system_tray();
 

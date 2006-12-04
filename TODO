@@ -5,6 +5,7 @@ More preferences: calculation method, etc
 better artwork
 prayer notifications
 Alarm clock
+switch to using icons in seperate .c instead of loading them each time.
 prayer times timetable (calendar)
 city names (implicit): use gnome-applets-locations
 add volume manager for app.

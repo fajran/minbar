@@ -7,11 +7,6 @@
 #include "prefs.h"
 #include "defines.h"
 
-void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data);
-void tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data);
-void load_system_tray();
-
-
 /* Preferences */ 
 	
 static gfloat 			lat;
@@ -40,16 +35,9 @@ static GtkFileFilter *filter_all;
 static GtkFileFilter *filter_supported;
 
 /* tray icon */
-struct tray_icon_struct
-{
-	GtkWidget       * popup_menu;
-	GtkStatusIcon   * status_icon;
-	
-	gboolean         show_notifications;
-	gboolean         is_visible;
-};
+GtkStatusIcon   * status_icon;	
 
-struct tray_icon_struct * tray_icon;
+
 
 void calculate_prayer_table()
 {
@@ -508,14 +496,12 @@ gboolean update_interval(gpointer data)
 /* TODO func pref */
 void load_system_tray()
 {
-	tray_icon = g_malloc(sizeof(struct tray_icon_struct));
-	tray_icon->status_icon 	= gtk_status_icon_new_from_file("quran.png");
-	tray_icon->show_notifications = TRUE;
-	tray_icon->is_visible = TRUE;
-
-	g_signal_connect ((GtkStatusIcon * ) (tray_icon->status_icon), "popup_menu", 
+	status_icon 	= gtk_status_icon_new_from_file
+		(GPRAYER_PIXMAPSDIR"/"GPRAYER_KAABA_ICON);
+	
+	g_signal_connect ((GtkStatusIcon * ) (status_icon), "popup_menu", 
 			G_CALLBACK(tray_icon_right_clicked_callback) , NULL);
-	g_signal_connect ((GtkStatusIcon * ) (tray_icon->status_icon), "activate", 
+	g_signal_connect ((GtkStatusIcon * ) (status_icon), "activate", 
 			G_CALLBACK(tray_icon_clicked_callback) , NULL);
 
 	

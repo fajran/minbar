@@ -348,6 +348,10 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 		err = NULL;
 	}
 
+	gconf_client_set_int(client, PREF_CITY_CORRECTION, 
+						correction, &err);
+
+
 	/* Now hide the cityedit dialog */
 	gtk_widget_hide(glade_xml_get_widget( xml, "editcity"));
 

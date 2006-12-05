@@ -8,7 +8,7 @@
 #include "prefs.h"
 #include "defines.h"
 
-#define USE_EGGTRAYICON         (!GTK_MINOR_VERSION < 9)
+#define USE_EGGTRAYICON         !(GTK_MINOR_VERSION < 9)
 
 /* Preferences */ 
 	

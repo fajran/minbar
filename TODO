@@ -1,7 +1,7 @@
 Make use of hijri.h events
 GMT differences
-Calculate current date/hijri/miladi
-Calculate time of next prayer
+Calculate current date/hijri/miladi DONE
+Calculate time of next prayer DONE 
 menu popup of all prayer times
 More preferences: calculation method, etc
 better artwork

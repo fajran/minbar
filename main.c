@@ -8,6 +8,8 @@
 #include "prefs.h"
 #include "defines.h"
 
+#define USE_EGGTRAYICON         (!GTK_MINOR_VERSION < 9)
+
 /* Preferences */ 
 	
 static gfloat 		lat;
@@ -36,7 +38,9 @@ static GtkFileFilter 	*filter_all;
 static GtkFileFilter 	*filter_supported;
 
 /* tray icon */
+#if USE_TRAY_ICON
 static GtkStatusIcon   	* status_icon;	
+#endif
 static GDate		* currentDate;
 
 sDate 			* hijri_date;
@@ -576,6 +580,8 @@ gboolean update_interval(gpointer data)
 
 /* System tray icon */
 /* TODO func pref */
+
+#if USE_TRAY_ICON
 void load_system_tray()
 {
 	status_icon 	= gtk_status_icon_new_from_file
@@ -588,6 +594,7 @@ void load_system_tray()
 
 	
 }
+#endif
 
 void quit_callback ( GtkWidget *widget, gpointer data)
 {
@@ -618,7 +625,6 @@ void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data)
 }
 
 /* quit callback */
-/* TODO tmp */
 void close_callback( GtkWidget *widget,
 	    gpointer data)
 {
@@ -643,8 +649,9 @@ int main(int argc, char *argv[])
 	glade_xml_signal_autoconnect(xml);
 	
 	/* System tray icon */
+#if USE_TRAY_ICON
 	load_system_tray();
-
+#endif
 	/* initialize GStreamer */
 	gst_init (&argc, &argv);
 	

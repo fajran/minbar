@@ -1,0 +1,65 @@
+<gconfschemafile>
+    <schemalist>                                                                                
+      <schema>
+        <key>/schemas/apps/gprayer/city/lat</key>
+        <owner>gprayer</owner>
+        <type>float</type>
+        <default>21.4200</default>
+        <locale name="C">
+          <short>Latitude of city</short>
+        </locale>
+      </schema>
+ 
+      <schema>
+        <key>/schemas/apps/gprayer/city/lon</key>
+        <owner>gprayer</owner>
+        <type>float</type>
+        <default>39.8300</default>
+        <locale name="C">
+          <short>Longitude of city</short>
+        </locale>
+      </schema> 
+      
+      <schema>
+        <key>/schemas/apps/gprayer/city/name</key>
+        <owner>gprayer</owner>
+        <type>string</type>
+        <default>Macca</default>
+        <locale name="C">
+          <short>Name of city</short>
+        </locale>
+      </schema> 
+ 	<schema>
+        <key>/schemas/apps/gprayer/city/height</key>
+        <owner>gprayer</owner>
+        <type>float</type>
+        <default>0</default>
+        <locale name="C">
+          <short>Height of city</short>
+        </locale>
+      </schema>   
+     
+
+	<schema>
+        <key>/schemas/apps/gprayer/prefs/correction</key>
+        <owner>gprayer</owner>
+        <type>int</type>
+        <default>-3</default>
+        <locale name="C">
+          <short>Time Zone, difference from GMT</short>
+        </locale>
+      </schema>   
+	
+	<schema>
+        <key>/schemas/apps/gprayer/prefs/play</key>
+        <owner>gprayer</owner>
+        <type>bool</type>
+        <default>true</default>
+        <locale name="C">
+          <short>Whether to play athan or not</short>
+        </locale>
+      </schema>   
+      </schemalist>
+
+                                                                                
+</gconfschemafile>

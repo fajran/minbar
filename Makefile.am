@@ -28,6 +28,6 @@ install-data-local:
 	$(INSTALL_DATA) athan.ogg gprayer.glade quran.png kaabatrayicon.png time.png $(DESTDIR)$(datadir)/$(PACKAGE)
 #	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
 #	gconftool-2 --makefile-install-rule $(srcdir)/$(schema_DATA)
-	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$(schema_DATA)
+	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) gconftool-2 --makefile-install-rule $(srcdir)/$(schema_DATA)
 
 ## End Makefile.am

@@ -2,6 +2,7 @@
 #include <gconf/gconf-client.h>
 #include <glade/glade.h>
 #include <itl/prayer.h>
+#include <itl/hijri.h>
 #include <gst/gst.h>
 #include "main.h"
 #include "prefs.h"
@@ -15,7 +16,7 @@ static gfloat 		lon;
 static gchar 		* city_name;
 static gboolean 	enable_athan;
 
-static int 		current_prayer_id = -1;
+static int 		next_prayer_id = -1;
 
 /* for prayer.h functions */
 static Date 		* prayerDate;
@@ -36,6 +37,69 @@ static GtkFileFilter 	*filter_supported;
 
 /* tray icon */
 static GtkStatusIcon   	* status_icon;	
+static GDate		* currentDate;
+
+sDate 			* hijri_date;
+
+/* TODO localise */
+gchar * hijri_month[13] = {"skip",
+                      "Muharram", "Safar", "Rabi I", "Rabi II",
+                      "Jumada I", "Jumada II", "Rajab", "Shaaban",
+                      "Ramadan", "Shawwal", "Thul-Qiaadah", "Thul-Hijja"};
+
+void update_remaining();
+void update_remaining()
+{
+	/* converts times to minutes */
+	int next_minutes = ptList[next_prayer_id].minute + ptList[next_prayer_id].hour*60;
+	time_t 	result;
+	struct 	tm * curtime;
+	
+	result 	= time(NULL);
+	curtime = localtime(&result);
+	int cur_minutes = curtime->tm_min + curtime->tm_hour * 60; 
+	if(ptList[next_prayer_id].hour < curtime->tm_hour)
+	{
+		/* salat is on next day (subh) after midnight */
+		next_minutes += 60*24;
+	}
+
+	int difference = next_minutes - cur_minutes;
+	int hours = difference / 60;
+	int minutes = difference % 60;
+
+	gchar * remainString;
+	remainString = g_malloc(400);
+	g_snprintf(remainString, 400, 
+			"%sApproximatly %d hours and %d minutes\n left for next prayer.%s", 
+			REMAIN_MARKUP_START, hours, minutes, 
+			REMAIN_MARKUP_END);
+	gtk_label_set_markup((GtkLabel *) glade_xml_get_widget(xml, 
+				"timeleftlabel"), remainString);
+	g_free(remainString);
+}
+
+void update_date_label();
+void update_date_label()
+{
+	gchar * dayString, * miladiString, * dateString;
+	miladiString 	= g_malloc(200);
+	dateString 	= g_malloc(500);
+	dayString      = g_malloc(100);
+	g_date_strftime (miladiString, 300, "%d %B %G", currentDate );
+	g_date_strftime (dayString, 100, "%A", currentDate );
+
+	hijri_date 	= g_malloc(sizeof(sDate));
+	h_date(hijri_date, prayerDate->day, prayerDate->month, prayerDate->year);
+	g_snprintf(dateString, 500, "%s%s %d %s %d \n %s%s", DATE_MARKUP_START, dayString, hijri_date->day,
+	       	hijri_month[hijri_date->month], hijri_date->year, miladiString, DATE_MARKUP_END);
+
+	gtk_label_set_markup((GtkLabel *)glade_xml_get_widget(xml, 
+				"currentdatelabel"), dateString);
+	g_free(dateString);
+	g_free(miladiString);	
+	g_free(dayString);	
+}
 
 void calculate_prayer_table()
 {
@@ -43,7 +107,9 @@ void calculate_prayer_table()
 	loc->degreeLat 		= lat;
 	loc->degreeLong 	= lon;	
 	getPrayerTimes (loc, calcMethod, prayerDate, ptList);
-	current_prayer();
+	next_prayer();
+	update_remaining();
+
 }
 
 void play_athan_at_prayer()
@@ -64,52 +130,49 @@ void play_athan_at_prayer()
 			return;
 		}
 	}
+	g_free(curtime);
 }
 
-void current_prayer()
+void next_prayer()
 {	
 	/* current time */
 	time_t result;
 	struct tm * curtime;
 	result = time(NULL);
 	curtime = localtime(&result);
-	
+
 	int i;
 	for (i = 0; i < 6; i++)
 	{
 		if ( i == 1 ) { continue ;} /* skip shorouk */
-		current_prayer_id = (i==0) ? 5 : i-1;
-		current_prayer_id = (i==2) ? 0 : i-1;
+		next_prayer_id = i;
 		if(ptList[i].hour > curtime->tm_hour || 
 		  	(ptList[i].hour == curtime->tm_hour && 
 		   	ptList[i].minute >= curtime->tm_min))
 		{
-
 			return;
 		}
 	}
-	
-	/* time is after midnight and before subh, so set to Isha */
 
-	current_prayer_id = 5;
+	next_prayer_id = 0;	
 }
 
 void update_date()
 {
 	GTimeVal * curtime 	= g_malloc(sizeof(GTimeVal));
-	prayerDate 		= g_malloc(sizeof(Date));
 
-	GDate * currentDate = g_date_new();
+	currentDate = g_date_new();
 	g_get_current_time(curtime);
 	g_date_set_time_val(currentDate, curtime);
 	g_free(curtime);
 
 	/* Setting current day */
-	prayerDate = g_malloc(sizeof(Date));
-	prayerDate->day = g_date_get_day(currentDate);
-	prayerDate->month = g_date_get_month(currentDate);
-	prayerDate->year = g_date_get_year(currentDate);
-
+	prayerDate 		= g_malloc(sizeof(Date));
+	prayerDate->day 	= g_date_get_day(currentDate);
+	prayerDate->month 	= g_date_get_month(currentDate);
+	prayerDate->year 	= g_date_get_year(currentDate);
+		
+	update_date_label();
 	g_free(currentDate);
 }
 
@@ -132,7 +195,7 @@ void update_prayer_labels()
 				MARKUP_FAINT_START, ptList[i].hour, 
 				ptList[i].minute, MARKUP_FAINT_END);
 		}
-		else if ( i == current_prayer_id)
+		else if ( i == next_prayer_id)
 		{
 			g_snprintf(timestring, 50, "%s%02d:%02d%s", 
 				MARKUP_SPECIAL_START, ptList[i].hour, 
@@ -452,12 +515,12 @@ void new_pad (GstElement *element,
 int init_pipelines()
 {
 	/* create elements */
-	pipeline = gst_pipeline_new ("audio-player");
-	source = gst_element_factory_make ("filesrc", "file-source");
-	parser = gst_element_factory_make ("oggdemux", "ogg-parser");
-	decoder = gst_element_factory_make ("vorbisdec", "vorbis-decoder");
-	conv = gst_element_factory_make ("audioconvert", "converter");
-	sink = gst_element_factory_make ("alsasink", "alsa-output");
+	pipeline 	= gst_pipeline_new ("audio-player");
+	source 		= gst_element_factory_make ("filesrc", "file-source");
+	parser 		= gst_element_factory_make ("oggdemux", "ogg-parser");
+	decoder 	= gst_element_factory_make ("vorbisdec", "vorbis-decoder");
+	conv 		= gst_element_factory_make ("audioconvert", "converter");
+	sink 		= gst_element_factory_make ("alsasink", "alsa-output");
 	if (!pipeline || !source || !parser || !decoder || !conv || !sink) {
 		g_print ("One element could not be created\n");
 		return -1;
@@ -509,7 +572,8 @@ void quit_callback ( GtkWidget *widget, gpointer data)
 {
 	/* TODO cleanup? prefs? */
 	gtk_main_quit();
-}	
+}
+
 void tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data)
 {
 	GtkMenu * popup_menu = (GtkMenu * )(glade_xml_get_widget(xml, "traypopup")); 
@@ -537,7 +601,7 @@ void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data)
 void close_callback( GtkWidget *widget,
 	    gpointer data)
 {
-	    gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
+		gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
 }
 
 

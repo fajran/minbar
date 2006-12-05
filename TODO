@@ -1,3 +1,5 @@
+Make use of hijri.h events
+GMT differences
 Calculate current date/hijri/miladi
 Calculate time of next prayer
 menu popup of all prayer times

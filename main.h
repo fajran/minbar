@@ -1,7 +1,7 @@
 /* Functions */ 
 void 		calculate_prayer_table();
 void 		play_athan_at_prayer();
-void		current_prayer();
+void		next_prayer();
 void 		update_date();
 void 		update_prayer_labels();
 gboolean 	update_interval(gpointer data);

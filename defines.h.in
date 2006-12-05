@@ -12,5 +12,8 @@
 #define	MARKUP_SPECIAL_END 	"</b></span>"
 #define	MARKUP_FAINT_START 	"<span color='skyblue'><b>"
 #define	MARKUP_FAINT_END 	"</b></span>"
-
+#define	DATE_MARKUP_START 	"<span color='darkgreen'><b>"
+#define	DATE_MARKUP_END 	"</b></span>"
+#define	REMAIN_MARKUP_START 	"<span color='darkgreen'><b>"
+#define	REMAIN_MARKUP_END 	"</b></span>"
 

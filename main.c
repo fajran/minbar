@@ -130,7 +130,6 @@ void play_athan_at_prayer()
 			return;
 		}
 	}
-	g_free(curtime);
 }
 
 void next_prayer()

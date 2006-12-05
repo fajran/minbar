@@ -15,7 +15,7 @@ static gfloat 		height;
 static gfloat 		lon;
 static gchar 		* city_name;
 static gboolean 	enable_athan;
-
+static int 		correction = 0;
 static int 		next_prayer_id = -1;
 
 /* for prayer.h functions */
@@ -46,6 +46,9 @@ gchar * hijri_month[13] = {"skip",
                       "Muharram", "Safar", "Rabi I", "Rabi II",
                       "Jumada I", "Jumada II", "Rajab", "Shaaban",
                       "Ramadan", "Shawwal", "Thul-Qiaadah", "Thul-Hijja"};
+
+gchar * time_names[6] = {"Subh", "Shorook", "Dhuhr", 
+			"Asr", "Maghreb", "isha'a"};
 
 void update_remaining();
 void update_remaining()
@@ -107,6 +110,11 @@ void calculate_prayer_table()
 	loc->degreeLat 		= lat;
 	loc->degreeLong 	= lon;	
 	getPrayerTimes (loc, calcMethod, prayerDate, ptList);
+	int i;
+	for(i = 0; i < 6 ; i++)
+	{
+		ptList[i].hour += correction;
+	}
 	next_prayer();
 	update_remaining();
 
@@ -137,8 +145,8 @@ void next_prayer()
 	/* current time */
 	time_t result;
 	struct tm * curtime;
-	result = time(NULL);
-	curtime = localtime(&result);
+	result 		= time(NULL);
+	curtime 	= localtime(&result);
 
 	int i;
 	for (i = 0; i < 6; i++)
@@ -160,7 +168,7 @@ void update_date()
 {
 	GTimeVal * curtime 	= g_malloc(sizeof(GTimeVal));
 
-	currentDate = g_date_new();
+	currentDate 		= g_date_new();
 	g_get_current_time(curtime);
 	g_date_set_time_val(currentDate, curtime);
 	g_free(curtime);
@@ -309,6 +317,9 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	entrywidget = glade_xml_get_widget( xml, "cityname");
 	g_stpcpy(city_name, gtk_entry_get_text((GtkEntry *)entrywidget)); 
 
+	entrywidget = glade_xml_get_widget( xml, "correction");
+	correction =  (int)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+
         /* set gconf settings */
 
 	gconf_client_set_float(client, PREF_CITY_LAT, lat, &err);
@@ -380,6 +391,14 @@ void init_prefs ()
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
+	correction  = gconf_client_get_int(client, PREF_CITY_CORRECTION, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+
+
 	GtkWidget*  entrywidget;	
 	
 	/* Setting what was found to editcity dialog*/
@@ -392,6 +411,9 @@ void init_prefs ()
 	entrywidget = glade_xml_get_widget( xml, "cityname");	
 	gtk_entry_set_text((GtkEntry *)entrywidget, city_name);
 
+	entrywidget = glade_xml_get_widget( xml, "correction");	
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, correction);
+	
 	/* Set the play athan check box */
 	entrywidget = glade_xml_get_widget( xml, "enabledathancheck");
 	gtk_toggle_button_set_active((GtkToggleButton *) entrywidget, enable_athan);

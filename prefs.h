@@ -2,4 +2,5 @@
 #define PREF_CITY_LON  		GPRAYER_PREFDIR "/city/lon"
 #define PREF_CITY_NAME 		GPRAYER_PREFDIR "/city/name"
 #define PREF_CITY_HEIGHT	GPRAYER_PREFDIR "/city/height"
-#define PREF_ATHAN_PLAY  	GPRAYER_PREFDIR "/city/play"
+#define PREF_ATHAN_PLAY  	GPRAYER_PREFDIR "/prefs/play"
+#define PREF_CITY_CORRECTION  	GPRAYER_PREFDIR "/prefs/correction"

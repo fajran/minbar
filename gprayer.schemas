@@ -3,7 +3,8 @@
       <schema>
         <key>/schemas/apps/gprayer/city/lat</key>
         <owner>gprayer</owner>
-        <type>float</type>
+	<applyto>/apps/gprayer/city/lat</applyto>        
+	<type>float</type>
         <default>21.4200</default>
         <locale name="C">
           <short>Latitude of city</short>
@@ -12,6 +13,7 @@
  
       <schema>
         <key>/schemas/apps/gprayer/city/lon</key>
+	<applyto>/apps/gprayer/city/lon</applyto>
         <owner>gprayer</owner>
         <type>float</type>
         <default>39.8300</default>
@@ -22,6 +24,7 @@
       
       <schema>
         <key>/schemas/apps/gprayer/city/name</key>
+	<applyto>/apps/gprayer/city/name</applyto>
         <owner>gprayer</owner>
         <type>string</type>
         <default>Macca</default>
@@ -31,6 +34,7 @@
       </schema> 
  	<schema>
         <key>/schemas/apps/gprayer/city/height</key>
+	<applyto>/apps/gprayer/city/height</applyto>
         <owner>gprayer</owner>
         <type>float</type>
         <default>0</default>
@@ -42,6 +46,7 @@
 
 	<schema>
         <key>/schemas/apps/gprayer/prefs/correction</key>
+	<applyto>/apps/gprayer/prefs/correction</applyto>
         <owner>gprayer</owner>
         <type>int</type>
         <default>-3</default>
@@ -52,6 +57,7 @@
 	
 	<schema>
         <key>/schemas/apps/gprayer/prefs/play</key>
+	<applyto>/apps/gprayer/prefs/play</applyto>
         <owner>gprayer</owner>
         <type>bool</type>
         <default>true</default>

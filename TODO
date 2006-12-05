@@ -1,15 +1,14 @@
 Make use of hijri.h events
-GMT differences
-Calculate current date/hijri/miladi DONE
-Calculate time of next prayer DONE 
+DONE GMT differences
+DONE Calculate current date/hijri/miladi 
+DONE Calculate time of next prayer  
 menu popup of all prayer times
+Translations (generate pots)
+Move to src etc
 More preferences: calculation method, etc
 better artwork
 prayer notifications
 Alarm clock
-switch to using icons in seperate .c instead of loading them each time.
 prayer times timetable (calendar)
 city names (implicit): use gnome-applets-locations
 add volume manager for app.
-Memory management: eliminate potential leaks.
-memory optimisation.

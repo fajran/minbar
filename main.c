@@ -71,7 +71,7 @@ void update_remaining()
 	gchar * remainString;
 	remainString = g_malloc(400);
 	g_snprintf(remainString, 400, 
-			"%sApproximatly %d hours and %d minutes\n left for next prayer.%s", 
+			"%sApproximatly %d hours and %d minutes\nleft for next prayer.%s", 
 			REMAIN_MARKUP_START, hours, minutes, 
 			REMAIN_MARKUP_END);
 	gtk_label_set_markup((GtkLabel *) glade_xml_get_widget(xml, 

@@ -112,13 +112,14 @@ void calculate_prayer_table()
 {
 	/* Update the values */
 	loc->degreeLat 		= lat;
-	loc->degreeLong 	= lon;	
+	loc->degreeLong 	= lon;
+	loc->gmtDiff		= correction;	
 	getPrayerTimes (loc, calcMethod, prayerDate, ptList);
-	int i;
+	/*int i;
 	for(i = 0; i < 6 ; i++)
 	{
 		ptList[i].hour += correction;
-	}
+	}*/
 	next_prayer();
 	update_remaining();
 
@@ -251,7 +252,7 @@ void init_vars()
 	/* Location variables */
 	loc->degreeLat 		= lat;
 	loc->degreeLong 	= lon;
-	loc->gmtDiff 		= 0;
+	loc->gmtDiff 		= correction;
 	loc->dst 		= 0;
 	loc->seaLevel 		= 0;
 	loc->pressure 		= 1010;

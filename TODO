@@ -1,5 +1,6 @@
 Correction: the times are the same, it's the athan time that needs to be checked.
 #ifdefine for close button/close callbacks.
+add desktop entries
 Make use of hijri.h events
 DONE GMT differences
 DONE Calculate current date/hijri/miladi 

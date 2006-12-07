@@ -1,17 +1,15 @@
-#ifdefine for close button/close callbacks.
-	minimise to tray, close to really close
-	Sort out preferences window
-	add desktop entries
-DONE 	GMT differences
-DONE 	Calculate current date/hijri/miladi 
-DONE 	Calculate time of next prayer  
-DONE	menu popup of all prayer times
-	Translations (generate pots)
-	Move to src etc
-DONE 	More preferences: calculation method, etc
-	better artwork
-DONE 	prayer notifications
-	city names (implicit): use gnome-applets-locations
+--Release blocking:
+libnotify absense should not break ./configure, set variables instead.
+	(need versions as well)
+minimise to tray
+Sort out preferences window
+add .desktop entries
+Translations (generate pots)
+More coherent directories.
+
+--Next versions
+better artwork
+city names (implicit): use gnome-applets-locations
 
 Seperate APP:
 -hijri events

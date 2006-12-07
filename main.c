@@ -4,11 +4,15 @@
 #include <itl/prayer.h>
 #include <itl/hijri.h>
 #include <gst/gst.h>
+
+#include <libnotify/notify.h>
+
 #include "main.h"
 #include "prefs.h"
 #include "defines.h"
 
-#define USE_TRAY_ICON         !(GTK_MINOR_VERSION < 9)
+#define PROGRAM_NAME	"Gnome Prayer Times"
+#define USE_TRAY_ICON   !(GTK_MINOR_VERSION < 9)
 
 /* Preferences */ 
 	
@@ -18,6 +22,9 @@ static gfloat 		lon;
 static gchar 		* city_name;
 static gboolean 	enable_athan;
 static int 		correction = 0;
+static gboolean		notif;
+static int		notiftime;
+static int 		method;
 static int 		next_prayer_id = -1;
 
 /* for prayer.h functions */
@@ -54,7 +61,34 @@ gchar * hijri_month[13] = {"skip",
 gchar * time_names[6] = {"Subh", "Shorook", "Dhuhr", 
 			"Asr", "Maghreb", "isha'a"};
 
-void update_remaining();
+NotifyNotification * notification;
+
+void setup_widgets();
+void main_window_iconify_callback(GtkWidget *widget, 
+		GdkEventWindowState *event);
+
+
+inline void set_status_tooltip()
+{
+	gchar * tooltiptext;
+	tooltiptext = g_malloc(2000);
+	g_snprintf(tooltiptext, 2000, " %s:\t  %02d:%02d \n"
+				 	" %s:   %02d:%02d \n"
+					" %s:\t  %02d:%02d \n"
+					" %s:\t  %02d:%02d \n"
+					" %s:  %02d:%02d \n"
+					" %s:\t  %02d:%02d"
+					,
+			time_names[0], ptList[0].hour, ptList[0].minute,
+			time_names[1], ptList[1].hour, ptList[1].minute,
+			time_names[2], ptList[2].hour, ptList[2].minute,
+			time_names[3], ptList[3].hour, ptList[3].minute,
+			time_names[4], ptList[4].hour, ptList[4].minute,
+			time_names[5], ptList[5].hour, ptList[5].minute
+		  );
+	gtk_status_icon_set_tooltip(status_icon, tooltiptext);
+	g_free(tooltiptext);
+}
 void update_remaining()
 {
 	/* converts times to minutes */
@@ -78,15 +112,14 @@ void update_remaining()
 	gchar * remainString;
 	remainString = g_malloc(400);
 	g_snprintf(remainString, 400, 
-			"%sApproximatly %d hours and %d minutes\nleft for next prayer.%s", 
-			REMAIN_MARKUP_START, hours, minutes, 
+			"%sApproximatly %d hours and %d minutes\nleft for next prayer: %s.%s", 
+			REMAIN_MARKUP_START, hours, minutes, time_names[next_prayer_id],
 			REMAIN_MARKUP_END);
 	gtk_label_set_markup((GtkLabel *) glade_xml_get_widget(xml, 
 				"timeleftlabel"), remainString);
 	g_free(remainString);
 }
 
-void update_date_label();
 void update_date_label()
 {
 	gchar * dayString, * miladiString, * dateString;
@@ -98,8 +131,9 @@ void update_date_label()
 
 	hijri_date 	= g_malloc(sizeof(sDate));
 	h_date(hijri_date, prayerDate->day, prayerDate->month, prayerDate->year);
-	g_snprintf(dateString, 500, "%s%s %d %s %d \n %s%s", DATE_MARKUP_START, dayString, hijri_date->day,
-	       	hijri_month[hijri_date->month], hijri_date->year, miladiString, DATE_MARKUP_END);
+	g_snprintf(dateString, 500, "%s%s %d %s %d \n %s%s", DATE_MARKUP_START, 
+		dayString, hijri_date->day, hijri_month[hijri_date->month], 
+		hijri_date->year, miladiString, DATE_MARKUP_END);
 
 	gtk_label_set_markup((GtkLabel *)glade_xml_get_widget(xml, 
 				"currentdatelabel"), dateString);
@@ -114,33 +148,49 @@ void calculate_prayer_table()
 	loc->degreeLat 		= lat;
 	loc->degreeLong 	= lon;
 	loc->gmtDiff		= correction;	
-	getPrayerTimes (loc, calcMethod, prayerDate, ptList);
-	/*int i;
-	for(i = 0; i < 6 ; i++)
-	{
-		ptList[i].hour += correction;
-	}*/
+	getPrayerTimes (loc, calcMethod, prayerDate, ptList);	
 	next_prayer();
 	update_remaining();
 
 }
 
-void play_athan_at_prayer()
+void play_events()
 {
 	time_t 	result;
 	struct 	tm * curtime;
 	result 	= time(NULL);
 	curtime = localtime(&result);
-	
+
+	int cur_minutes = curtime->tm_hour * 60 + curtime->tm_min;
+
 	int i;
 	for (i = 0; i < 6; i++)
 	{
 		if ( i == 1 ) { continue ;} /* skip shorouk */
-		if ( (ptList[i].hour == curtime->tm_hour && 
-		      ptList[i].minute == curtime->tm_min))
+		/* covert to minutes */
+		int pt_minutes = ptList[i].hour*60 + ptList[i].minute;
+		
+		if ((cur_minutes + notiftime == pt_minutes ) && notif)
 		{
-			play_athan_callback();
-			return;
+			gchar * message;
+			message = g_malloc(400);
+			g_snprintf(message, 400, "%d minutes left for %s prayer.", 
+					notiftime, time_names[i]); 
+			show_notification(message);
+			g_free(message);
+		}
+		if (cur_minutes == pt_minutes)
+		{
+			if(enable_athan){play_athan_callback();}
+			if(notif)
+			{
+				gchar * message;
+				message = g_malloc(400);
+				g_snprintf(message, 400, "It is time for %s prayer.", time_names[i]); 
+				show_notification(message);
+				g_free(message);
+			}
+
 		}
 	}
 }
@@ -233,8 +283,7 @@ void init_vars()
 {
 	/* Allocate memory for variables */
 	loc 			= g_malloc(sizeof(Location));
-	calcMethod 		= g_malloc(sizeof(Method)); 	
-	
+		
 	/* set UI vars */
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "selectathan")),
@@ -260,7 +309,6 @@ void init_vars()
 
 	/* Calculation method */
 	/* 5 is muslim world league */
-	getMethod(5, calcMethod);
 
 }
 
@@ -277,7 +325,7 @@ void on_enabledathanmenucheck_toggled_callback(GtkWidget *widget,
 			glade_xml_get_widget( xml, "playathan"),
 			enable_athan);
 
-	gconf_client_set_bool(client, PREF_ATHAN_PLAY, 
+	gconf_client_set_bool(client, PREF_PREF_PLAY, 
 				enable_athan, &err);
 	if(err != NULL)
 	{
@@ -298,7 +346,7 @@ void on_enabledathancheck_toggled_callback(GtkWidget *widget,
 			glade_xml_get_widget( xml, "playathan"),
 			enable_athan);
 
-	gconf_client_set_bool(client, PREF_ATHAN_PLAY, 
+	gconf_client_set_bool(client, PREF_PREF_PLAY, 
 				enable_athan, &err);
 	if(err != NULL)
 	{
@@ -313,18 +361,27 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 
 	GtkWidget*  entrywidget;	
 	/* Setting what was found to editcity dialog*/
-	entrywidget = glade_xml_get_widget( xml, "longitude");	
-	lon =  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+	entrywidget 	= glade_xml_get_widget( xml, "longitude");	
+	lon 		=  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
 
-	entrywidget = glade_xml_get_widget( xml, "latitude");
-	lat =  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+	entrywidget 	= glade_xml_get_widget( xml, "latitude");
+	lat 		=  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
 
-	entrywidget = glade_xml_get_widget( xml, "cityname");
+	entrywidget 	= glade_xml_get_widget( xml, "cityname");
 	g_stpcpy(city_name, gtk_entry_get_text((GtkEntry *)entrywidget)); 
 
-	entrywidget = glade_xml_get_widget( xml, "correction");
-	correction =  (int)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+	entrywidget 	= glade_xml_get_widget( xml, "correction");
+	correction 	=  (int)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
 
+	entrywidget 	= glade_xml_get_widget( xml, "yesnotif");
+	notif 		=  gtk_toggle_button_get_active((GtkToggleButton *)entrywidget);
+
+	entrywidget 	= glade_xml_get_widget( xml, "notiftime");
+	notiftime 	=  (int)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+
+	entrywidget 	= glade_xml_get_widget( xml, "methodcombo");
+	method 		=  (int)gtk_combo_box_get_active((GtkComboBox *)entrywidget)  + 1;
+	getMethod(method, calcMethod);
         /* set gconf settings */
 
 	gconf_client_set_float(client, PREF_CITY_LAT, lat, &err);
@@ -352,6 +409,33 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	gconf_client_set_int(client, PREF_CITY_CORRECTION, 
 						correction, &err);
 
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+
+	gconf_client_set_bool(client, PREF_PREF_NOTIF, notif, &err);
+
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	gconf_client_set_int(client, PREF_PREF_NOTIF_TIME, notiftime, &err);
+
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	gconf_client_set_int(client, PREF_PREF_METHOD, method, &err);
+
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
 
 	/* Now hide the cityedit dialog */
 	gtk_widget_hide(glade_xml_get_widget( xml, "editcity"));
@@ -394,7 +478,7 @@ void init_prefs ()
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-	enable_athan  = gconf_client_get_bool(client, PREF_ATHAN_PLAY, &err);
+	enable_athan  = gconf_client_get_bool(client, PREF_PREF_PLAY, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -406,7 +490,32 @@ void init_prefs ()
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
+	method  = gconf_client_get_int(client, PREF_PREF_METHOD, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	if( method < 0 || method > 7)
+	{
+		g_printerr("Invalid calculation method in preferences, using 5: Muslim world League \n");
+	}
 
+	calcMethod 		= g_malloc(sizeof(Method)); 	
+	getMethod(method, calcMethod);
+
+	notif  = gconf_client_get_bool(client, PREF_PREF_NOTIF, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	notiftime  = gconf_client_get_int(client, PREF_PREF_NOTIF_TIME, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
 
 	GtkWidget*  entrywidget;	
 	
@@ -422,7 +531,16 @@ void init_prefs ()
 
 	entrywidget = glade_xml_get_widget( xml, "correction");	
 	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, correction);
+
+	entrywidget = glade_xml_get_widget( xml, "yesnotif");	
+	gtk_toggle_button_set_active((GtkToggleButton *)entrywidget, notif);
 	
+	entrywidget = glade_xml_get_widget( xml, "notiftime");	
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, notiftime);
+
+	entrywidget = glade_xml_get_widget( xml, "methodcombo");	
+	gtk_combo_box_set_active((GtkComboBox *)entrywidget, method-1);
+
 	/* Set the play athan check box */
 	entrywidget = glade_xml_get_widget( xml, "enabledathancheck");
 	gtk_toggle_button_set_active((GtkToggleButton *) entrywidget, enable_athan);
@@ -579,7 +697,9 @@ gboolean update_interval(gpointer data)
 	calculate_prayer_table(); 
 	update_prayer_labels();
 	
-	if(enable_athan) { play_athan_at_prayer();}
+	play_events();
+	set_status_tooltip();
+	
 	return TRUE;
 }
 
@@ -596,6 +716,7 @@ void load_system_tray()
 			G_CALLBACK(tray_icon_right_clicked_callback) , NULL);
 	g_signal_connect ((GtkStatusIcon * ) (status_icon), "activate", 
 			G_CALLBACK(tray_icon_clicked_callback) , NULL);
+
 
 	
 }
@@ -636,14 +757,35 @@ void close_callback( GtkWidget *widget,
 		gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
 }
 
+/**** Notification Balloons ****/
+void show_notification(gchar * message)
+{
+	notify_notification_update(notification,
+				PROGRAM_NAME,
+				message,
+				GTK_STOCK_ABOUT);
+	notify_notification_show(notification, NULL);
+}
 
+void create_notification()
+{
+	notification = notify_notification_new
+                                            (PROGRAM_NAME,
+                                             NULL,
+                                             NULL,
+					     NULL);
+	notify_notification_attach_to_status_icon (notification, status_icon );
+	notify_notification_set_timeout (notification, 8000);
+}
 
+/**** Main ****/
 int main(int argc, char *argv[]) 
 {
 	/* init libraries */
 	gtk_init(&argc, &argv);
 	glade_init();
  	gconf_init(argc, argv, NULL);
+	notify_init(PROGRAM_NAME);
 	
 	/* load gconf client */
 	client = gconf_client_get_default();
@@ -652,6 +794,9 @@ int main(int argc, char *argv[])
 	xml = glade_xml_new(GPRAYER_GLADEDIR"/"GLADE_MAIN_INTERFACE, NULL, NULL);
 	/* connect the signals in the interface */
 	glade_xml_signal_autoconnect(xml);
+	
+	/* Set up some widgets and options that not stored in the glade xml */
+	setup_widgets();
 	
 	/* System tray icon */
 #if USE_TRAY_ICON
@@ -667,7 +812,13 @@ int main(int argc, char *argv[])
 	/* calculate the time table, and update the labels */
 	calculate_prayer_table();
 	update_prayer_labels();
-
+	
+	/* set system tray tooltip text */
+	set_status_tooltip();
+	
+	/* Used to balloon tray notifications */
+	create_notification();
+	
 	/* start athan playing, time updating interval */
 	g_timeout_add(60000, update_interval, NULL);
 
@@ -675,3 +826,16 @@ int main(int argc, char *argv[])
   	gtk_main();
 	return 0;
 }
+
+void setup_widgets()
+{
+#if USE_TRAY_ICON
+	/* TODO hide on minimise	
+	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
+	*/
+#else
+	GtkWidget * closebutton = glade_xml_get_widget(xml, "closebutton");
+	gtk_widget_hide(closebutton);
+#endif
+}
+

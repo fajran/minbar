@@ -1,17 +1,19 @@
-Correction: the times are the same, it's the athan time that needs to be checked.
 #ifdefine for close button/close callbacks.
-add desktop entries
-Make use of hijri.h events
-DONE GMT differences
-DONE Calculate current date/hijri/miladi 
-DONE Calculate time of next prayer  
-menu popup of all prayer times
-Translations (generate pots)
-Move to src etc
-More preferences: calculation method, etc
-better artwork
-prayer notifications
-Alarm clock
-prayer times timetable (calendar)
-city names (implicit): use gnome-applets-locations
-add volume manager for app.
+	minimise to tray, close to really close
+	Sort out preferences window
+	add desktop entries
+DONE 	GMT differences
+DONE 	Calculate current date/hijri/miladi 
+DONE 	Calculate time of next prayer  
+DONE	menu popup of all prayer times
+	Translations (generate pots)
+	Move to src etc
+DONE 	More preferences: calculation method, etc
+	better artwork
+DONE 	prayer notifications
+	city names (implicit): use gnome-applets-locations
+
+Seperate APP:
+-hijri events
+-prayer time tables
+

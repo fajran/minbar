@@ -1,0 +1,18 @@
+2006-12-07  Djihed Afifi  <djihed@gmail.com>
+
+	* main.c : Added notifications using libnotify. 
+	Added gtkstatusicon check to hide close button. 
+	Added tray icon tooltip.
+	Added Advanced preferences (method, notify..)
+
+	* gprayer.glade: Advanced preferences. Close now quits.
+
+	* configure.in: libnotify check.
+
+	* gprayer.schemas: schemas for notif, notiftime, method.
+
+	* prefs.h : New preferences.
+
+2006-12-01  Djihed Afifi  <djihed@gmail.com>
+
+	* Initial check in.

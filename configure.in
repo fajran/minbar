@@ -11,7 +11,7 @@ AC_HEADER_STDC
 
 AM_PROG_LIBTOOL
 
-pkg_modules="gconf-2.0 gtk+-2.0 glib-2.0 libglade-2.0 gstreamer-0.10"
+pkg_modules="gconf-2.0 gtk+-2.0 glib-2.0 libglade-2.0 gstreamer-0.10 libnotify"
 PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
 AC_SUBST(PACKAGE_CFLAGS)
 AC_SUBST(PACKAGE_LIBS)

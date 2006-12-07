@@ -1,5 +1,7 @@
 <gconfschemafile>
-    <schemalist>                                                                                
+    <schemalist>        
+
+            
       <schema>
         <key>/schemas/apps/gprayer/city/lat</key>
         <owner>gprayer</owner>
@@ -65,7 +67,43 @@
           <short>Whether to play athan or not</short>
         </locale>
       </schema>   
-      </schemalist>
+      
 
-                                                                                
+	<schema>
+        <key>/schemas/apps/gprayer/prefs/notif</key>
+	<applyto>/apps/gprayer/prefs/notif</applyto>
+        <owner>gprayer</owner>
+        <type>bool</type>
+        <default>true</default>
+        <locale name="C">
+          <short>Whether or not to notify before a period</short>
+        </locale>
+      </schema> 
+	<schema>
+        <key>/schemas/apps/gprayer/prefs/notiftime</key>
+	<applyto>/apps/gprayer/prefs/notiftime</applyto>
+        <owner>gprayer</owner>
+        <type>int</type>
+        <default>5</default>
+        <locale name="C">
+          <short>Time before athan, for notification</short>
+        </locale>
+      </schema> 
+
+	<schema>
+        <key>/schemas/apps/gprayer/prefs/method</key>
+	<applyto>/apps/gprayer/prefs/method</applyto>
+        <owner>gprayer</owner>
+        <type>int</type>
+	<default>5</default>
+	<locale name="C">
+          <short>Calculation method</short>
+        </locale>
+      </schema> 
+
+
+
+</schemalist>
+
+                            
 </gconfschemafile>

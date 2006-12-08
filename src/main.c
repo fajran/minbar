@@ -118,7 +118,7 @@ void update_remaining()
 	gchar * remainString;
 	remainString = g_malloc(400);
 	g_snprintf(remainString, 400, 
-			"%sApproximatly %d hours and %d minutes\nleft for next prayer: %s.%s", 
+			"%sApproximatly %d hours and %d minutes\nuntil next prayer: %s.%s", 
 			REMAIN_MARKUP_START, hours, minutes, time_names[next_prayer_id],
 			REMAIN_MARKUP_END);
 	gtk_label_set_markup((GtkLabel *) glade_xml_get_widget(xml, 
@@ -182,7 +182,7 @@ void play_events()
 		{
 			gchar * message;
 			message = g_malloc(400);
-			g_snprintf(message, 400, "%d minutes left for %s prayer.", 
+			g_snprintf(message, 400, "%d minutes until %s prayer.", 
 					notiftime, time_names[i]); 
 			show_notification(message);
 			g_free(message);

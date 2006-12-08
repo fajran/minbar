@@ -17,6 +17,13 @@ INCLUDES = -DGPRAYER_GLADEDIR=\"$(datadir)/$(PACKAGE)\" \
 	   -DGPRAYER_PIXMAPSDIR=\"$(datadir)/$(PACKAGE)\" \
 	   @PACKAGE_CFLAGS@
 
+if USE_NOTIFY
+gprayer_LDADD += $(NOTIFY_LIBS)
+INCLUDES += $(NOTIFY_CFLAGS)
+endif
+
+
+
 EXTRA_DIST = gprayer.glade athan.ogg quran.png kaabatrayicon.png gprayer.schemas
 
 schemadir   = @GCONF_SCHEMA_FILE_DIR@

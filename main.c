@@ -5,14 +5,18 @@
 #include <itl/hijri.h>
 #include <gst/gst.h>
 
-#include <libnotify/notify.h>
 
 #include "main.h"
 #include "prefs.h"
 #include "defines.h"
 
 #define PROGRAM_NAME	"Gnome Prayer Times"
-#define USE_TRAY_ICON   !(GTK_MINOR_VERSION < 9)
+#define USE_TRAY_ICON   (!(GTK_MINOR_VERSION < 9))
+#define USE_NOTIFY	(USE_TRAY_ICON & HAVE_NOTIFY)
+
+#if USE_NOTIFY
+#include <libnotify/notify.h>
+#endif
 
 /* Preferences */ 
 	
@@ -61,23 +65,25 @@ gchar * hijri_month[13] = {"skip",
 gchar * time_names[6] = {"Subh", "Shorook", "Dhuhr", 
 			"Asr", "Maghreb", "isha'a"};
 
+#if USE_NOTIFY
 NotifyNotification * notification;
+#endif
 
 void setup_widgets();
-void main_window_iconify_callback(GtkWidget *widget, 
-		GdkEventWindowState *event);
+void set_status_tooltip();
 
-
+#if USE_TRAY_ICON
 inline void set_status_tooltip()
 {
 	gchar * tooltiptext;
 	tooltiptext = g_malloc(2000);
-	g_snprintf(tooltiptext, 2000, " %s:\t  %02d:%02d \n"
-				 	" %s:   %02d:%02d \n"
-					" %s:\t  %02d:%02d \n"
-					" %s:\t  %02d:%02d \n"
+	g_snprintf(tooltiptext, 2000, "\t" PROGRAM_NAME "\t\n\n"
 					" %s:  %02d:%02d \n"
-					" %s:\t  %02d:%02d"
+				 	" %s:  %02d:%02d \n"
+					" %s:  %02d:%02d \n"
+					" %s:  %02d:%02d \n"
+					" %s:  %02d:%02d \n"
+					" %s:  %02d:%02d"
 					,
 			time_names[0], ptList[0].hour, ptList[0].minute,
 			time_names[1], ptList[1].hour, ptList[1].minute,
@@ -89,6 +95,8 @@ inline void set_status_tooltip()
 	gtk_status_icon_set_tooltip(status_icon, tooltiptext);
 	g_free(tooltiptext);
 }
+#endif
+
 void update_remaining()
 {
 	/* converts times to minutes */
@@ -120,6 +128,7 @@ void update_remaining()
 	g_free(remainString);
 }
 
+#if USE_TRAY_ICON
 void update_date_label()
 {
 	gchar * dayString, * miladiString, * dateString;
@@ -141,6 +150,7 @@ void update_date_label()
 	g_free(miladiString);	
 	g_free(dayString);	
 }
+#endif
 
 void calculate_prayer_table()
 {
@@ -169,7 +179,7 @@ void play_events()
 		if ( i == 1 ) { continue ;} /* skip shorouk */
 		/* covert to minutes */
 		int pt_minutes = ptList[i].hour*60 + ptList[i].minute;
-		
+#if USE_NOTIFY		
 		if ((cur_minutes + notiftime == pt_minutes ) && notif)
 		{
 			gchar * message;
@@ -179,18 +189,21 @@ void play_events()
 			show_notification(message);
 			g_free(message);
 		}
+#endif
 		if (cur_minutes == pt_minutes)
 		{
 			if(enable_athan){play_athan_callback();}
+#if USE_NOTIFY
 			if(notif)
 			{
 				gchar * message;
 				message = g_malloc(400);
 				g_snprintf(message, 400, "It is time for %s prayer.", time_names[i]); 
+
 				show_notification(message);
 				g_free(message);
 			}
-
+#endif		
 		}
 	}
 }
@@ -698,7 +711,9 @@ gboolean update_interval(gpointer data)
 	update_prayer_labels();
 	
 	play_events();
+#if USE_TRAY_ICON
 	set_status_tooltip();
+#endif
 	
 	return TRUE;
 }
@@ -758,6 +773,7 @@ void close_callback( GtkWidget *widget,
 }
 
 /**** Notification Balloons ****/
+#if USE_NOTIFY
 void show_notification(gchar * message)
 {
 	notify_notification_update(notification,
@@ -777,6 +793,7 @@ void create_notification()
 	notify_notification_attach_to_status_icon (notification, status_icon );
 	notify_notification_set_timeout (notification, 8000);
 }
+#endif
 
 /**** Main ****/
 int main(int argc, char *argv[]) 
@@ -785,8 +802,9 @@ int main(int argc, char *argv[])
 	gtk_init(&argc, &argv);
 	glade_init();
  	gconf_init(argc, argv, NULL);
+#if USE_NOTIFY
 	notify_init(PROGRAM_NAME);
-	
+#endif
 	/* load gconf client */
 	client = gconf_client_get_default();
 	
@@ -812,13 +830,14 @@ int main(int argc, char *argv[])
 	/* calculate the time table, and update the labels */
 	calculate_prayer_table();
 	update_prayer_labels();
-	
+#if USE_TRAY_ICON
 	/* set system tray tooltip text */
 	set_status_tooltip();
-	
+#if USE_NOTIFY
 	/* Used to balloon tray notifications */
 	create_notification();
-	
+#endif
+#endif
 	/* start athan playing, time updating interval */
 	g_timeout_add(60000, update_interval, NULL);
 
@@ -836,6 +855,19 @@ void setup_widgets()
 #else
 	GtkWidget * closebutton = glade_xml_get_widget(xml, "closebutton");
 	gtk_widget_hide(closebutton);
+#endif
+
+#if USE_NOTIFY
+	/* Hide install notice */
+	GtkWidget * label = glade_xml_get_widget(xml, "installnotifnotice");
+	gtk_widget_hide((GtkWidget *) label);
+#else
+	/* disable notification options */
+	GtkWidget * check = glade_xml_get_widget(xml, "yesnotif");
+	gtk_widget_set_sensitive ( (GtkWidget *) check, FALSE);
+	GtkWidget * notif_t =  glade_xml_get_widget(xml, "notiftime");
+	gtk_widget_set_sensitive ( (GtkWidget *) notif_t, FALSE);
+
 #endif
 }
 

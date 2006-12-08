@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+_Name=Prayer Times
+_Comment=Islamic prayer times.
+Exec=gprayer
+Icon=@MENU_ICON_DIR@/gprayer.png
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=GNOME;Application;Utility;

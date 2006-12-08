@@ -24,6 +24,6 @@ AC_STRUCT_TM
 
 AM_GCONF_SOURCE_2
 
-AC_CONFIG_FILES( [ Makefile defines.h ])
+AC_CONFIG_FILES( [ Makefile ])
 
 AC_OUTPUT

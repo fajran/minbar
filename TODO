@@ -1,8 +1,4 @@
 --Release blocking:
-libnotify absense should not break ./configure, set variables instead.
-	(need versions as well)
-minimise to tray
-Sort out preferences window
 add .desktop entries
 Translations (generate pots)
 More coherent directories.
@@ -13,5 +9,5 @@ city names (implicit): use gnome-applets-locations
 
 Seperate APP:
 -hijri events
--prayer time tables
+-prayer times tables
 

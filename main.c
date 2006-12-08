@@ -4,8 +4,6 @@
 #include <itl/prayer.h>
 #include <itl/hijri.h>
 #include <gst/gst.h>
-
-
 #include "main.h"
 #include "prefs.h"
 #include "defines.h"
@@ -319,12 +317,7 @@ void init_vars()
 	loc->seaLevel 		= 0;
 	loc->pressure 		= 1010;
 	loc->temperature	= 10;
-
-	/* Calculation method */
-	/* 5 is muslim world league */
-
 }
-
 
 void on_enabledathanmenucheck_toggled_callback(GtkWidget *widget,
 				gpointer user_data)
@@ -361,6 +354,29 @@ void on_enabledathancheck_toggled_callback(GtkWidget *widget,
 
 	gconf_client_set_bool(client, PREF_PREF_PLAY, 
 				enable_athan, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+}
+
+
+void on_notifmenucheck_toggled_callback(GtkWidget *widget, 
+		gpointer user_data)
+{
+	notif = gtk_check_menu_item_get_active((GtkCheckMenuItem * ) widget);
+
+	gtk_toggle_button_set_active((GtkToggleButton * )
+			glade_xml_get_widget( xml, "yesnotif"),
+			
+			notif);
+	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
+			glade_xml_get_widget( xml, "notifmenucheck"),
+			notif);
+
+	gconf_client_set_bool(client, PREF_PREF_NOTIF, 
+				notif, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -561,6 +577,11 @@ void init_prefs ()
 			glade_xml_get_widget( xml, "playathan"),
 			enable_athan);
 
+	/* notitication menu item */
+	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
+			glade_xml_get_widget( xml, "notifmenucheck"),
+			notif);
+
 	/* And set the city string in the main window */
 	gtk_label_set_text((GtkLabel *)
 			(glade_xml_get_widget(xml, "locationname")),
@@ -719,8 +740,6 @@ gboolean update_interval(gpointer data)
 }
 
 /* System tray icon */
-/* TODO func pref */
-
 #if USE_TRAY_ICON
 void load_system_tray()
 {
@@ -737,9 +756,18 @@ void load_system_tray()
 }
 #endif
 
+
+void check_quit_callback(GtkWidget *widget, gpointer data)
+{
+#if USE_TRAY_ICON
+	gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
+#else
+	gtk_main_quit();
+#endif
+}
+
 void quit_callback ( GtkWidget *widget, gpointer data)
 {
-	/* TODO cleanup? prefs? */
 	gtk_main_quit();
 }
 
@@ -751,6 +779,18 @@ void tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data)
 	
 	gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL, NULL, NULL,
 			1, gtk_get_current_event_time());
+}
+
+void show_window_clicked_callback (GtkWidget *widget, gpointer data)
+{
+	if(GTK_WIDGET_VISIBLE(glade_xml_get_widget(xml, "mainWindow")))
+	{
+		gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
+	}
+	else
+	{
+		gtk_window_present((GtkWindow *)glade_xml_get_widget(xml, "mainWindow"));
+	}
 }
 
 void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data)
@@ -846,12 +886,24 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+
+void window_state_event_callback (GtkWidget *widget, 
+		GdkEventWindowState *event)
+{
+	if ((event->new_window_state & GDK_WINDOW_STATE_ICONIFIED) &&
+		( event->changed_mask & GDK_WINDOW_STATE_ICONIFIED ))
+	{	
+			gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
+	}
+}
+
 void setup_widgets()
 {
 #if USE_TRAY_ICON
-	/* TODO hide on minimise	
+	/* hide on minimise*/	
 	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
-	*/
+	g_signal_connect (mainwindow, "window-state-event", 
+			G_CALLBACK (window_state_event_callback), NULL);
 #else
 	GtkWidget * closebutton = glade_xml_get_widget(xml, "closebutton");
 	gtk_widget_hide(closebutton);
@@ -867,7 +919,9 @@ void setup_widgets()
 	gtk_widget_set_sensitive ( (GtkWidget *) check, FALSE);
 	GtkWidget * notif_t =  glade_xml_get_widget(xml, "notiftime");
 	gtk_widget_set_sensitive ( (GtkWidget *) notif_t, FALSE);
-
+	GtkWidget * notif_c =  glade_xml_get_widget(xml, "notifmenucheck");
+	gtk_widget_set_sensitive ( (GtkWidget *) notif_c, FALSE);
 #endif
 }
+
 

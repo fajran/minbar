@@ -9,6 +9,7 @@
 #include "defines.h"
 
 #define PROGRAM_NAME	"Gnome Prayer Times"
+/*#define USE_TRAY_ICON   (0)*/
 #define USE_TRAY_ICON   (!(GTK_MINOR_VERSION < 9))
 #define USE_NOTIFY	(USE_TRAY_ICON & HAVE_NOTIFY)
 
@@ -101,7 +102,6 @@ void update_remaining()
 	int next_minutes = ptList[next_prayer_id].minute + ptList[next_prayer_id].hour*60;
 	time_t 	result;
 	struct 	tm * curtime;
-	g_print("REMOVE ME: In update_remaining \n");
 
 	result 	= time(NULL);
 	curtime = localtime(&result);
@@ -127,7 +127,6 @@ void update_remaining()
 	g_free(remainString);
 }
 
-#if USE_TRAY_ICON
 void update_date_label()
 {
 	gchar * dayString, * miladiString, * dateString;
@@ -149,7 +148,6 @@ void update_date_label()
 	g_free(miladiString);	
 	g_free(dayString);	
 }
-#endif
 
 void calculate_prayer_table()
 {
@@ -245,9 +243,7 @@ void update_date()
 	prayerDate->day 	= g_date_get_day(currentDate);
 	prayerDate->month 	= g_date_get_month(currentDate);
 	prayerDate->year 	= g_date_get_year(currentDate);
-#if USE_TRAY_ICON	
 	update_date_label();
-#endif
 	g_free(currentDate);
 }
 

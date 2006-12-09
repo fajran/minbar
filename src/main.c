@@ -101,7 +101,8 @@ void update_remaining()
 	int next_minutes = ptList[next_prayer_id].minute + ptList[next_prayer_id].hour*60;
 	time_t 	result;
 	struct 	tm * curtime;
-	
+	g_print("REMOVE ME: In update_remaining \n");
+
 	result 	= time(NULL);
 	curtime = localtime(&result);
 	int cur_minutes = curtime->tm_min + curtime->tm_hour * 60; 

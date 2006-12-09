@@ -1,12 +1,4 @@
-## Makefile.am - process this file with automake
-## Anthony Ventimiglia
-## Copyright 2002 GNU GPL
-
-SUBDIRS = src pixmaps data
-
-#DISTCLEANFILES = \
-#		 config.guess            \
-#		 config.sub
+EXTRA_DIST = gprayer.png kaabatrayicon.png quran.png
 
 #schemadir   = @GCONF_SCHEMA_FILE_DIR@
 #schema_DATA = gprayer.schemas

@@ -87,7 +87,8 @@ AC_CONFIG_FILES( [
 		  Makefile
 		  data/Makefile
 		  pixmaps/Makefile
-		  src/Makefile
+		  src/Makefile 
+		  data/gprayer.glade
 		  ])
 
 AC_OUTPUT

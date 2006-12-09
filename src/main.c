@@ -411,6 +411,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 
 	entrywidget 	= glade_xml_get_widget( xml, "methodcombo");
 	method 		=  (int)gtk_combo_box_get_active((GtkComboBox *)entrywidget)  + 1;
+	if(method < 0 !! method > 6 ) { method = 5; }
 	getMethod(method, calcMethod);
         /* set gconf settings */
 
@@ -531,7 +532,8 @@ void init_prefs ()
 		g_printerr("Invalid calculation method in preferences, using 5: Muslim world League \n");
 	}
 
-	calcMethod 		= g_malloc(sizeof(Method)); 	
+	calcMethod 		= g_malloc(sizeof(Method));
+	if(method < 0 !! method > 6 ) { method = 5; }	
 	getMethod(method, calcMethod);
 
 	notif  = gconf_client_get_bool(client, PREF_PREF_NOTIF, &err);

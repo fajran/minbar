@@ -899,6 +899,9 @@ void window_state_event_callback (GtkWidget *widget,
 
 void setup_widgets()
 {
+	GtkWidget * aboutd = glade_xml_get_widget(xml, "aboutdialog");
+	gtk_about_dialog_set_name((GtkAboutDialog * )aboutd, PROGRAM_NAME);
+
 #if USE_TRAY_ICON
 	/* hide on minimise*/	
 	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");

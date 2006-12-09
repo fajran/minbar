@@ -244,8 +244,9 @@ void update_date()
 	prayerDate->day 	= g_date_get_day(currentDate);
 	prayerDate->month 	= g_date_get_month(currentDate);
 	prayerDate->year 	= g_date_get_year(currentDate);
-		
+#if USE_TRAY_ICON	
 	update_date_label();
+#endif
 	g_free(currentDate);
 }
 

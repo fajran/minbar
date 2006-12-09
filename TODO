@@ -3,7 +3,7 @@ adn, please see gprayer.glade.in @pixmaps@ values (3)
 Also, GPRAYER_PIXMAPS_DIR in src/ needs to be correct.
 	(this doesn't show errors there because it use primarily used in
 	tray icon)
-
+also (probably) the same value in .desktop.in
 
 add .desktop entries
 Translations (generate pots)

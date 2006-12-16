@@ -2,6 +2,7 @@
 #define GLADE_MAIN_INTERFACE  "gprayer.glade"
 
 /* Pictures, Icons, Graphics, etc */
+
 #define GPRAYER_KAABA_ICON	"kaabatrayicon.png"
 #define GPRAYER_BIG_LOGO	"gprayerlogo.png"
 #define GPRAYER_QURAN		"quran.png"
@@ -17,4 +18,7 @@
 #define	DATE_MARKUP_END 	"</b></span>"
 #define	REMAIN_MARKUP_START 	"<span color='darkgreen'><b>"
 #define	REMAIN_MARKUP_END 	"</b></span>"
+
+/* gettext shortcut */
+#define _(string) gettext(string)
 

@@ -51,7 +51,7 @@
 	<applyto>/apps/gprayer/prefs/correction</applyto>
         <owner>gprayer</owner>
         <type>int</type>
-        <default>-3</default>
+        <default>3</default>
         <locale name="C">
           <short>Time Zone, difference from GMT</short>
         </locale>

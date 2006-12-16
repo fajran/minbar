@@ -1,3 +1,21 @@
+2006-12-16  Abderrahim Kitouni  <a.kitouni@gmail.com>
+
+	* main.c : Added i18n support (using gettext).
+
+	* data/gprayer.schemas : Macca is GMT+3, and not -3.
+
+	* defines.h : Added a shortcut for gettext
+
+	* bootstrap : added a call to glib-gettextize.
+
+	* po/ : Added POTFILE.in, gprayer.pot, and ar.po
+	
+	* configure.in, Makefile.am : added gettext support and po subdirectory.
+
+	* data/gprayer.glade.in, src/Makefile.am : fixed pixmaps.
+	
+	* TODO : updated accordingly.
+
 2006-12-07  Djihed Afifi  <djihed@gmail.com>
 
 	* main.c : USE_NOTIFY checks.

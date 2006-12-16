@@ -4,6 +4,8 @@
 #include <itl/prayer.h>
 #include <itl/hijri.h>
 #include <gst/gst.h>
+#include <libintl.h>
+#include <locale.h>
 #include "main.h"
 #include "prefs.h"
 #include "defines.h"
@@ -32,18 +34,18 @@ static int 		next_prayer_id = -1;
 
 /* for prayer.h functions */
 static Date 		* prayerDate;
-static Location 	* loc;
+static Location		* loc;
 static Method		* calcMethod;
 static Prayer 		ptList[6];
 
 /* For libraries */
-static GConfClient     	* client;
-static GladeXML 	* xml;
-static GError 		* err 	= NULL;
+static GConfClient	* client;
+static GladeXML		* xml;
+static GError		* err 	= NULL;
 /* For gstreamer */
-static GstElement 	*pipeline, *source, *parser, *decoder, *conv, *sink;
-static GMainLoop 	*loop;
-static GstBus 		*bus;
+static GstElement	*pipeline, *source, *parser, *decoder, *conv, *sink;
+static GMainLoop	*loop;
+static GstBus		*bus;
 static GtkFileFilter 	*filter_all;
 static GtkFileFilter 	*filter_supported;
 
@@ -55,14 +57,10 @@ static GDate		* currentDate;
 
 sDate 			* hijri_date;
 
-/* TODO localise */
-gchar * hijri_month[13] = {"skip",
-                      "Muharram", "Safar", "Rabi I", "Rabi II",
-                      "Jumada I", "Jumada II", "Rajab", "Shaaban",
-                      "Ramadan", "Shawwal", "Thul-Qiaadah", "Thul-Hijja"};
+/* init moved for i18n */
+gchar * hijri_month[13];
 
-gchar * time_names[6] = {"Subh", "Shorook", "Dhuhr", 
-			"Asr", "Maghreb", "isha'a"};
+gchar * time_names[6];
 
 #if USE_NOTIFY
 NotifyNotification * notification;
@@ -119,7 +117,7 @@ void update_remaining()
 	gchar * remainString;
 	remainString = g_malloc(400);
 	g_snprintf(remainString, 400, 
-			"%sApproximatly %d hours and %d minutes\nuntil next prayer: %s.%s", 
+			_("%sApproximatly %d hours and %d minutes\nuntil next prayer: %s.%s"), 
 			REMAIN_MARKUP_START, hours, minutes, time_names[next_prayer_id],
 			REMAIN_MARKUP_END);
 	gtk_label_set_markup((GtkLabel *) glade_xml_get_widget(xml, 
@@ -181,7 +179,7 @@ void play_events()
 		{
 			gchar * message;
 			message = g_malloc(400);
-			g_snprintf(message, 400, "%d minutes until %s prayer.", 
+			g_snprintf(message, 400, _("%d minutes until %s prayer."), 
 					notiftime, time_names[i]); 
 			show_notification(message);
 			g_free(message);
@@ -195,7 +193,7 @@ void play_events()
 			{
 				gchar * message;
 				message = g_malloc(400);
-				g_snprintf(message, 400, "It is time for %s prayer.", time_names[i]); 
+				g_snprintf(message, 400, _("It is time for %s prayer."), time_names[i]); 
 
 				show_notification(message);
 				g_free(message);
@@ -311,7 +309,7 @@ void init_vars()
 	loc->degreeLat 		= lat;
 	loc->degreeLong 	= lon;
 	loc->gmtDiff 		= correction;
-	loc->dst 		= 0;
+	loc->dst		= 0;
 	loc->seaLevel 		= 0;
 	loc->pressure 		= 1010;
 	loc->temperature	= 10;
@@ -527,7 +525,7 @@ void init_prefs ()
 	}
 	if( method < 0 || method > 6)
 	{
-		g_printerr("Invalid calculation method in preferences, using 5: Muslim world League \n");
+		g_printerr(_("Invalid calculation method in preferences, using 5: Muslim world League \n"));
 	}
 
 	calcMethod 		= g_malloc(sizeof(Method));
@@ -650,7 +648,7 @@ gboolean bus_call (GstBus     *bus,
 			gst_message_parse_error (msg, &err, &debug);
 			g_free (debug);
 
-			g_print ("Error: %s\n", err->message);
+			g_print (_("Error: %s\n"), err->message);
 			g_error_free (err);
 
 			set_file_status(FALSE);
@@ -713,13 +711,13 @@ int init_pipelines()
 void setup_file_filters (void)
 {
 	filter_all = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter_all, "All files");
+	gtk_file_filter_set_name (filter_all, _("All files"));
 	gtk_file_filter_add_pattern (filter_all, "*");
 	g_object_ref (filter_all);
 
 	filter_supported = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter_supported,
-		"Supported files");
+		_("Supported files"));
 	gtk_file_filter_add_mime_type (filter_supported, "application/ogg");
 	g_object_ref (filter_supported);
 }
@@ -838,6 +836,36 @@ void create_notification()
 /**** Main ****/
 int main(int argc, char *argv[]) 
 {
+	/* init gettext */
+
+	setlocale (LC_ALL, "");
+	bindtextdomain (GETTEXT_PACKAGE, LOCALE_DIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
+
+	/* I couldn't find a better way, feel free to change */
+
+	hijri_month[0]	= _("skip");
+	hijri_month[1]	= _("Muharram");
+	hijri_month[2]	= _("Safar");
+	hijri_month[3]	= _("Rabi I");
+	hijri_month[4]	= _("Rabi II");
+	hijri_month[5]	= _("Jumada I");
+	hijri_month[6]	= _("Jumada II");
+	hijri_month[7]	= _("Rajab");
+	hijri_month[8]	= _("Shaaban");
+	hijri_month[9]	= _("Ramadan");
+	hijri_month[10]	= _("Shawwal");
+	hijri_month[11]	= _("Thul-Qiaadah");
+	hijri_month[12]	= _("Thul-Hijja");
+
+	time_names[0]	= _("Subh");
+	time_names[1]	= _("Shorook");
+	time_names[2]	= _("Dhuhr");
+	time_names[3]	= _("Asr");
+	time_names[4]	= _("Maghreb");
+	time_names[5]	= _("Isha'a");
+
 	/* init libraries */
 	gtk_init(&argc, &argv);
 	glade_init();

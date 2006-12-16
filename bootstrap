@@ -121,3 +121,8 @@ automake${amvers} --foreign --add-missing --copy
 # Remove cruft that we no longer want
 rm -Rf autom4te.cache
 
+
+
+
+# use glib's gettext
+glib-gettextize -f -c

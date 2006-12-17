@@ -1,13 +1,14 @@
 --Release blocking:
 make maintainer-clean leaves some generated files, is this normal?
+adn?
 
 add .desktop entries
 manpage
-free athan.ogg
 
 --Next versions
 better artwork
 city names (implicit): use gnome-applets-locations
+appropriate plurals support
 
 Seperate APP:
 -hijri events

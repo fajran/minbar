@@ -10,7 +10,6 @@
 #include "prefs.h"
 #include "defines.h"
 
-#define PROGRAM_NAME	"Gnome Prayer Times"
 /*#define USE_TRAY_ICON   (0)*/
 #define USE_TRAY_ICON   (!(GTK_MINOR_VERSION < 9))
 #define USE_NOTIFY	(USE_TRAY_ICON & HAVE_NOTIFY)
@@ -20,7 +19,7 @@
 #endif
 
 /* Preferences */ 
-	
+static const gchar * 	program_name ;
 static gfloat 		lat;
 static gfloat 		height;
 static gfloat 		lon;
@@ -74,7 +73,7 @@ inline void set_status_tooltip()
 {
 	gchar * tooltiptext;
 	tooltiptext = g_malloc(2000);
-	g_snprintf(tooltiptext, 2000, "\t" PROGRAM_NAME "\t\n\n"
+	g_snprintf(tooltiptext, 2000, "\t %s \t\n\n"
 					" %s:  %02d:%02d \n"
 				 	" %s:  %02d:%02d \n"
 					" %s:  %02d:%02d \n"
@@ -82,6 +81,7 @@ inline void set_status_tooltip()
 					" %s:  %02d:%02d \n"
 					" %s:  %02d:%02d"
 					,
+					program_name,
 			time_names[0], ptList[0].hour, ptList[0].minute,
 			time_names[1], ptList[1].hour, ptList[1].minute,
 			time_names[2], ptList[2].hour, ptList[2].minute,
@@ -835,7 +835,7 @@ void close_callback( GtkWidget *widget,
 void show_notification(gchar * message)
 {
 	notify_notification_update(notification,
-				PROGRAM_NAME,
+				program_name,
 				message,
 				GTK_STOCK_ABOUT);
 	notify_notification_show(notification, NULL);
@@ -844,7 +844,7 @@ void show_notification(gchar * message)
 void create_notification()
 {
 	notification = notify_notification_new
-                                            (PROGRAM_NAME,
+                                            (program_name,
                                              NULL,
                                              NULL,
 					     NULL);
@@ -864,6 +864,7 @@ int main(int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 
 	/* I couldn't find a better way, feel free to change */
+	program_name = _("Gnome Prayer Times");
 
 	hijri_month[0]	= _("skip");
 	hijri_month[1]	= _("Muharram");
@@ -891,7 +892,7 @@ int main(int argc, char *argv[])
 	glade_init();
  	gconf_init(argc, argv, NULL);
 #if USE_NOTIFY
-	notify_init(PROGRAM_NAME);
+	notify_init(program_name);
 #endif
 	/* load gconf client */
 	client = gconf_client_get_default();
@@ -948,7 +949,7 @@ void window_state_event_callback (GtkWidget *widget,
 void setup_widgets()
 {
 	GtkWidget * aboutd = glade_xml_get_widget(xml, "aboutdialog");
-	gtk_about_dialog_set_name((GtkAboutDialog * )aboutd, PROGRAM_NAME);
+	gtk_about_dialog_set_name((GtkAboutDialog * )aboutd, program_name);
 
 #if USE_TRAY_ICON
 	/* hide on minimise*/	

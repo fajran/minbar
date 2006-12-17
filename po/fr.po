@@ -1,0 +1,347 @@
+# French translation of gprayer
+# Copyright (C) 2006 Mohammed Adnène Trojette
+# Copyright (C) 2006 Arabeyes
+# This file is distributed under the same license as the gprayer package.
+# Mohammed Adnène Trojette <adn@diwi.org>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gprayer\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-12-15 16:44+0100\n"
+"PO-Revision-Date: 2006-12-17 04:35+0100\n"
+"Last-Translator: Mohammed Adnène Trojette <adn@diwi.org>\n"
+"Language-Team: French <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/main.c:120
+#, c-format
+msgid ""
+"%sApproximatly %d hours and %d minutes\n"
+"until next prayer: %s.%s"
+msgstr "%sApproximativement %d heures et %d minutes\n"
+"d'ici la prochaine prière : %s.%s"
+
+#: src/main.c:182
+#, c-format
+msgid "%d minutes until %s prayer."
+msgstr "%d minutes d'ici la prière du %s."
+
+#: src/main.c:196
+#, c-format
+msgid "It is time for %s prayer."
+msgstr "Il est l'heure de la prière du %s."
+
+#: src/main.c:528
+#, c-format
+msgid ""
+"Invalid calculation method in preferences, using 5: Muslim world League \n"
+msgstr ""
+"Méthode de calcul invalide dans les préférences, méthode 5 utilisée :"
+"Ligue mondiale musulmane \n"
+
+#: src/main.c:651
+#, c-format
+msgid "Error: %s\n"
+msgstr "Erreur : %s\n"
+
+#: src/main.c:714
+msgid "All files"
+msgstr "Tous les fichiers"
+
+#: src/main.c:720
+msgid "Supported files"
+msgstr "Fichiers gérés"
+
+#. I couldn't find a better way, feel free to change
+#: src/main.c:848
+msgid "skip"
+msgstr "sauter"
+
+#: src/main.c:849
+msgid "Muharram"
+msgstr "Muharram"
+
+#: src/main.c:850
+msgid "Safar"
+msgstr "Safar"
+
+#: src/main.c:851
+msgid "Rabi I"
+msgstr "Rabi I"
+
+#: src/main.c:852
+msgid "Rabi II"
+msgstr "Rabi II"
+
+#: src/main.c:853
+msgid "Jumada I"
+msgstr "Jumada I"
+
+#: src/main.c:854
+msgid "Jumada II"
+msgstr "Jumada II"
+
+#: src/main.c:855
+msgid "Rajab"
+msgstr "Rajab"
+
+#: src/main.c:856
+msgid "Shaaban"
+msgstr "Chaaban"
+
+#: src/main.c:857
+msgid "Ramadan"
+msgstr "Ramadan"
+
+#: src/main.c:858
+msgid "Shawwal"
+msgstr "Chawal"
+
+#: src/main.c:859
+msgid "Thul-Qiaadah"
+msgstr "Dhoul-Qaada"
+
+#: src/main.c:860
+msgid "Thul-Hijja"
+msgstr "Dhoul-Hajja"
+
+#: src/main.c:862
+msgid "Subh"
+msgstr "Sobh"
+
+#: src/main.c:863
+msgid "Shorook"
+msgstr "Chourouq"
+
+#: src/main.c:864
+msgid "Dhuhr"
+msgstr "Dhohr"
+
+#: src/main.c:865
+msgid "Asr"
+msgstr "Aasr"
+
+#: src/main.c:866
+msgid "Maghreb"
+msgstr "Maghreb"
+
+#: src/main.c:867
+msgid "Isha'a"
+msgstr "Isha"
+
+#: data/gprayer.glade:8
+msgid "Prayer Times"
+msgstr "Horaires de prière"
+
+#: data/gprayer.glade:24
+msgid "Current date printing error"
+msgstr "Erreur d'affichage de l'heure actuelle"
+
+#: data/gprayer.glade:53
+msgid "<span color=\"red\"><b>00:05</b></span>"
+msgstr "<span color=\"red\"><b>00:05</b></span>"
+
+#: data/gprayer.glade:67
+msgid "<span color=\"red\"><b>00:03</b></span>"
+msgstr "<span color=\"red\"><b>00:03</b></span>"
+
+#: data/gprayer.glade:81
+msgid "<span color=\"red\"><b>00:04</b></span>"
+msgstr "<span color=\"red\"><b>00:04</b></span>"
+
+#: data/gprayer.glade:95
+msgid "<span color=\"red\"><b>00:02</b></span>"
+msgstr "<span color=\"red\"><b>00:02</b></span>"
+
+#: data/gprayer.glade:109
+msgid "<span color=\"red\"><b>00:01</b></span>"
+msgstr "<span color=\"red\"><b>00:01</b></span>"
+
+#: data/gprayer.glade:123
+msgid "<span color=\"red\"><b>00:00</b></span>"
+msgstr "<span color=\"red\"><b>00:00</b></span>"
+
+#: data/gprayer.glade:136
+msgid "<b>Isha'a:</b>"
+msgstr "<b>Isha :</b>"
+
+#: data/gprayer.glade:148
+msgid "<b>Maghreb:</b>"
+msgstr "<b>Maghreb :</b>"
+
+#: data/gprayer.glade:160
+msgid "<b>Asr:</b>"
+msgstr "<b>Aasr :</b>"
+
+#: data/gprayer.glade:172
+msgid "<b>Duhr:</b>"
+msgstr "<b>Dhohr :</b>"
+
+#: data/gprayer.glade:184
+msgid "<b>Sunrise:</b>"
+msgstr "<b>Lever du soleil :</b>"
+
+#: data/gprayer.glade:196
+msgid "<b>Subh:</b>"
+msgstr "<b>Sobh :</b>"
+
+#: data/gprayer.glade:208
+msgid "<b>Times</b>"
+msgstr "<b>Horaires</b>"
+
+#: data/gprayer.glade:240
+msgid "Manchester, UK"
+msgstr "Manchester, Royaume-Uni"
+
+#: data/gprayer.glade:262
+msgid "<b>Location</b>"
+msgstr "<b>Lieu</b>"
+
+#: data/gprayer.glade:292 data/gprayer.glade:1067
+msgid "Play Athan"
+msgstr "Jouer l'appel à la prière"
+
+#: data/gprayer.glade:311
+msgid "Select Athan File"
+msgstr "Choisir le fichier d'appel à la prière"
+
+#: data/gprayer.glade:367
+msgid "<b>Athan</b>"
+msgstr "<b>Appel à la prière</b>"
+
+#: data/gprayer.glade:406
+msgid "Calclation error..."
+msgstr "Erreur de calcul..."
+
+#: data/gprayer.glade:429
+msgid "About"
+msgstr "À propos"
+
+#: data/gprayer.glade:443 data/gprayer.glade:1097
+msgid "gtk-quit"
+msgstr "gtk-quit"
+
+#: data/gprayer.glade:474
+msgid "Edit City Details"
+msgstr "Modifier les coordonnées de la ville"
+
+#: data/gprayer.glade:518
+msgid "Latitude:"
+msgstr "Latitude :"
+
+#: data/gprayer.glade:552
+msgid "Longitude:"
+msgstr "Longitude :"
+
+#: data/gprayer.glade:589
+msgid "City name:"
+msgstr "Nom de ville :"
+
+#: data/gprayer.glade:620
+msgid "Time Zone:"
+msgstr "Fuseau horaire :"
+
+#: data/gprayer.glade:688
+msgid ""
+"Please go to www.islamicfinder.org to\n"
+" find your city details."
+msgstr ""
+"Veuillez consulter www.islamicfinder.org pour trouver les coordonnées\n "
+"de votre ville."
+
+#: data/gprayer.glade:720
+msgid "City Details"
+msgstr "Coordonnées de la ville"
+
+#: data/gprayer.glade:755
+msgid "Yes, notify before:"
+msgstr "Oui, notifier :"
+
+#: data/gprayer.glade:797
+msgid "(in minutes)"
+msgstr "(en minutes)"
+
+#: data/gprayer.glade:822
+msgid ""
+"<b>Note:</b> gprayer was not built with\n"
+"\t\t\t\t\tnotifications support."
+msgstr ""
+
+#: data/gprayer.glade:839
+msgid "<b>Notifications:</b>"
+msgstr "<b>Notifications :</b>"
+
+#: data/gprayer.glade:867
+msgid ""
+"Egyptian General Authority of Survey\n"
+"University of Islamic Sciences, Karachi (Shaf'i)\n"
+"University of Islamic Sciences, Karachi (Hanafi)\n"
+"Islamic Society of North America\n"
+"Muslim World League (MWL)\n"
+"Umm Al-Qurra, Saudi Arabia\n"
+"Fixed Ishaa Interval (always 90)"
+msgstr ""
+
+#: data/gprayer.glade:896
+msgid "<b>Calculation Method:</b>"
+msgstr ""
+
+#: data/gprayer.glade:934
+msgid "Advanced"
+msgstr ""
+
+#: data/gprayer.glade:987
+msgid "Copyright © 2006 Djihed Afifi <djihed@gmail.com>"
+msgstr ""
+
+#: data/gprayer.glade:988
+msgid "Prayer Times on your Desktop"
+msgstr ""
+
+#: data/gprayer.glade:990
+msgid "Website"
+msgstr ""
+
+#: data/gprayer.glade:991
+msgid ""
+"Gnome Prayer Times is free software; you can redistribute it and/or modify "
+"it under the terms of the GNU General Public License as published by the "
+"Free Software Foundation; either version 2 of the License, or (at your "
+"option) any later version.\n"
+"\n"
+"Gnome Prayer Times is distributed in the hope that it will be useful, but "
+"WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY "
+"or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"Gnome Prayer Times; if not, write to the Free Software Foundation, Inc., 59 "
+"Temple Place, Suite 330, Boston, MA  02111-1307  USA"
+msgstr ""
+
+#: data/gprayer.glade:997
+msgid "translator-credits"
+msgstr ""
+
+#: data/gprayer.glade:1027
+msgid "Show/Hide"
+msgstr ""
+
+#: data/gprayer.glade:1041
+msgid "Stop Athan"
+msgstr ""
+
+#: data/gprayer.glade:1060
+msgid "Notifications"
+msgstr ""
+
+#: data/gprayer.glade:1079
+msgid "gtk-preferences"
+msgstr ""
+
+#: data/gprayer.glade:1088
+msgid "gtk-about"
+msgstr ""

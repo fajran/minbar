@@ -116,10 +116,30 @@ void update_remaining()
 
 	gchar * remainString;
 	remainString = g_malloc(400);
-	g_snprintf(remainString, 400, 
+	if ( difference == 0)
+	{
+		g_snprintf(remainString, 400, 
+			_("%sIt is prayer time. %s.%s"), 
+			REMAIN_MARKUP_START, time_names[next_prayer_id],
+			REMAIN_MARKUP_END);
+
+	}
+	else if (difference < 60 )
+	{
+		g_snprintf(remainString, 400, 
+			_("%sApproximatly %d minutes\nuntil next prayer: %s.%s"), 
+			REMAIN_MARKUP_START, minutes, time_names[next_prayer_id],
+			REMAIN_MARKUP_END);
+
+	}
+	else
+	{
+		g_snprintf(remainString, 400, 
 			_("%sApproximatly %d hours and %d minutes\nuntil next prayer: %s.%s"), 
 			REMAIN_MARKUP_START, hours, minutes, time_names[next_prayer_id],
 			REMAIN_MARKUP_END);
+
+	}
 	gtk_label_set_markup((GtkLabel *) glade_xml_get_widget(xml, 
 				"timeleftlabel"), remainString);
 	g_free(remainString);

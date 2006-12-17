@@ -1076,7 +1076,7 @@ You should have received a copy of the GNU General Public License along with Gno
     <child>
       <widget class="GtkImageMenuItem" id="preferencesmenu">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">gtk-preferences</property>
+        <property name="label">gtk-preferences</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="gtk_widget_show" object="editcity"/>
@@ -1085,7 +1085,7 @@ You should have received a copy of the GNU General Public License along with Gno
     <child>
       <widget class="GtkImageMenuItem" id="abouttraymenu">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">gtk-about</property>
+        <property name="label">gtk-about</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="gtk_widget_show" object="aboutdialog"/>
@@ -1094,7 +1094,7 @@ You should have received a copy of the GNU General Public License along with Gno
     <child>
       <widget class="GtkImageMenuItem" id="Quit">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">gtk-quit</property>
+        <property name="label">gtk-quit</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="quit_callback"/>

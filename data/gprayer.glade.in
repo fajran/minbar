@@ -50,7 +50,7 @@
                           <widget class="GtkLabel" id="salatlabel5">
                             <property name="visible">True</property>
                             <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:05&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:05&lt;/b&gt;&lt;/span&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -64,7 +64,7 @@
                           <widget class="GtkLabel" id="salatlabel3">
                             <property name="visible">True</property>
                             <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:03&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:03&lt;/b&gt;&lt;/span&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -78,7 +78,7 @@
                           <widget class="GtkLabel" id="salatlabel4">
                             <property name="visible">True</property>
                             <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:04&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:04&lt;/b&gt;&lt;/span&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -92,7 +92,7 @@
                           <widget class="GtkLabel" id="salatlabel2">
                             <property name="visible">True</property>
                             <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:02&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:02&lt;/b&gt;&lt;/span&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -106,7 +106,7 @@
                           <widget class="GtkLabel" id="salatlabel1">
                             <property name="visible">True</property>
                             <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:01&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:01&lt;/b&gt;&lt;/span&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -120,7 +120,7 @@
                           <widget class="GtkLabel" id="salatlabel0">
                             <property name="visible">True</property>
                             <property name="xalign">0.10000000149011612</property>
-                            <property name="label" translatable="yes">&lt;span color="red"&gt;&lt;b&gt;00:00&lt;/b&gt;&lt;/span&gt;</property>
+                            <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:00&lt;/b&gt;&lt;/span&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="width_chars">7</property>
                           </widget>

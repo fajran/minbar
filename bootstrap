@@ -100,6 +100,10 @@ fi
 # Explain what we are doing from now
 set -x
 
+# gettext support
+glib-gettextize --force --copy
+intltoolize --force --copy --automake
+
 # Bootstrap package
 if test "$libtool" = "yes"; then
   ${libtoolize} --copy --force
@@ -122,7 +126,3 @@ automake${amvers} --foreign --add-missing --copy
 rm -Rf autom4te.cache
 
 
-
-
-# use glib's gettext
-glib-gettextize -f -c

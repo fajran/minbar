@@ -1,2 +1,4 @@
 src/main.c
 data/gprayer.glade
+gprayer.desktop.in
+data/gprayer.schemas.in

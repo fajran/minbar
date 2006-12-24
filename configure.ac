@@ -109,6 +109,7 @@ pixmaps/Makefile
 src/Makefile 
 data/gprayer.glade
 po/Makefile.in
+doc/Makefile
 ])
 
 AC_OUTPUT

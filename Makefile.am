@@ -1,4 +1,4 @@
-SUBDIRS = src pixmaps data po
+SUBDIRS = src pixmaps data po doc
 
 desktopdir = $(datadir)/applications
 desktop_in_files = gprayer.desktop.in

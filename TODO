@@ -1,7 +1,3 @@
---Release blocking:
-add .desktop entries
-manpage
-
 --Next versions
 better artwork
 city names (implicit): use gnome-applets-locations

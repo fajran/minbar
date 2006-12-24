@@ -1,5 +1,7 @@
 2006-12-24  Djihed Afifi  <djihed@gmail.com>
 
+	* doc/* : Added man page.
+
 	* src/main.c : function prototypes removed to header.
 	use gnome translation system.
 	localised date string.

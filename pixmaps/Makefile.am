@@ -1,20 +1,22 @@
-EXTRA_DIST = gprayer.png kaabatrayicon.png quran.png
+icondir = $(datadir)/icons/hicolor/32x32/apps
+icon_DATA = gprayer.png
 
-install-data-local:
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps/$(PACKAGE); \
-	for pixmap in *.png; do \
-	    if test -f $$pixmap; then \
-	      $(INSTALL_DATA) $$pixmap $(DESTDIR)$(datadir)/pixmaps/$(PACKAGE); \
-	    fi \
-	done
+gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
-dist-hook:
-	mkdir $(distdir)/pixmaps; \
-	for pixmap in *.png; do \
-	    if test -f $$pixmap; then \
-	      cp -p $$pixmap $(distdir)/pixmaps; \
-	    fi \
-	done
+install-data-hook:
+	@-if test -z "$(DESTDIR)"; then \
+		echo "Updating Gtk icon cache."; \
+		$(gtk_update_icon_cache); \
+	else \
+		echo "*** Icon cache not updated.  After install, run this:"; \
+		echo "***   $(gtk_update_icon_cache)"; \
+	fi
 
-## End Makefile.am
+logodir = $(datadir)/gprayer/pixmaps
+logo_DATA = gprayer-logo.png
+
+EXTRA_DIST = \
+        $(icon_DATA) \
+        $(logo_DATA)
+
+

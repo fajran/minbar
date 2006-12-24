@@ -9,7 +9,7 @@
     <property name="role">prayertimes</property>
     <property name="resizable">False</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
-    <property name="icon">../pixmaps/@PACKAGE@/quran.png</property>
+    <property name="icon">pixmaps/gprayer-logo.png</property>
     <signal name="delete_event" handler="check_quit_callback"/>
     <signal name="destroy_event" handler="quit_callback"/>
     <child>
@@ -440,7 +440,7 @@
                 <child>
                   <widget class="GtkButton" id="button1">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">gtk-quit</property>
+                    <property name="label">gtk-quit</property>
                     <property name="use_stock">True</property>
                     <signal name="clicked" handler="quit_callback"/>
                   </widget>
@@ -477,7 +477,7 @@
     <property name="modal">True</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="destroy_with_parent">True</property>
-    <property name="icon">../pixmaps/@PACKAGE@/quran.png</property>
+    <property name="icon">pixmaps/gprayer-logo.png</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="skip_taskbar_hint">True</property>
     <signal name="close" handler="gtk_widget_hide" object="editcity"/>
@@ -984,7 +984,7 @@ Fixed Ishaa Interval (always 90)</property>
     </child>
   </widget>
   <widget class="GtkAboutDialog" id="aboutdialog">
-    <property name="copyright" translatable="yes">Copyright © 2006 Djihed Afifi &lt;djihed@gmail.com&gt;</property>
+    <property name="copyright" translatable="yes">Copyright (c) 2006 Djihed Afifi &lt;djihed@gmail.com&gt;</property>
     <property name="comments" translatable="yes">Prayer Times on your Desktop</property>
     <property name="website">http://djihed.com</property>
     <property name="website_label" translatable="yes">Website</property>
@@ -993,9 +993,9 @@ Fixed Ishaa Interval (always 90)</property>
 Gnome Prayer Times is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with Gnome Prayer Times; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</property>
-    <property name="authors">Djihed Afifi &lt;djihed@gmail.com&gt; جهاد عفيفي</property>
+    <property name="authors">Djihed Afifi &lt;djihed@gmail.com&gt;</property>
     <property name="translator_credits" translatable="yes" comments="TRANSLATORS: Replace this string with your names, one name per line.">translator-credits</property>
-    <property name="logo">../pixmaps/@PACKAGE@/quran.png</property>
+    <property name="logo">pixmaps/gprayer-logo.png</property>
     <property name="wrap_license">True</property>
     <signal name="close" handler="gtk_widget_hide" object="aboutdialog"/>
     <signal name="delete_event" handler="gtk_widget_hide" object="aboutdialog"/>

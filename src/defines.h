@@ -3,9 +3,9 @@
 
 /* Pictures, Icons, Graphics, etc */
 
-#define GPRAYER_KAABA_ICON	"kaabatrayicon.png"
-#define GPRAYER_BIG_LOGO	"gprayerlogo.png"
-#define GPRAYER_QURAN		"quran.png"
+#define GPRAYER_KAABA_ICON	"gprayer-logo.png"
+#define GPRAYER_BIG_LOGO	"gprayer-logo.png"
+#define GPRAYER_QURAN		"gprayer-logo.png"
 
 /* Markup for time label */ 
 #define MARKUP_NORMAL_START	"<span color='blue'><b>"
@@ -19,31 +19,4 @@
 #define	REMAIN_MARKUP_START 	"<span color='darkgreen'><b>"
 #define	REMAIN_MARKUP_END 	"</b></span>"
 
-/* gettext shortcut */
-#ifndef __SLICE_INTL_H__
-#define __SLICE_INTL_H__
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif /* HAVE_CONFIG_H */
-
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(String) gettext(String)
-#ifdef gettext_noop
-#define N_(String) gettext_noop(String)
-#else
-#define N_(String) (String)
-#endif
-#else /* NLS is disabled */
-#define _(String) (String)
-#define N_(String) (String)
-#define textdomain(String) (String)
-#define gettext(String) (String)
-#define dgettext(Domain,String) (String)
-#define dcgettext(Domain,String,Type) (String)
-#define bindtextdomain(Domain,Directory) (Domain) 
-#define bind_textdomain_codeset(Domain,Codeset) (Codeset) 
-#endif /* ENABLE_NLS */
-
-#endif /* __SLICE_INTL_H__ */

@@ -4,8 +4,8 @@
 #include <itl/prayer.h>
 #include <itl/hijri.h>
 #include <gst/gst.h>
-#include <libintl.h>
-#include <locale.h>
+#include <glib/gi18n.h>
+
 #include "main.h"
 #include "prefs.h"
 #include "defines.h"
@@ -64,9 +64,6 @@ gchar * time_names[6];
 #if USE_NOTIFY
 NotifyNotification * notification;
 #endif
-
-void setup_widgets();
-void set_status_tooltip();
 
 #if USE_TRAY_ICON
 inline void set_status_tooltip()
@@ -827,7 +824,7 @@ void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data)
 void close_callback( GtkWidget *widget,
 	    gpointer data)
 {
-		gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
+	gtk_main_quit();
 }
 
 /**** Notification Balloons ****/
@@ -859,7 +856,7 @@ int main(int argc, char *argv[])
 	/* init gettext */
 
 	setlocale (LC_ALL, "");
-	bindtextdomain (GETTEXT_PACKAGE, LOCALE_DIR);
+	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 

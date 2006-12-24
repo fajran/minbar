@@ -1,7 +1,4 @@
 --Release blocking:
-make maintainer-clean leaves some generated files, is this normal?
-adn?
-
 add .desktop entries
 manpage
 

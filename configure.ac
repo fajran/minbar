@@ -1,34 +1,34 @@
-dnl Process this file with autoconf to produce a configure script.
-AC_INIT(gprayer, 0.1)
+AC_INIT([gprayer], [0.1],[mailto:djihed@gmail.com],[gprayer])
+
+AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip])
+
+AC_CONFIG_SRCDIR([src])
+
 AM_MAINTAINER_MODE
-AM_INIT_AUTOMAKE(no-define)
-AC_SUBST(ACLOCAL_AMFLAGS, "$ACLOCAL_FLAGS -I m4")
-AC_CONFIG_SRCDIR([src/main.c])
 
-AC_ISC_POSIX
 AC_PROG_CC
+AC_ISC_POSIX
 AC_HEADER_STDC
+AC_PROG_LIBTOOL
 
-AM_PROG_LIBTOOL
+# *****
+# GNOME
+# *****
+
+GNOME_COMMON_INIT
+GNOME_DEBUG_CHECK
+GNOME_COMPILE_WARNINGS([maximum])
+GNOME_MAINTAINER_MODE_DEFINES
+
+# ***************************
+# Check for required packages
+# ***************************
 
 pkg_modules="gconf-2.0 gtk+-2.0 glib-2.0 libglade-2.0 gstreamer-0.10"
-PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
-AC_SUBST(PACKAGE_CFLAGS)
-AC_SUBST(PACKAGE_LIBS)
+PKG_CHECK_MODULES(GPRAYER, [$pkg_modules])
 
 AC_CHECK_HEADER(itl/prayer.h,ITL_LIBS=-litl,AC_MSG_ERROR("itl/prayer.h not found"))
 AC_SUBST(ITL_LIBS)
-
-dnl Use -Wall if we have gcc.
-dnl changequote(,)dnl
-dnl if test "x$GCC" = "xyes"; then
-dnl 	case " $CFLAGS " in
-dnl 		*[\ \ ]-Wall[\ \      ]*) ;;
-dnl 		*) CFLAGS="$CFLAGS -Wall" ;;
-dnl 	esac
-dnl fi
-dnl changequote([,])dnl
-
 
 dnl libnotify check
 LIBNOTIFY_REQUIRED=0.3.0
@@ -74,26 +74,41 @@ if test x$enable_libnotify = xyes ; then
     AC_SUBST(NOTIFY_LIBS)
 fi
 
-ALL_LINGUAS="ar"
+# *************
+# Documentation
+# *************
+
+AC_PATH_PROG(SCROLLKEEPER_CONFIG, scrollkeeper-config,no)
+if test x$SCROLLKEEPER_CONFIG = xno; then
+  AC_MSG_ERROR(Couldn't find scrollkeeper-config, please install the scrollkeeper package)
+fi
+
+# ********************
+# Internationalisation
+# ********************
+
+IT_PROG_INTLTOOL([0.34.90])
+
+GETTEXT_PACKAGE=gprayer
+AC_SUBST([GETTEXT_PACKAGE])
 AM_GLIB_GNU_GETTEXT
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[gettext domain])
 
-GETTEXT_PACKAGE=$PACKAGE
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["${GETTEXT_PACKAGE}"], [gettext domain])
+# *************************************
+# *************************************
 
-AC_C_CONST
-AC_STRUCT_TM
+AC_SUBST([AM_CPPFLAGS])
+AC_SUBST([AM_CFLAGS])
+AC_SUBST([AM_CXXFLAGS])
+AC_SUBST([AM_LDFLAGS])
 
-AM_GCONF_SOURCE_2
-
-AC_CONFIG_FILES( [ 
-		  gprayer.desktop.in
-		  Makefile
-		  data/Makefile
-		  pixmaps/Makefile
-		  src/Makefile 
-		  data/gprayer.glade
-		  po/Makefile.in
-		  ])
+AC_CONFIG_FILES([
+Makefile
+data/Makefile
+pixmaps/Makefile
+src/Makefile 
+data/gprayer.glade
+po/Makefile.in
+])
 
 AC_OUTPUT

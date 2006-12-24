@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-24 00:45+0000\n"
+"POT-Creation-Date: 2006-12-24 02:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,131 +16,131 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:122
+#: ../src/main.c:119
 #, c-format
 msgid "%sIt is prayer time. %s.%s"
 msgstr ""
 
-#: ../src/main.c:130
+#: ../src/main.c:127
 #, c-format
 msgid ""
 "%sApproximatly %d minutes\n"
 "until next prayer: %s.%s"
 msgstr ""
 
-#: ../src/main.c:138
+#: ../src/main.c:135
 #, c-format
 msgid ""
 "%sApproximatly %d hours and %d minutes\n"
 "until next prayer: %s.%s"
 msgstr ""
 
-#: ../src/main.c:202
+#: ../src/main.c:199
 #, c-format
 msgid "%d minutes until %s prayer."
 msgstr ""
 
-#: ../src/main.c:216
+#: ../src/main.c:213
 #, c-format
 msgid "It is time for %s prayer."
 msgstr ""
 
-#: ../src/main.c:548
+#: ../src/main.c:545
 msgid ""
 "Invalid calculation method in preferences, using 5: Muslim world League \n"
 msgstr ""
 
-#: ../src/main.c:671
+#: ../src/main.c:668
 #, c-format
 msgid "Error: %s\n"
 msgstr ""
 
-#: ../src/main.c:734
+#: ../src/main.c:731
 msgid "All files"
 msgstr ""
 
-#: ../src/main.c:740
+#: ../src/main.c:737
 msgid "Supported files"
 msgstr ""
 
 #. I couldn't find a better way, feel free to change
-#: ../src/main.c:867 ../gprayer.desktop.in.h:1
+#: ../src/main.c:864 ../gprayer.desktop.in.h:1
 msgid "Gnome Prayer Times"
 msgstr ""
 
-#: ../src/main.c:869
+#: ../src/main.c:866
 msgid "skip"
 msgstr ""
 
-#: ../src/main.c:870
+#: ../src/main.c:867
 msgid "Muharram"
 msgstr ""
 
-#: ../src/main.c:871
+#: ../src/main.c:868
 msgid "Safar"
 msgstr ""
 
-#: ../src/main.c:872
+#: ../src/main.c:869
 msgid "Rabi I"
 msgstr ""
 
-#: ../src/main.c:873
+#: ../src/main.c:870
 msgid "Rabi II"
 msgstr ""
 
-#: ../src/main.c:874
+#: ../src/main.c:871
 msgid "Jumada I"
 msgstr ""
 
-#: ../src/main.c:875
+#: ../src/main.c:872
 msgid "Jumada II"
 msgstr ""
 
-#: ../src/main.c:876
+#: ../src/main.c:873
 msgid "Rajab"
 msgstr ""
 
-#: ../src/main.c:877
+#: ../src/main.c:874
 msgid "Shaaban"
 msgstr ""
 
-#: ../src/main.c:878
+#: ../src/main.c:875
 msgid "Ramadan"
 msgstr ""
 
-#: ../src/main.c:879
+#: ../src/main.c:876
 msgid "Shawwal"
 msgstr ""
 
-#: ../src/main.c:880
+#: ../src/main.c:877
 msgid "Thul-Qiaadah"
 msgstr ""
 
-#: ../src/main.c:881
+#: ../src/main.c:878
 msgid "Thul-Hijja"
 msgstr ""
 
-#: ../src/main.c:883
+#: ../src/main.c:880
 msgid "Subh"
 msgstr ""
 
-#: ../src/main.c:884
+#: ../src/main.c:881
 msgid "Shorook"
 msgstr ""
 
-#: ../src/main.c:885
+#: ../src/main.c:882
 msgid "Dhuhr"
 msgstr ""
 
-#: ../src/main.c:886
+#: ../src/main.c:883
 msgid "Asr"
 msgstr ""
 
-#: ../src/main.c:887
+#: ../src/main.c:884
 msgid "Maghreb"
 msgstr ""
 
-#: ../src/main.c:888
+#: ../src/main.c:885
 msgid "Isha'a"
 msgstr ""
 

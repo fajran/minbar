@@ -5,6 +5,7 @@
 #include <itl/hijri.h>
 #include <gst/gst.h>
 #include <glib/gi18n.h>
+#include <string.h>
 
 #include "main.h"
 #include "prefs.h"
@@ -144,24 +145,48 @@ void update_remaining()
 
 void update_date_label()
 {
-	gchar * dayString, * miladiString, * dateString;
-	miladiString 	= g_malloc(200);
+	gchar  *miladi, * dateString;
 	dateString 	= g_malloc(500);
-	dayString      = g_malloc(100);
-	g_date_strftime (miladiString, 300, "%d %B %G", currentDate );
-	g_date_strftime (dayString, 100, "%A", currentDate );
+	miladi 		= g_malloc(200);
+
+	char *utf8, *timeformat;
+
+	time_t 	result;
+	struct 	tm tm;
+	result = time(NULL);
+	localtime_r(&result, &tm);
+
+	/* TRANSLATOR: this is a format string for strftime
+	 *             see `man 3 strftime` for more details
+	 *             copy it if you're unsure
+	 */
+	timeformat = g_locale_from_utf8 (_("%d %B %G"), -1,
+			NULL, NULL, NULL);
+	if (!timeformat) 
+	{
+		strcpy (miladi, "!!!");
+	}
+	else if (strftime(miladi, 200, timeformat, &tm) <= 0)
+	{
+		strcpy (miladi, "???");
+	}
+	g_free (timeformat);
+
+	/* Convert to UTF-8 */
+	utf8 = g_locale_to_utf8 (miladi, -1, NULL, NULL, NULL);
+	strcpy (miladi, utf8);
 
 	hijri_date 	= g_malloc(sizeof(sDate));
 	h_date(hijri_date, prayerDate->day, prayerDate->month, prayerDate->year);
-	g_snprintf(dateString, 500, "%s%s %d %s %d \n %s%s", DATE_MARKUP_START, 
-		dayString, hijri_date->day, hijri_month[hijri_date->month], 
-		hijri_date->year, miladiString, DATE_MARKUP_END);
+	g_snprintf(dateString, 500, "%s %d %s %d \n %s%s", DATE_MARKUP_START, 
+	hijri_date->day, hijri_month[hijri_date->month], 
+	hijri_date->year, utf8, DATE_MARKUP_END);
 
 	gtk_label_set_markup((GtkLabel *)glade_xml_get_widget(xml, 
 				"currentdatelabel"), dateString);
 	g_free(dateString);
-	g_free(miladiString);	
-	g_free(dayString);	
+	g_free (utf8);
+	g_free(miladi);
 }
 
 void calculate_prayer_table()

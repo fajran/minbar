@@ -2,6 +2,7 @@
 
 	* src/main.c : function prototypes removed to header.
 	use gnome translation system.
+	localised date string.
 
 	* src/main.h : complete function proptoypes.
 

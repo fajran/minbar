@@ -1,5 +1,6 @@
-GPrayer is a Gnome prayer times application on top of libitl, 
-with athan sound playback and notifications.
+GPrayer is a Gnome prayer times application on top of libit, the
+Arabeyes prayer calculation library, it features athan sound playback 
+and notifications.
 
 After installing it, you are responsible of configuring it correctly
 with your location, time zone and Madhab details.

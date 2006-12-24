@@ -774,11 +774,7 @@ void load_system_tray()
 
 void check_quit_callback(GtkWidget *widget, gpointer data)
 {
-#if USE_TRAY_ICON
-	gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
-#else
 	gtk_main_quit();
-#endif
 }
 
 void quit_callback ( GtkWidget *widget, gpointer data)
@@ -824,7 +820,8 @@ void tray_icon_clicked_callback ( GtkWidget *widget, gpointer data)
 void close_callback( GtkWidget *widget,
 	    gpointer data)
 {
-	gtk_main_quit();
+	gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
+
 }
 
 /**** Notification Balloons ****/

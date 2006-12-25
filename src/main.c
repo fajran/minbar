@@ -983,6 +983,31 @@ void setup_widgets()
 	GtkWidget * aboutd = glade_xml_get_widget(xml, "aboutdialog");
 	gtk_about_dialog_set_name((GtkAboutDialog * )aboutd, program_name);
 
+	/* set the prayer names in the time table */
+	/* done here so we don't duplicate translation */
+	gchar * labeltext;
+	labeltext = g_malloc(100);
+	
+	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[0]);
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "subh"), labeltext);
+
+	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[1]);
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "shourouk"), labeltext);
+	
+	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[2]);
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "duhr"), labeltext);
+
+	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[3]);
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "asr"), labeltext);
+	
+	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[4]);
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "maghreb"), labeltext);
+	
+	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[5]);
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "isha"), labeltext);
+	
+	g_free(labeltext);
+
 #if USE_TRAY_ICON
 	/* hide on minimise*/	
 	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");

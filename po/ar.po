@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gprayer 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-25 02:49+0000\n"
-"PO-Revision-Date: 2006-12-25 02:46+0100\n"
+"PO-Revision-Date: 2006-12-25 02:50+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,8 @@ msgstr ""
 msgid "Time for prayer:"
 msgstr "حان وقت صلاة: "
 
-#: ../src/main.c:133 ../src/main.c:238
+#: ../src/main.c:133
+#: ../src/main.c:238
 #, c-format
 msgid "%d minutes until %s prayer."
 msgstr "بقيت %d دقائق لصلاة %s"
@@ -46,8 +47,7 @@ msgid "It is time for %s prayer."
 msgstr "حان وقت صلاة %s"
 
 #: ../src/main.c:584
-msgid ""
-"Invalid calculation method in preferences, using 5: Muslim world League \n"
+msgid "Invalid calculation method in preferences, using 5: Muslim world League \n"
 msgstr "طريقة الحساب التي حددتها غير سليمة سأستعمل 5 : رابطة العالم الإسلامي\n"
 
 #: ../src/main.c:707
@@ -65,9 +65,8 @@ msgstr "ملفات مدعومة"
 
 #. I couldn't find a better way, feel free to change
 #: ../src/main.c:900
-#, fuzzy
 msgid "Minbar Prayer Times"
-msgstr "أوقات الصّلاة"
+msgstr "أوقات الصّلاة "
 
 #: ../src/main.c:902
 msgid "skip"
@@ -232,33 +231,18 @@ msgid "Manchester, UK"
 msgstr "مانشستر"
 
 #: ../data/minbar.glade.in.h:25
-#, fuzzy
 msgid ""
-"Minbar Prayer Times is free software; you can redistribute it and/or modify "
-"it under the terms of the GNU General Public License as published by the "
-"Free Software Foundation; either version 2 of the License, or (at your "
-"option) any later version.\n"
+"Minbar Prayer Times is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
 "\n"
-"Minbar Prayer Times is distributed in the hope that it will be useful, but "
-"WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY "
-"or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
+"Minbar Prayer Times is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with "
-"Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 "
-"Temple Place, Suite 330, Boston, MA  02111-1307  USA"
+"You should have received a copy of the GNU General Public License along with Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 msgstr ""
-"أوقات الصلاة لجنوم برنامج حر؛ بامكانك إعادة توزيعه أو تعديله تحت شروط الرخصة "
-"العمومية العامة لجنو والتي نشرتها منظمة البرمجيات الحرة؛ سواء الإصدارة 2 من "
-"الرخصة أو أي إصدارة بعدها حسب رغبتك.\n"
+"أوقات الصلاة منبر برنامج حر؛ بامكانك إعادة توزيعه أو تعديله تحت شروط الرخصة العمومية العامة لجنو والتي نشرتها منظمة البرمجيات الحرة؛ سواء الإصدارة 2 من الرخصة أو أي إصدارة بعدها حسب رغبتك.\n"
 "\n"
-"يوزّع برنامج أوقات الصلاة لجنوم على أمل أن يكون مفيدًا لمن يستخدمه دون أدنى "
-"مسؤولية؛ ولا حتى أي ضمان يضمن صلاحية العرض في السوق أو توافقه مع أي استخدام "
-"محدد. يمكنك مراجعة الرخصة العمومية العامة لجنو لمزيد من التفاصيل.\n"
+"يوزّع برنامج أوقات الصلاة منبر على أمل أن يكون مفيدًا لمن يستخدمه دون أدنى مسؤولية؛ ولا حتى أي ضمان يضمن صلاحية العرض في السوق أو توافقه مع أي استخدام محدد. يمكنك مراجعة الرخصة العمومية العامة لجنو لمزيد من التفاصيل.\n"
 "\n"
-"من المفترض أن تكون قد استلمت نسخة من رخصة جنو العامة مع هذا البرنامج؛ في حال "
-"عدم استلامك لذلك، يمكنك مكاتبة: Free Software Foundation, Inc., 59 Temple "
-"Place, Suite 330, Boston, MA  02111-1307  USA."
+"من المفترض أن تكون قد استلمت نسخة من رخصة جنو العامة مع هذا البرنامج؛ في حال عدم استلامك لذلك، يمكنك مكاتبة: Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA."
 
 #: ../data/minbar.glade.in.h:30
 msgid "Notifications"
@@ -319,41 +303,32 @@ msgstr "عبد الرحيم قيطوني <a.kitouni@gmail.com>"
 
 #~ msgid "Gnome Prayer Times"
 #~ msgstr "أوقات الصّلاة"
-
 #~ msgid "Islamic prayer times."
 #~ msgstr "أوقات الصّلاة"
-
 #~ msgid "%sIt is prayer time. %s.%s"
 #~ msgstr "%sحان وقت الصلاة%s.%s"
-
 #~ msgid ""
 #~ "%sApproximatly %d minutes\n"
 #~ "until next prayer: %s.%s"
 #~ msgstr ""
 #~ "%sبقي تقريبا %d  دقائق\n"
 #~ "للصلاة المقبلة: %s.%s"
-
 #~ msgid ""
 #~ "%sApproximatly %d hours and %d minutes\n"
 #~ "until next prayer: %s.%s"
 #~ msgstr ""
 #~ "%sبقي تقريبا %d ساعات و %d دقائق\n"
 #~ "للصلاة المقبلة: %s.%s"
-
 #~ msgid "<b>Asr:</b>"
 #~ msgstr "<b>العصر:</b>"
-
 #~ msgid "<b>Duhr:</b>"
 #~ msgstr "<b>الظهر:</b>"
-
 #~ msgid "<b>Isha'a:</b>"
 #~ msgstr "<b>العشاء:</b>"
-
 #~ msgid "<b>Maghreb:</b>"
 #~ msgstr "<b>المغرب:</b>"
-
 #~ msgid "<b>Subh:</b>"
 #~ msgstr "<b>الصبح:</b>"
-
 #~ msgid "<b>Sunrise:</b>"
 #~ msgstr "<b>الشروق:</b>"
+

@@ -1,4 +1,4 @@
-AC_INIT([minbar], [0.1],[mailto:djihed@gmail.com],[minbar])
+AC_INIT([minbar], [0.2],[mailto:djihed@gmail.com],[minbar])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip])
 

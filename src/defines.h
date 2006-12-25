@@ -4,7 +4,7 @@
 /* Pictures, Icons, Graphics, etc */
 
 #define MINBAR_KAABA_ICON	"minbar-logo.png"
-#define MINBAR_BIG_LOGO	"minbar-logo.png"
+#define MINBAR_BIG_LOGO		"minbar-logo.png"
 #define MINBAR_QURAN		"minbar-logo.png"
 
 /* Markup for time label */ 

@@ -13,7 +13,7 @@ minbar_CPPFLAGS = \
 	-DMINBAR_GLADEDIR=\"$(datadir)/$(PACKAGE)\" \
 	-DMINBAR_PREFDIR=\""/apps/minbar"\" \
 	-DMINBAR_ATHAN_DIR=\"$(datadir)/$(PACKAGE)\" \
-	-DMINBAR_PIXMAPSDIR=\"$(datadir)/$(PACKAGE)/pixmaps\" \
+	-DMINBAR_PIXMAPSDIR=\"$(datadir)/pixmaps\" \
 	$(DISABLE_DEPRECATED)				\
 	$(AM_CPPFLAGS)
 

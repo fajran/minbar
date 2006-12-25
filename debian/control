@@ -1,12 +1,19 @@
-Source: gprayer
+Source: minbar
 Section: misc
 Priority: extra
 Maintainer: Mohammed Adnène Trojette <adn+deb@diwi.org>
 Build-Depends: cdbs, debhelper (>= 5), libglib2.0-dev, libgtk2.0-dev, libglade2-dev, libitl-dev, libgconf2-dev, libgstreamer0.10-dev, gnome-pkg-tools, libnotify-dev
 Standards-Version: 3.7.2
 
-Package: gprayer
+Package: minbar
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: GNOME Islamic prayer times application
+ Minbar is a GNOME Islamic prayer times application on top of libitl,
+ the Arabeyes prayer calculation library.
+ .
+ It runs in background as a tray icon, plays the 'athan' (call to
+ prayer) and notifies when at prayer times.
+ .
+ Minbar works with the main calculation methods (Muslim League by
+ default, Shafii, Hanafi, ...).

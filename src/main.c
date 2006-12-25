@@ -350,7 +350,7 @@ void init_vars()
 	/* set UI vars */
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "selectathan")),
-			(const gchar *) GPRAYER_ATHAN_DIR"/"GPRAYER_DEFAULT_ATHAN);
+			(const gchar *) MINBAR_ATHAN_DIR"/"MINBAR_DEFAULT_ATHAN);
 	setup_file_filters();
 	gtk_file_chooser_add_filter ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "selectathan")),
@@ -798,7 +798,7 @@ gboolean update_interval(gpointer data)
 void load_system_tray()
 {
 	status_icon 	= gtk_status_icon_new_from_file
-		(GPRAYER_PIXMAPSDIR"/"GPRAYER_KAABA_ICON);
+		(MINBAR_PIXMAPSDIR"/"MINBAR_KAABA_ICON);
 	
 	g_signal_connect ((GtkStatusIcon * ) (status_icon), "popup_menu", 
 			G_CALLBACK(tray_icon_right_clicked_callback) , NULL);
@@ -931,7 +931,7 @@ int main(int argc, char *argv[])
 	client = gconf_client_get_default();
 	
 	/* load the interface */
-	xml = glade_xml_new(GPRAYER_GLADEDIR"/"GLADE_MAIN_INTERFACE, NULL, NULL);
+	xml = glade_xml_new(MINBAR_GLADEDIR"/"GLADE_MAIN_INTERFACE, NULL, NULL);
 	/* connect the signals in the interface */
 	glade_xml_signal_autoconnect(xml);
 	

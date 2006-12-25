@@ -1,6 +1,6 @@
-gprayer (0.1-1) experimental; urgency=low
+minbar (0.1-1) experimental; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release. (Closes: #404449)
 
  -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Sun,  3 Dec 2006 02:03:28 +0100
 

@@ -28,13 +28,13 @@
 
 	* po/POTFILE.in : added desktop file and gconf schemas.
 
-	* po/gprayer.pot : updated.
+	* po/minbar.pot : updated.
 
 2006-12-07  Djihed Afifi  <djihed@gmail.com>
 
 	* main.c : Add some logic to avoid displaying hours when there are 0.
 
-	* data/gprayer.glade.in : unmarked non needed translations
+	* data/minbar.glade.in : unmarked non needed translations
 
 	* defines.h : more complete gettext support (for plurals)
 
@@ -48,17 +48,17 @@
 
 	* main.c : Added i18n support (using gettext).
 
-	* data/gprayer.schemas : Macca is GMT+3, and not -3.
+	* data/minbar.schemas : Macca is GMT+3, and not -3.
 
 	* defines.h : Added a shortcut for gettext
 
 	* bootstrap : added a call to glib-gettextize.
 
-	* po/ : Added POTFILE.in, gprayer.pot, and ar.po
+	* po/ : Added POTFILE.in, minbar.pot, and ar.po
 	
 	* configure.in, Makefile.am : added gettext support and po subdirectory.
 
-	* data/gprayer.glade.in, src/Makefile.am : fixed pixmaps.
+	* data/minbar.glade.in, src/Makefile.am : fixed pixmaps.
 	
 	* TODO : updated accordingly.
 
@@ -69,7 +69,7 @@
 
 	* configure.in : libnotify checks.
 	
-	* gprayer.glade : Cleaner preferences.
+	* minbar.glade : Cleaner preferences.
 	Added options to menu popup.
 
 2006-12-07  Djihed Afifi  <djihed@gmail.com>
@@ -79,11 +79,11 @@
 	Added tray icon tooltip.
 	Added Advanced preferences (method, notify..)
 
-	* gprayer.glade: Advanced preferences. Close now quits.
+	* minbar.glade: Advanced preferences. Close now quits.
 
 	* configure.in: libnotify check.
 
-	* gprayer.schemas: schemas for notif, notiftime, method.
+	* minbar.schemas: schemas for notif, notiftime, method.
 
 	* prefs.h : New preferences.
 

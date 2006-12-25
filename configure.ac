@@ -1,4 +1,4 @@
-AC_INIT([gprayer], [0.1],[mailto:djihed@gmail.com],[gprayer])
+AC_INIT([minbar], [0.1],[mailto:djihed@gmail.com],[minbar])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip])
 
@@ -25,7 +25,7 @@ GNOME_MAINTAINER_MODE_DEFINES
 # ***************************
 
 pkg_modules="gconf-2.0 gtk+-2.0 glib-2.0 libglade-2.0 gstreamer-0.10"
-PKG_CHECK_MODULES(GPRAYER, [$pkg_modules])
+PKG_CHECK_MODULES(MINBAR, [$pkg_modules])
 
 AC_CHECK_HEADER(itl/prayer.h,ITL_LIBS=-litl,AC_MSG_ERROR("itl/prayer.h not found"))
 AC_SUBST(ITL_LIBS)
@@ -83,13 +83,19 @@ if test x$SCROLLKEEPER_CONFIG = xno; then
   AC_MSG_ERROR(Couldn't find scrollkeeper-config, please install the scrollkeeper package)
 fi
 
+# **********
+# Use Gconf2
+# **********
+
+AM_GCONF_SOURCE_2
+
 # ********************
 # Internationalisation
 # ********************
 
 IT_PROG_INTLTOOL([0.34.90])
 
-GETTEXT_PACKAGE=gprayer
+GETTEXT_PACKAGE=minbar
 AC_SUBST([GETTEXT_PACKAGE])
 AM_GLIB_GNU_GETTEXT
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[gettext domain])
@@ -107,7 +113,7 @@ Makefile
 data/Makefile
 pixmaps/Makefile
 src/Makefile 
-data/gprayer.glade
+data/minbar.glade
 po/Makefile.in
 doc/Makefile
 ])

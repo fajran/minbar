@@ -6,7 +6,7 @@ test -z "$srcdir" && srcdir=.
 
 REQUIRED_AUTOMAKE_VERSION=1.8
 
-PKG_NAME="gprayer"
+PKG_NAME="minbar"
 
 (test -f $srcdir/src/Makefile.am) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"

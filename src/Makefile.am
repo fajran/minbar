@@ -1,37 +1,37 @@
-bin_PROGRAMS = gprayer
+bin_PROGRAMS = minbar
 
-gprayer_SOURCES = defines.h \
+minbar_SOURCES = defines.h \
                   main.h    \
 		  prefs.h    \
 		  main.c
 
-gprayer_CPPFLAGS = \
+minbar_CPPFLAGS = \
 	-I$(top_srcdir)					\
-	-DG_LOG_DOMAIN=\"Gprayer\"			\
+	-DG_LOG_DOMAIN=\"Minbar\"			\
 	-DDATADIR=\""$(pkgdatadir)"\"			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
-	-DGPRAYER_GLADEDIR=\"$(datadir)/$(PACKAGE)\" \
-	-DGPRAYER_PREFDIR=\""/apps/gprayer"\" \
-	-DGPRAYER_ATHAN_DIR=\"$(datadir)/$(PACKAGE)\" \
-	-DGPRAYER_PIXMAPSDIR=\"$(datadir)/$(PACKAGE)/pixmaps\" \
+	-DMINBAR_GLADEDIR=\"$(datadir)/$(PACKAGE)\" \
+	-DMINBAR_PREFDIR=\""/apps/minbar"\" \
+	-DMINBAR_ATHAN_DIR=\"$(datadir)/$(PACKAGE)\" \
+	-DMINBAR_PIXMAPSDIR=\"$(datadir)/$(PACKAGE)/pixmaps\" \
 	$(DISABLE_DEPRECATED)				\
 	$(AM_CPPFLAGS)
 
-gprayer_CFLAGS = \
-	   $(GPRAYER_CFLAGS)	\
+minbar_CFLAGS = \
+	   $(MINBAR_CFLAGS)	\
 	   $(WARN_CFLAGS)		\
 	   $(AM_CFLAGS)
 
-gprayer_LDFLAGS = \
+minbar_LDFLAGS = \
 	$(AM_LDFLAGS)
 
-gprayer_LDADD = @ITL_LIBS@ \
-	$(GPRAYER_LIBS)	\
+minbar_LDADD = @ITL_LIBS@ \
+	$(MINBAR_LIBS)	\
  	$(INTLLIBS)
 
 if USE_NOTIFY
-gprayer_LDADD += $(NOTIFY_LIBS)
-gprayer_CPPFLAGS += $(NOTIFY_CFLAGS)
+minbar_LDADD += $(NOTIFY_LIBS)
+minbar_CPPFLAGS += $(NOTIFY_CFLAGS)
 endif
 
 

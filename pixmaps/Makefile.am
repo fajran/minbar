@@ -1,5 +1,5 @@
 icondir = $(datadir)/icons/hicolor/32x32/apps
-icon_DATA = gprayer.png
+icon_DATA = minbar.png
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
@@ -13,7 +13,7 @@ install-data-hook:
 	fi
 
 logodir = $(datadir)/pixmaps
-logo_DATA = gprayer-logo.png
+logo_DATA = minbar-logo.png
 
 EXTRA_DIST = \
         $(icon_DATA) \

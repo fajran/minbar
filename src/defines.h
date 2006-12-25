@@ -1,11 +1,11 @@
-#define GPRAYER_DEFAULT_ATHAN "athan.ogg"
-#define GLADE_MAIN_INTERFACE  "gprayer.glade"
+#define MINBAR_DEFAULT_ATHAN "athan.ogg"
+#define GLADE_MAIN_INTERFACE  "minbar.glade"
 
 /* Pictures, Icons, Graphics, etc */
 
-#define GPRAYER_KAABA_ICON	"gprayer-logo.png"
-#define GPRAYER_BIG_LOGO	"gprayer-logo.png"
-#define GPRAYER_QURAN		"gprayer-logo.png"
+#define MINBAR_KAABA_ICON	"minbar-logo.png"
+#define MINBAR_BIG_LOGO	"minbar-logo.png"
+#define MINBAR_QURAN		"minbar-logo.png"
 
 /* Markup for time label */ 
 #define MARKUP_NORMAL_START	"<span color='blue'><b>"

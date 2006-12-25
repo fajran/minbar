@@ -3,9 +3,9 @@
 
             
       <schema>
-        <key>/schemas/apps/gprayer/city/lat</key>
-        <owner>gprayer</owner>
-	<applyto>/apps/gprayer/city/lat</applyto>        
+        <key>/schemas/apps/minbar/city/lat</key>
+        <owner>minbar</owner>
+	<applyto>/apps/minbar/city/lat</applyto>        
 	<type>float</type>
         <default>21.4200</default>
         <locale name="C">
@@ -14,9 +14,9 @@
       </schema>
  
       <schema>
-        <key>/schemas/apps/gprayer/city/lon</key>
-	<applyto>/apps/gprayer/city/lon</applyto>
-        <owner>gprayer</owner>
+        <key>/schemas/apps/minbar/city/lon</key>
+	<applyto>/apps/minbar/city/lon</applyto>
+        <owner>minbar</owner>
         <type>float</type>
         <default>39.8300</default>
         <locale name="C">
@@ -25,9 +25,9 @@
       </schema> 
       
       <schema>
-        <key>/schemas/apps/gprayer/city/name</key>
-	<applyto>/apps/gprayer/city/name</applyto>
-        <owner>gprayer</owner>
+        <key>/schemas/apps/minbar/city/name</key>
+	<applyto>/apps/minbar/city/name</applyto>
+        <owner>minbar</owner>
         <type>string</type>
         <default>Macca</default>
         <locale name="C">
@@ -35,9 +35,9 @@
         </locale>
       </schema> 
  	<schema>
-        <key>/schemas/apps/gprayer/city/height</key>
-	<applyto>/apps/gprayer/city/height</applyto>
-        <owner>gprayer</owner>
+        <key>/schemas/apps/minbar/city/height</key>
+	<applyto>/apps/minbar/city/height</applyto>
+        <owner>minbar</owner>
         <type>float</type>
         <default>0</default>
         <locale name="C">
@@ -47,9 +47,9 @@
      
 
 	<schema>
-        <key>/schemas/apps/gprayer/prefs/correction</key>
-	<applyto>/apps/gprayer/prefs/correction</applyto>
-        <owner>gprayer</owner>
+        <key>/schemas/apps/minbar/prefs/correction</key>
+	<applyto>/apps/minbar/prefs/correction</applyto>
+        <owner>minbar</owner>
         <type>int</type>
         <default>3</default>
         <locale name="C">
@@ -58,9 +58,9 @@
       </schema>   
 	
 	<schema>
-        <key>/schemas/apps/gprayer/prefs/play</key>
-	<applyto>/apps/gprayer/prefs/play</applyto>
-        <owner>gprayer</owner>
+        <key>/schemas/apps/minbar/prefs/play</key>
+	<applyto>/apps/minbar/prefs/play</applyto>
+        <owner>minbar</owner>
         <type>bool</type>
         <default>true</default>
         <locale name="C">
@@ -70,9 +70,9 @@
       
 
 	<schema>
-        <key>/schemas/apps/gprayer/prefs/notif</key>
-	<applyto>/apps/gprayer/prefs/notif</applyto>
-        <owner>gprayer</owner>
+        <key>/schemas/apps/minbar/prefs/notif</key>
+	<applyto>/apps/minbar/prefs/notif</applyto>
+        <owner>minbar</owner>
         <type>bool</type>
         <default>true</default>
         <locale name="C">
@@ -80,9 +80,9 @@
         </locale>
       </schema> 
 	<schema>
-        <key>/schemas/apps/gprayer/prefs/notiftime</key>
-	<applyto>/apps/gprayer/prefs/notiftime</applyto>
-        <owner>gprayer</owner>
+        <key>/schemas/apps/minbar/prefs/notiftime</key>
+	<applyto>/apps/minbar/prefs/notiftime</applyto>
+        <owner>minbar</owner>
         <type>int</type>
         <default>5</default>
         <locale name="C">
@@ -91,9 +91,9 @@
       </schema> 
 
 	<schema>
-        <key>/schemas/apps/gprayer/prefs/method</key>
-	<applyto>/apps/gprayer/prefs/method</applyto>
-        <owner>gprayer</owner>
+        <key>/schemas/apps/minbar/prefs/method</key>
+	<applyto>/apps/minbar/prefs/method</applyto>
+        <owner>minbar</owner>
         <type>int</type>
 	<default>5</default>
 	<locale name="C">

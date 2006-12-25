@@ -1,13 +1,13 @@
-# Arabic translation of gprayer.
+# Arabic translation of minbar.
 # Copyright (C) 2006 Djihed Afifi.
-# This file is distributed under the same license as the gprayer package.
+# This file is distributed under the same license as the minbar package.
 # Abderrahim KITOUNI <a.kitouni@gmail.com>, 2006.
 # , fuzzy
 #
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gprayer 0.1\n"
+"Project-Id-Version: minbar 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-25 01:17+0000\n"
 "PO-Revision-Date: 2006-12-25 00:45+0100\n"
@@ -64,7 +64,7 @@ msgid "Supported files"
 msgstr "ملفات مدعومة"
 
 #. I couldn't find a better way, feel free to change
-#: ../src/main.c:900 ../gprayer.desktop.in.h:1
+#: ../src/main.c:900 ../minbar.desktop.in.h:1
 msgid "Gnome Prayer Times"
 msgstr "أوقات الصّلاة"
 
@@ -144,63 +144,63 @@ msgstr "المغرب"
 msgid "Isha'a"
 msgstr "العشاء"
 
-#: ../data/gprayer.glade.in.h:1
+#: ../data/minbar.glade.in.h:1
 msgid "(in minutes)"
 msgstr "(بالدقائق)"
 
-#: ../data/gprayer.glade.in.h:2
+#: ../data/minbar.glade.in.h:2
 msgid "<b>Athan</b>"
 msgstr "<b>الأذان</b>"
 
-#: ../data/gprayer.glade.in.h:3
+#: ../data/minbar.glade.in.h:3
 msgid "<b>Calculation Method:</b>"
 msgstr "<b>طريقة الحساب:</b>"
 
-#: ../data/gprayer.glade.in.h:4
+#: ../data/minbar.glade.in.h:4
 msgid "<b>Location</b>"
 msgstr "<b>المكان</b>"
 
-#: ../data/gprayer.glade.in.h:5
+#: ../data/minbar.glade.in.h:5
 msgid "<b>Notifications:</b>"
 msgstr "<b>التنبيهات:</b>"
 
-#: ../data/gprayer.glade.in.h:6
+#: ../data/minbar.glade.in.h:6
 msgid "<b>Times</b>"
 msgstr "<b>الأوقات</b>"
 
-#: ../data/gprayer.glade.in.h:7
+#: ../data/minbar.glade.in.h:7
 msgid "About"
 msgstr "حول"
 
-#: ../data/gprayer.glade.in.h:8
+#: ../data/minbar.glade.in.h:8
 msgid "Advanced"
 msgstr "إعدادات متقدمة"
 
-#: ../data/gprayer.glade.in.h:9
+#: ../data/minbar.glade.in.h:9
 msgid "Calclation error..."
 msgstr "خطأ في الحساب"
 
-#: ../data/gprayer.glade.in.h:10
+#: ../data/minbar.glade.in.h:10
 msgid "City Details"
 msgstr "تفاصيل المدينة"
 
-#: ../data/gprayer.glade.in.h:11
+#: ../data/minbar.glade.in.h:11
 msgid "City name:"
 msgstr "اسم المدينة:"
 
-#: ../data/gprayer.glade.in.h:12
+#: ../data/minbar.glade.in.h:12
 msgid "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
 msgstr "جميع الحقوق محفوظة © 2006 جهاد عفيفي <djihed@gmail.com>"
 
-#: ../data/gprayer.glade.in.h:13
+#: ../data/minbar.glade.in.h:13
 msgid "Current date printing error"
 msgstr "خطأ في كتابة التاريخ"
 
-#: ../data/gprayer.glade.in.h:14
+#: ../data/minbar.glade.in.h:14
 msgid "Edit City Details"
 msgstr "تحرير تفاصيل المدينة"
 
-#: ../data/gprayer.glade.in.h:15
+#: ../data/minbar.glade.in.h:15
 msgid ""
 "Egyptian General Authority of Survey\n"
 "University of Islamic Sciences, Karachi (Shaf'i)\n"
@@ -218,7 +218,7 @@ msgstr ""
 "تقويم أم القرى، العربية السعودية\n"
 "فاصل عشاء ثابت (دائما 90)"
 
-#: ../data/gprayer.glade.in.h:22
+#: ../data/minbar.glade.in.h:22
 msgid ""
 "Gnome Prayer Times is free software; you can redistribute it and/or modify "
 "it under the terms of the GNU General Public License as published by the "
@@ -246,27 +246,27 @@ msgstr ""
 "عدم استلامك لذلك، يمكنك مكاتبة: Free Software Foundation, Inc., 59 Temple "
 "Place, Suite 330, Boston, MA  02111-1307  USA."
 
-#: ../data/gprayer.glade.in.h:27
+#: ../data/minbar.glade.in.h:27
 msgid "Latitude:"
 msgstr "دائرة العرض:"
 
-#: ../data/gprayer.glade.in.h:28
+#: ../data/minbar.glade.in.h:28
 msgid "Longitude:"
 msgstr "خط الطول:"
 
-#: ../data/gprayer.glade.in.h:29
+#: ../data/minbar.glade.in.h:29
 msgid "Manchester, UK"
 msgstr "مانشستر"
 
-#: ../data/gprayer.glade.in.h:30
+#: ../data/minbar.glade.in.h:30
 msgid "Notifications"
 msgstr "استخدام أصوات التَّبليغ"
 
-#: ../data/gprayer.glade.in.h:31
+#: ../data/minbar.glade.in.h:31
 msgid "Play Athan"
 msgstr "الأذان"
 
-#: ../data/gprayer.glade.in.h:32
+#: ../data/minbar.glade.in.h:32
 msgid ""
 "Please go to www.islamicfinder.org to\n"
 " find your city details."
@@ -274,48 +274,48 @@ msgstr ""
 "يمكنك البحث عن تفاصيل مدينتك\n"
 "في www.islamicfinder.org"
 
-#: ../data/gprayer.glade.in.h:34
+#: ../data/minbar.glade.in.h:34
 msgid "Prayer Times"
 msgstr "أوقات الصّلاة"
 
-#: ../data/gprayer.glade.in.h:35
+#: ../data/minbar.glade.in.h:35
 msgid "Prayer Times on your Desktop"
 msgstr "أوقات الصلات على مكتبك"
 
-#: ../data/gprayer.glade.in.h:36
+#: ../data/minbar.glade.in.h:36
 msgid "Select Athan File"
 msgstr "اختيار ملف الآذان"
 
-#: ../data/gprayer.glade.in.h:37
+#: ../data/minbar.glade.in.h:37
 msgid "Show/Hide"
 msgstr "إظهار\\إخفاء"
 
-#: ../data/gprayer.glade.in.h:38
+#: ../data/minbar.glade.in.h:38
 msgid "Stop Athan"
 msgstr "اوقف الأذان"
 
-#: ../data/gprayer.glade.in.h:39
+#: ../data/minbar.glade.in.h:39
 msgid "Time Zone:"
 msgstr "المنطقة الزمنية:"
 
-#: ../data/gprayer.glade.in.h:40
+#: ../data/minbar.glade.in.h:40
 msgid "Website"
 msgstr "الموقع"
 
-#: ../data/gprayer.glade.in.h:41
+#: ../data/minbar.glade.in.h:41
 msgid "Yes, notify before:"
 msgstr "نعم، نبهني قبل:"
 
-#: ../data/gprayer.glade.in.h:42
-msgid "gprayer was not built with notifications support."
+#: ../data/minbar.glade.in.h:42
+msgid "minbar was not built with notifications support."
 msgstr "لم يتم بناء برنامج أوقات الصلاة بدعم التنبيهات."
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../data/gprayer.glade.in.h:44
+#: ../data/minbar.glade.in.h:44
 msgid "translator-credits"
 msgstr "عبد الرحيم قيطوني <a.kitouni@gmail.com>"
 
-#: ../gprayer.desktop.in.h:2
+#: ../minbar.desktop.in.h:2
 msgid "Islamic prayer times."
 msgstr "أوقات الصّلاة"
 

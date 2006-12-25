@@ -1,7 +1,7 @@
 SUBDIRS = src pixmaps data po doc
 
 desktopdir = $(datadir)/applications
-desktop_in_files = gprayer.desktop
+desktop_in_files = minbar.desktop
 
 @INTLTOOL_DESKTOP_RULE@
 

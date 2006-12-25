@@ -1,10 +1,11 @@
-GPrayer is a Gnome islamic prayer times application on top of libitl, the
-Arabeyes prayer calculation library, it features athan sound playback 
-and notifications.
+GPrayer is a GNOME Islamic prayer times application on top of libitl,
+the Arabeyes prayer calculation library.
 
-After installing it, you are responsible of configuring it correctly
-with your location, time zone and Madhab details, so you get the
-correct salat times.
+It runs in background as a tray icon, plays the 'athan' (call to
+prayer) and notifies when at prayer times.
+
+GPrayer works with the main calculation methods (Muslim League by
+default, Shafii, Hanafi, ...).
 
 BUILDING
 --------
@@ -12,27 +13,31 @@ BUILDING
 You need a few libraries to build from source, on debian/ubuntu
 these are:
 
-gnome-common
-automake1.9 
-libitl-dev
+automake1.9
 gettext
+gnome-common
+libglib2.0-dev
+libgtk2.0-dev
+libglade2-dev
+libitl-dev
 libgconf2-dev
-libgtk2.0-dev  
-libglade2-dev 
-libgstreamer0.10-dev 
+libgstreamer0.10-dev
 libnotify-dev
 
-I think the rest should be installed by default on all linux 
-ditributions, if not, please let me know.
+Build essentials: make, gcc, ...
 
-build procedure:
+Build procedure: you just need to run the following commands
+
 ./autogen.sh
 make
 sudo make install
 
+There is already a binary package for GNU/Debian Linux and
+Debian-derived distributions.
 
-If you build it successfully I would love to know about that,
-so I post what is needed for your particular distribution.
+If you prepared a package for another Linux distribution or ported
+GPrayer to another operating system, please let us know by sending an
+email to developer@arabeyes.org.
 
 --Djihed
 djihed@gmail.com

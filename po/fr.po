@@ -17,9 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/main.c:125
-#, fuzzy
 msgid "Time for prayer:"
-msgstr "Il est l'heure de la prière du %s."
+msgstr "Il est de prier :"
 
 #: ../src/main.c:133 ../src/main.c:237
 #, c-format
@@ -27,9 +26,9 @@ msgid "%d minutes until %s prayer."
 msgstr "%d minutes d'ici la prière du %s."
 
 #: ../src/main.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "%d hours and %d minutes until %s prayer."
-msgstr "%d minutes d'ici la prière du %s."
+msgstr "%dh%dmin d'ici la prière du %s."
 
 #. TRANSLATOR: this is a format string for strftime
 #. *             see `man 3 strftime` for more details
@@ -48,8 +47,8 @@ msgstr "Il est l'heure de la prière du %s."
 msgid ""
 "Invalid calculation method in preferences, using 5: Muslim world League \n"
 msgstr ""
-"Méthode de calcul invalide dans les préférences, méthode 5 utilisée\ : Ligue "
-"mondiale musulmane \n"
+"Méthode de calcul invalide dans les préférences, méthode 5 utilisée :\n"
+"Ligue mondiale musulmane \n"
 
 #: ../src/main.c:706
 #, c-format
@@ -66,7 +65,6 @@ msgstr "Fichiers gérés"
 
 #. I couldn't find a better way, feel free to change
 #: ../src/main.c:899 ../gprayer.desktop.in.h:1
-#, fuzzy
 msgid "Gnome Prayer Times"
 msgstr "Horaires de prière"
 

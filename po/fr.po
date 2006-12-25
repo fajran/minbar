@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: minbar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-25 02:42+0000\n"
+"POT-Creation-Date: 2006-12-25 02:49+0000\n"
 "PO-Revision-Date: 2006-12-24 00:53+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -66,7 +66,8 @@ msgstr "Fichiers gérés"
 
 #. I couldn't find a better way, feel free to change
 #: ../src/main.c:900
-msgid "Gnome Prayer Times"
+#, fuzzy
+msgid "Minbar Prayer Times"
 msgstr "Horaires de prière"
 
 #: ../src/main.c:902
@@ -213,33 +214,33 @@ msgid ""
 msgstr ""
 
 #: ../data/minbar.glade.in.h:22
+msgid "Latitude:"
+msgstr "Latitude :"
+
+#: ../data/minbar.glade.in.h:23
+msgid "Longitude:"
+msgstr "Longitude :"
+
+#: ../data/minbar.glade.in.h:24
+msgid "Manchester, UK"
+msgstr "Manchester, Royaume-Uni"
+
+#: ../data/minbar.glade.in.h:25
 msgid ""
-"Gnome Prayer Times is free software; you can redistribute it and/or modify "
+"Minbar Prayer Times is free software; you can redistribute it and/or modify "
 "it under the terms of the GNU General Public License as published by the "
 "Free Software Foundation; either version 2 of the License, or (at your "
 "option) any later version.\n"
 "\n"
-"Gnome Prayer Times is distributed in the hope that it will be useful, but "
+"Minbar Prayer Times is distributed in the hope that it will be useful, but "
 "WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY "
 "or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
 "more details.\n"
 "\n"
 "You should have received a copy of the GNU General Public License along with "
-"Gnome Prayer Times; if not, write to the Free Software Foundation, Inc., 59 "
+"Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 "
 "Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 msgstr ""
-
-#: ../data/minbar.glade.in.h:27
-msgid "Latitude:"
-msgstr "Latitude :"
-
-#: ../data/minbar.glade.in.h:28
-msgid "Longitude:"
-msgstr "Longitude :"
-
-#: ../data/minbar.glade.in.h:29
-msgid "Manchester, UK"
-msgstr "Manchester, Royaume-Uni"
 
 #: ../data/minbar.glade.in.h:30
 msgid "Notifications"
@@ -297,6 +298,9 @@ msgstr ""
 #: ../data/minbar.glade.in.h:44
 msgid "translator-credits"
 msgstr ""
+
+#~ msgid "Gnome Prayer Times"
+#~ msgstr "Horaires de prière"
 
 #, fuzzy
 #~ msgid "Islamic prayer times."

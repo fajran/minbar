@@ -897,7 +897,7 @@ int main(int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 
 	/* I couldn't find a better way, feel free to change */
-	program_name = _("Gnome Prayer Times");
+	program_name = _("Minbar Prayer Times");
 
 	hijri_month[0]	= _("skip");
 	hijri_month[1]	= _("Muharram");

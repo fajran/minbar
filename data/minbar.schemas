@@ -29,7 +29,7 @@
 	<applyto>/apps/minbar/city/name</applyto>
         <owner>minbar</owner>
         <type>string</type>
-        <default>Macca</default>
+        <default>Mecca</default>
         <locale name="C">
           <short>Name of city</short>
         </locale>

@@ -403,7 +403,7 @@
             <child>
               <widget class="GtkLabel" id="timeleftlabel">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Calclation error...</property>
+                <property name="label" translatable="yes">Calculation error...</property>
               </widget>
               <packing>
                 <property name="position">1</property>

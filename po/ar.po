@@ -177,7 +177,7 @@ msgid "Advanced"
 msgstr "إعدادات متقدمة"
 
 #: ../data/minbar.glade.in.h:9
-msgid "Calclation error..."
+msgid "Calculation error..."
 msgstr "خطأ في الحساب"
 
 #: ../data/minbar.glade.in.h:10

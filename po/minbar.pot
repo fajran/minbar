@@ -176,7 +176,7 @@ msgid "Advanced"
 msgstr ""
 
 #: ../data/minbar.glade.in.h:9
-msgid "Calclation error..."
+msgid "Calculation error..."
 msgstr ""
 
 #: ../data/minbar.glade.in.h:10

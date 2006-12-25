@@ -48,7 +48,7 @@ msgstr "Il est l'heure de la prière du %s."
 msgid ""
 "Invalid calculation method in preferences, using 5: Muslim world League \n"
 msgstr ""
-"Méthode de calcul invalide dans les préférences, méthode 5 utilisée :Ligue "
+"Méthode de calcul invalide dans les préférences, méthode 5 utilisée\ : Ligue "
 "mondiale musulmane \n"
 
 #: ../src/main.c:706
@@ -76,7 +76,7 @@ msgstr "sauter"
 
 #: ../src/main.c:902
 msgid "Muharram"
-msgstr "Muharram"
+msgstr "Moharem"
 
 #: ../src/main.c:903
 msgid "Safar"
@@ -84,23 +84,23 @@ msgstr "Safar"
 
 #: ../src/main.c:904
 msgid "Rabi I"
-msgstr "Rabi I"
+msgstr "Rabii I"
 
 #: ../src/main.c:905
 msgid "Rabi II"
-msgstr "Rabi II"
+msgstr "Rabii II"
 
 #: ../src/main.c:906
 msgid "Jumada I"
-msgstr "Jumada I"
+msgstr "Joumada I"
 
 #: ../src/main.c:907
 msgid "Jumada II"
-msgstr "Jumada II"
+msgstr "Joumada II"
 
 #: ../src/main.c:908
 msgid "Rajab"
-msgstr "Rajab"
+msgstr "Rejeb"
 
 #: ../src/main.c:909
 msgid "Shaaban"

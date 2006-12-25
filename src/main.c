@@ -172,6 +172,7 @@ void update_date_label()
 	/* TRANSLATOR: this is a format string for strftime
 	 *             see `man 3 strftime` for more details
 	 *             copy it if you're unsure
+	 *             This will print an example: 12 January 2007
 	 */
 	timeformat = g_locale_from_utf8 (_("%d %B %G"), -1,
 			NULL, NULL, NULL);

@@ -12,7 +12,7 @@ install-data-hook:
 		echo "***   $(gtk_update_icon_cache)"; \
 	fi
 
-logodir = $(datadir)/gprayer/pixmaps
+logodir = $(datadir)/pixmaps
 logo_DATA = gprayer-logo.png
 
 EXTRA_DIST = \

@@ -133,7 +133,7 @@
                           <widget class="GtkLabel" id="isha">
                             <property name="visible">True</property>
                             <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Isha'a:&lt;/b&gt;</property>
+                            <property name="label">&lt;b&gt;Isha'a:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -145,7 +145,7 @@
                           <widget class="GtkLabel" id="maghreb">
                             <property name="visible">True</property>
                             <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Maghreb:&lt;/b&gt;</property>
+                            <property name="label">&lt;b&gt;Maghreb:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -157,7 +157,7 @@
                           <widget class="GtkLabel" id="asr">
                             <property name="visible">True</property>
                             <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Asr:&lt;/b&gt;</property>
+                            <property name="label">&lt;b&gt;Asr:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -169,7 +169,7 @@
                           <widget class="GtkLabel" id="duhr">
                             <property name="visible">True</property>
                             <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Duhr:&lt;/b&gt;</property>
+                            <property name="label">&lt;b&gt;Duhr:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -181,7 +181,7 @@
                           <widget class="GtkLabel" id="shourouk">
                             <property name="visible">True</property>
                             <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Sunrise:&lt;/b&gt;</property>
+                            <property name="label">&lt;b&gt;Sunrise:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -193,7 +193,7 @@
                           <widget class="GtkLabel" id="subh">
                             <property name="visible">True</property>
                             <property name="xalign">0.89999997615814209</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Subh:&lt;/b&gt;</property>
+                            <property name="label">&lt;b&gt;Subh:&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="width_chars">12</property>
                           </widget>
@@ -819,8 +819,7 @@
                                 <property name="visible">True</property>
                                 <property name="xalign">0.070000000298023224</property>
                                 <property name="ypad">12</property>
-                                <property name="label" translatable="yes">&lt;b&gt;Note:&lt;/b&gt; gprayer was not built with
-					notifications support.</property>
+                                <property name="label" translatable="yes">gprayer was not built with notifications support.</property>
                                 <property name="use_markup">True</property>
                                 <property name="wrap">True</property>
                               </widget>

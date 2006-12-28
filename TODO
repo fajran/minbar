@@ -1,4 +1,7 @@
---Next versions
+--Next release
+ability to start minimised to tray
+specify hijri date correction
+visual minimise to tray (see rhythmbox's way to do that)
 better artwork
 city names (implicit): use gnome-applets-locations
 appropriate plurals support

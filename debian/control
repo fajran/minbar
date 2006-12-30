@@ -13,7 +13,7 @@ Description: GNOME Islamic prayer times application
  the Arabeyes prayer calculation library.
  .
  It runs in background as a tray icon, plays the 'athan' (call to
- prayer) and notifies when at prayer times.
+ prayer) and notifies at prayer times.
  .
  Minbar works with the main calculation methods (Muslim League by
  default, Shafii, Hanafi, ...).

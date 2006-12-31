@@ -1,16 +1,16 @@
-GPrayer is a GNOME Islamic prayer times application on top of libitl,
+Minbar is a GNOME Islamic prayer times application on top of libitl,
 the Arabeyes prayer calculation library.
 
 It runs in background as a tray icon, plays the 'athan' (call to
 prayer) and notifies when at prayer times.
 
-GPrayer works with the main calculation methods (Muslim League by
+Minbar works with the main calculation methods (Muslim League by
 default, Shafii, Hanafi, ...).
 
 BUILDING
 --------
 
-You need a few libraries to build from source, on debian/ubuntu
+You need a few libraries and programs to build from source, on debian/ubuntu
 these are:
 
 automake1.9

@@ -49,6 +49,7 @@ msgid ""
 "Invalid calculation method in preferences, using 5: Muslim world League \n"
 msgstr ""
 "روش محاسبهٔ اشتباه در ترجیحات اشتباه است، استفاده از روش ۵: جامعهٔ جهانی مسلمانان"
+"\n"
 
 #: ../src/main.c:707
 #, c-format

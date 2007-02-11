@@ -23,7 +23,7 @@ minbar_CFLAGS = \
 	   $(AM_CFLAGS)
 
 minbar_LDFLAGS = \
-	$(AM_LDFLAGS)
+	$(AM_LDFLAGS) -export-dynamic
 
 minbar_LDADD = @ITL_LIBS@ \
 	$(MINBAR_LIBS)	\

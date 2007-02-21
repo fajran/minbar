@@ -1,7 +1,8 @@
 SUBDIRS = src pixmaps data po doc
 
 desktopdir = $(datadir)/applications
-desktop_in_files = minbar.desktop
+desktop_in_files = minbar.desktop.in
+desktop_DATA = $(sys_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 

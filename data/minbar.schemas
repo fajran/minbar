@@ -101,6 +101,16 @@
         </locale>
       </schema> 
 
+	<schema>
+        <key>/schemas/apps/minbar/prefs/hidden</key>
+	<applyto>/apps/minbar/prefs/hidden</applyto>
+        <owner>minbar</owner>
+        <type>bool</type>
+        <default>false</default>
+        <locale name="C">
+          <short>Whether or not to show the main window on startup</short>
+        </locale>
+      </schema> 
 
 
 </schemalist>

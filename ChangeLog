@@ -1,3 +1,17 @@
+2006-02-17  Djihed Afifi  <djihed@gmail.com>
+
+	* doc/minbar.1 : minor corrections.
+
+	* src/main.c : added ability to start minimised
+
+	* scr/prefs.h : new pref hidden to start minimised.
+
+	* configure.ac : minbar.glade.in no longer needed.
+
+	* data/minbar.glade : new checkbox to enable start minimised.
+
+	* data/minbar.schemas : new preference to start minimised.
+
 2006-12-24  Djihed Afifi  <djihed@gmail.com>
 
 	* doc/* : Added man page.

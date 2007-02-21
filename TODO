@@ -1,5 +1,6 @@
 --Next release
-ability to start minimised to tray
+ability to start minimised to tray -- done
+fix .desktop installation
 specify hijri date correction
 visual minimise to tray (see rhythmbox's way to do that)
 better artwork

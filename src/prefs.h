@@ -7,3 +7,4 @@
 #define PREF_PREF_NOTIF  	MINBAR_PREFDIR "/prefs/notif"
 #define PREF_PREF_NOTIF_TIME 	MINBAR_PREFDIR "/prefs/notiftime"
 #define PREF_PREF_METHOD 	MINBAR_PREFDIR "/prefs/method"
+#define PREF_PREF_HIDDEN 	MINBAR_PREFDIR "/prefs/starthidden"

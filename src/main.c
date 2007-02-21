@@ -31,6 +31,7 @@ static gboolean		notif;
 static int		notiftime;
 static int 		method;
 static int 		next_prayer_id = -1;
+static gboolean 	start_hidden;
 
 /* for prayer.h functions */
 static Date 		* prayerDate;
@@ -460,6 +461,9 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	entrywidget 	= glade_xml_get_widget( xml, "notiftime");
 	notiftime 	=  (int)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
 
+	entrywidget 	= glade_xml_get_widget( xml, "startHidden");
+	start_hidden 	=  gtk_toggle_button_get_active((GtkToggleButton *)entrywidget);
+
 	entrywidget 	= glade_xml_get_widget( xml, "methodcombo");
 	method 		=  (int)gtk_combo_box_get_active((GtkComboBox *)entrywidget)  + 1;
 
@@ -505,6 +509,15 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
+
+	gconf_client_set_bool(client, PREF_PREF_HIDDEN, start_hidden, &err);
+	/* g_print("%d minimised\n", start_hidden);*/
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+
 	gconf_client_set_int(client, PREF_PREF_NOTIF_TIME, notiftime, &err);
 
 	if(err != NULL)
@@ -583,6 +596,12 @@ void init_prefs ()
 	{
 		g_printerr(_("Invalid calculation method in preferences, using 5: Muslim world League \n"));
 	}
+	start_hidden  = gconf_client_get_bool(client, PREF_PREF_HIDDEN, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
 
 	calcMethod 		= g_malloc(sizeof(Method));
 	getMethod(method, calcMethod);
@@ -636,10 +655,23 @@ void init_prefs ()
 			glade_xml_get_widget( xml, "notifmenucheck"),
 			notif);
 
+	/* Start minimised checkbox */
+	gtk_toggle_button_set_active((GtkToggleButton * )
+			glade_xml_get_widget( xml, "startHidden"),
+			start_hidden);
+
 	/* And set the city string in the main window */
 	gtk_label_set_text((GtkLabel *)
 			(glade_xml_get_widget(xml, "locationname")),
 		       	(const gchar *)city_name);
+
+	/* show on start up? */
+	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
+	if(!start_hidden)
+	{
+		gtk_widget_show(mainwindow);
+	}
+
 }
 
 void play_athan_callback()
@@ -896,7 +928,6 @@ int main(int argc, char *argv[])
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	/* I couldn't find a better way, feel free to change */
 	program_name = _("Minbar Prayer Times");
 
 	hijri_month[0]	= _("skip");
@@ -981,6 +1012,7 @@ void window_state_event_callback (GtkWidget *widget,
 
 void setup_widgets()
 {
+
 	GtkWidget * aboutd = glade_xml_get_widget(xml, "aboutdialog");
 	gtk_about_dialog_set_name((GtkAboutDialog * )aboutd, program_name);
 
@@ -1011,6 +1043,7 @@ void setup_widgets()
 
 #if USE_TRAY_ICON
 	/* hide on minimise*/	
+
 	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
 	g_signal_connect (mainwindow, "window-state-event", 
 			G_CALLBACK (window_state_event_callback), NULL);

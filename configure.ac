@@ -113,7 +113,6 @@ Makefile
 data/Makefile
 pixmaps/Makefile
 src/Makefile 
-data/minbar.glade
 po/Makefile.in
 doc/Makefile
 ])

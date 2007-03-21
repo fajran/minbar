@@ -4,8 +4,9 @@ the Arabeyes prayer calculation library.
 It runs in background as a tray icon, plays the 'athan' (call to
 prayer) and notifies when at prayer times.
 
-Minbar works with the main calculation methods (Muslim League by
-default, Shafii, Hanafi, ...).
+Minbar uses the following optional calculation methods:
+
+You must adjust it to make it use the method you follow in Preferences.
 
 BUILDING
 --------
@@ -36,9 +37,13 @@ There is already a binary package for GNU/Debian Linux and
 Debian-derived distributions.
 
 If you prepared a package for another Linux distribution or ported
-GPrayer to another operating system, please let us know by sending an
-email to developer@arabeyes.org.
+Minbar to another operating system, please let me know by sending me
+an email.
+
+CONTACT
+-------
+Djihed Afifi: djihed@gmail.com
+http://djihed.com/minbar
+
 
 --Djihed
-djihed@gmail.com
-24-12-2006

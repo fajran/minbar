@@ -1,3 +1,12 @@
+2006-03-21  Djihed Afifi  <djihed@gmail.com>
+
+	* pixmaps/Makefile.am : proper icon size.
+
+	* Makefile.am : Fix icon rule.
+
+	* minbar.desktop.in : switch to minbar.desktop.in to get translated
+	menu entries.
+
 2006-02-17  Djihed Afifi  <djihed@gmail.com>
 
 	* doc/minbar.1 : minor corrections.

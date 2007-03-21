@@ -1,4 +1,4 @@
-icondir = $(datadir)/icons/hicolor/32x32/apps
+icondir = $(datadir)/icons/hicolor/48x48/apps
 icon_DATA = minbar.png
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor

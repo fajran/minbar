@@ -1,10 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 _Name=Minbar Prayer Times
-_Comment=Islamic prayer times.
+_Comment=Islamic prayer times
 Exec=minbar
 Icon=minbar
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=GNOME;Application;Utility;
+Categories=GNOME;GTK;Utility;Utility;

@@ -2,9 +2,8 @@ SUBDIRS = src pixmaps data po doc
 
 desktopdir = $(datadir)/applications
 desktop_in_files = minbar.desktop.in
-desktop_DATA = $(sys_in_files:.desktop.in=.desktop)
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
-@INTLTOOL_DESKTOP_RULE@
 
 distuninstallcheck_listfiles = find . -type f -print | grep -v scrollkeeper
 
@@ -13,7 +12,8 @@ EXTRA_DIST = \
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
-	$(desktop_in_files)	
+	$(desktop_in_files)	\
+	islamic.directory.in
 
 CLEANFILES = \
 	$(desktop_DATA)
@@ -21,4 +21,8 @@ CLEANFILES = \
 DISTCLEANFILES = \
 	intltool-extract	\
 	intltool-merge		\
-	intltool-update
+	intltool-update		
+
+@INTLTOOL_DESKTOP_RULE@
+
+

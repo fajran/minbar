@@ -1,17 +1,17 @@
 --Next release
-ability to start minimised to tray -- done
-fix .desktop installation
+DONE ability to start minimised to tray
+DONE fix .desktop installation
 specify hijri date correction
 visual minimise to tray (see rhythmbox's way to do that)
 city names (implicit): use gnome-applets-locations
 appropriate plurals support
 Package for deb/rpm/windows
 Gnome panel entries.
-tooltip should show next prayer and all of them as well.
-Use direct conf detection.
+DONE tooltip should show next prayer and all of them as well.
 
 --some time
 better artwork
+Use direct conf detection.
 
 Seperate APP:
 -hijri events

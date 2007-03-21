@@ -57,6 +57,7 @@ static GtkStatusIcon   	* status_icon;
 static GDate		* currentDate;
 
 sDate 			* hijri_date;
+static gchar 		* next_prayer_string;
 
 /* init moved for i18n */
 gchar * hijri_month[13];
@@ -64,7 +65,7 @@ gchar * hijri_month[13];
 gchar * time_names[6];
 
 #if USE_NOTIFY
-NotifyNotification * notification;
+NotifyNotification 	* notification;
 #endif
 
 #if USE_TRAY_ICON
@@ -72,13 +73,15 @@ inline void set_status_tooltip()
 {
 	gchar * tooltiptext;
 	tooltiptext = g_malloc(2000);
-	g_snprintf(tooltiptext, 2000, "\t %s \t\n\n"
+	g_snprintf(tooltiptext, 2000, "    %s \t\n\n"
 					" %s:  %02d:%02d \n"
 				 	" %s:  %02d:%02d \n"
 					" %s:  %02d:%02d \n"
 					" %s:  %02d:%02d \n"
 					" %s:  %02d:%02d \n"
 					" %s:  %02d:%02d"
+					"\n\n"
+					" %s   "
 					,
 					program_name,
 			time_names[0], ptList[0].hour, ptList[0].minute,
@@ -86,13 +89,13 @@ inline void set_status_tooltip()
 			time_names[2], ptList[2].hour, ptList[2].minute,
 			time_names[3], ptList[3].hour, ptList[3].minute,
 			time_names[4], ptList[4].hour, ptList[4].minute,
-			time_names[5], ptList[5].hour, ptList[5].minute
+			time_names[5], ptList[5].hour, ptList[5].minute,
+			next_prayer_string
 		  );
 	gtk_status_icon_set_tooltip(status_icon, tooltiptext);
 	g_free(tooltiptext);
 }
 #endif
-
 void update_remaining()
 {
 	/* converts times to minutes */
@@ -113,47 +116,36 @@ void update_remaining()
 	int hours = difference / 60;
 	int minutes = difference % 60;
 
-	gchar * remainString;
-	remainString = g_malloc(400);
-	gchar * trbuf;
-	trbuf = g_malloc(200);
+	gchar * trbuf; /* Formatted for display within applet */
+			/* leaving next_prayer_string unformatted for tooltip */
+	trbuf = g_malloc(600);
 
 	if (difference == 0)
 	{
-		g_snprintf(remainString, 400,
-			       ("%s%s %s.%s"),
-			REMAIN_MARKUP_START,
-			_("Time for prayer:"), 
-			time_names[next_prayer_id],
-			REMAIN_MARKUP_END);
-
+		g_snprintf(next_prayer_string, 400,
+			_("Time for prayer: %s"), 
+			time_names[next_prayer_id]);
 	}
 	else if (difference < 60 )
 	{
-		g_snprintf(trbuf, 200,
+		g_snprintf(next_prayer_string, 400,
 				_("%d minutes until %s prayer."),
 				minutes, time_names[next_prayer_id]);
-		g_snprintf(remainString, 400,
-			("%s%s%s"),
-			REMAIN_MARKUP_START,
-			trbuf,
-			REMAIN_MARKUP_END);
 	}
 	else
 	{
-		g_snprintf(trbuf, 200,
+		g_snprintf(next_prayer_string, 400,
 				_("%d hours and %d minutes until %s prayer."),
 				hours, minutes, time_names[next_prayer_id]);
-		g_snprintf(remainString, 400,
+	}
+	g_snprintf(trbuf, 600,
 			("%s%s%s"),
 			REMAIN_MARKUP_START,
-			trbuf,
+			next_prayer_string,
 			REMAIN_MARKUP_END);
-	}
 
 	gtk_label_set_markup((GtkLabel *) glade_xml_get_widget(xml, 
-				"timeleftlabel"), remainString);
-	g_free(remainString);
+				"timeleftlabel"), trbuf);
 	g_free(trbuf);
 }
 
@@ -347,6 +339,7 @@ void init_vars()
 {
 	/* Allocate memory for variables */
 	loc 			= g_malloc(sizeof(Location));
+	next_prayer_string = g_malloc(400);
 		
 	/* set UI vars */
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 

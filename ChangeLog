@@ -7,6 +7,10 @@
 	* minbar.desktop.in : switch to minbar.desktop.in to get translated
 	menu entries.
 
+	* data/minbar.schemas.in: Translatable preferences.
+
+	* src/main.c : Specify next prayer name in tooltip.
+
 2006-02-17  Djihed Afifi  <djihed@gmail.com>
 
 	* doc/minbar.1 : minor corrections.

@@ -115,6 +115,8 @@ pixmaps/Makefile
 src/Makefile 
 po/Makefile.in
 doc/Makefile
+data/minbar.glade
+data/minbar.schemas
 ])
 
 AC_OUTPUT

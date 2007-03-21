@@ -12,8 +12,7 @@ EXTRA_DIST = \
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
-	$(desktop_in_files)	\
-	islamic.directory.in
+	$(desktop_in_files)	
 
 CLEANFILES = \
 	$(desktop_DATA)

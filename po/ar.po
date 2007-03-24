@@ -71,7 +71,7 @@ msgstr "أوقات الصّلاة "
 
 #: ../src/main.c:926
 msgid "skip"
-msgstr "تخطي"
+msgstr "تخطى"
 
 #: ../src/main.c:927
 msgid "Muharram"
@@ -167,7 +167,7 @@ msgstr "<b>التنبيهات:</b>"
 
 #: ../data/minbar.glade.in.h:6
 msgid "<b>Options</b>"
-msgstr "خيارات"
+msgstr "<b>خيارات</b>"
 
 #: ../data/minbar.glade.in.h:7
 msgid "<b>Times</b>"
@@ -175,7 +175,7 @@ msgstr "<b>الأوقات</b>"
 
 #: ../data/minbar.glade.in.h:8
 msgid "About"
-msgstr "حول"
+msgstr "حوْل"
 
 #: ../data/minbar.glade.in.h:9
 msgid "Advanced"
@@ -183,7 +183,7 @@ msgstr "إعدادات متقدمة"
 
 #: ../data/minbar.glade.in.h:10
 msgid "Calculation error..."
-msgstr "خطأ في الحساب"
+msgstr "خطأ في الحساب..."
 
 #: ../data/minbar.glade.in.h:11
 msgid "City Details"
@@ -203,7 +203,7 @@ msgstr "خطأ في كتابة التاريخ"
 
 #: ../data/minbar.glade.in.h:15
 msgid "Edit City Details"
-msgstr "تحرير تفاصيل المدينة"
+msgstr "حرِّر تفاصيل المدينة"
 
 #: ../data/minbar.glade.in.h:16
 msgid ""
@@ -220,7 +220,7 @@ msgstr ""
 "جامعة العلوم الإسلامية - كراتشي (حنفي)\n"
 "الجمعية الإسلامية لشمال أمريكا\n"
 "رابطة العالم الإسلامي\n"
-"تقويم أم القرى، العربية السعودية\n"
+"تقويم أم القرى، السعودية\n"
 "فاصل عشاء ثابت (دائما 90)"
 
 #: ../data/minbar.glade.in.h:23
@@ -233,7 +233,7 @@ msgstr "خط الطول:"
 
 #: ../data/minbar.glade.in.h:25
 msgid "Manchester, UK"
-msgstr "مانشستر"
+msgstr "مانشستر، المملكة المتحدة"
 
 #: ../data/minbar.glade.in.h:26
 msgid ""
@@ -247,11 +247,13 @@ msgstr ""
 "\n"
 "يوزّع برنامج أوقات الصلاة منبر على أمل أن يكون مفيدًا لمن يستخدمه دون أدنى مسؤولية؛ ولا حتى أي ضمان يضمن صلاحية العرض في السوق أو توافقه مع أي استخدام محدد. يمكنك مراجعة الرخصة العمومية العامة لجنو لمزيد من التفاصيل.\n"
 "\n"
-"من المفترض أن تكون قد استلمت نسخة من رخصة جنو العامة مع هذا البرنامج؛ في حال عدم استلامك لذلك، يمكنك مكاتبة: Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA."
+"من المفترض أن تكون قد استلمت نسخة من رخصة جنو العامة مع هذا البرنامج؛ في حال عدم استلامك لذلك، يمكنك مكاتبة:"
+"\n"
+"Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA."
 
 #: ../data/minbar.glade.in.h:31
 msgid "Notifications"
-msgstr "استخدام أصوات التَّبليغ"
+msgstr "تنبيهات"
 
 #: ../data/minbar.glade.in.h:32
 #: ../data/minbar.schemas.in.h:7
@@ -276,11 +278,11 @@ msgstr "أوقات الصلات على مكتبك"
 
 #: ../data/minbar.glade.in.h:37
 msgid "Select Athan File"
-msgstr "اختيار ملف الآذان"
+msgstr "اختر ملف الآذان"
 
 #: ../data/minbar.glade.in.h:38
 msgid "Show/Hide"
-msgstr "إظهار\\إخفاء"
+msgstr "أظهر\أخفِ"
 
 #: ../data/minbar.glade.in.h:39
 #: ../data/minbar.schemas.in.h:8
@@ -342,7 +344,7 @@ msgstr "المنطقة الزمنية"
 
 #: ../data/minbar.schemas.in.h:10
 msgid "Whether or not to notify"
-msgstr "نبه او لا"
+msgstr "نبه أم لا"
 
 #: ../minbar.desktop.in.h:1
 msgid "Islamic prayer times"

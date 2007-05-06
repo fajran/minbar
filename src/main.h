@@ -40,6 +40,3 @@ void close_callback(GtkWidget *widget, gpointer data);
 void window_state_event_callback(GtkWidget *widget, GdkEventWindowState *event);
 void on_editcityokbutton_clicked_callback(GtkWidget *widget, gpointer user_data);
 
-
-
-

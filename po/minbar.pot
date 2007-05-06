@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-21 08:54+0000\n"
+"POT-Creation-Date: 2007-05-06 23:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,17 +16,17 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/main.c:126
+#: ../src/main.c:129
 #, c-format
 msgid "Time for prayer: %s"
 msgstr ""
 
-#: ../src/main.c:132 ../src/main.c:231
+#: ../src/main.c:135 ../src/main.c:234
 #, c-format
 msgid "%d minutes until %s prayer."
 msgstr ""
 
-#: ../src/main.c:138
+#: ../src/main.c:141
 #, c-format
 msgid "%d hours and %d minutes until %s prayer."
 msgstr ""
@@ -36,174 +36,170 @@ msgstr ""
 #. *             copy it if you're unsure
 #. *             This will print an example: 12 January 2007
 #.
-#: ../src/main.c:170
+#: ../src/main.c:173
 msgid "%d %B %G"
 msgstr ""
 
-#: ../src/main.c:245
+#: ../src/main.c:248
 #, c-format
 msgid "It is time for %s prayer."
 msgstr ""
 
-#: ../src/main.c:590
+#: ../src/main.c:593
 msgid ""
 "Invalid calculation method in preferences, using 5: Muslim world League \n"
 msgstr ""
 
-#: ../src/main.c:732
+#: ../src/main.c:755
 #, c-format
 msgid "Error: %s\n"
 msgstr ""
 
-#: ../src/main.c:795
+#: ../src/main.c:818
 msgid "All files"
 msgstr ""
 
-#: ../src/main.c:801
+#: ../src/main.c:824
 msgid "Supported files"
 msgstr ""
 
-#: ../src/main.c:924 ../minbar.desktop.in.h:2
+#: ../src/main.c:950 ../minbar.desktop.in.h:2
 msgid "Minbar Prayer Times"
 msgstr ""
 
-#: ../src/main.c:926
+#: ../src/main.c:952
 msgid "skip"
 msgstr ""
 
-#: ../src/main.c:927
+#: ../src/main.c:953
 msgid "Muharram"
 msgstr ""
 
-#: ../src/main.c:928
+#: ../src/main.c:954
 msgid "Safar"
 msgstr ""
 
-#: ../src/main.c:929
+#: ../src/main.c:955
 msgid "Rabi I"
 msgstr ""
 
-#: ../src/main.c:930
+#: ../src/main.c:956
 msgid "Rabi II"
 msgstr ""
 
-#: ../src/main.c:931
+#: ../src/main.c:957
 msgid "Jumada I"
 msgstr ""
 
-#: ../src/main.c:932
+#: ../src/main.c:958
 msgid "Jumada II"
 msgstr ""
 
-#: ../src/main.c:933
+#: ../src/main.c:959
 msgid "Rajab"
 msgstr ""
 
-#: ../src/main.c:934
+#: ../src/main.c:960
 msgid "Shaaban"
 msgstr ""
 
-#: ../src/main.c:935
+#: ../src/main.c:961
 msgid "Ramadan"
 msgstr ""
 
-#: ../src/main.c:936
+#: ../src/main.c:962
 msgid "Shawwal"
 msgstr ""
 
-#: ../src/main.c:937
+#: ../src/main.c:963
 msgid "Thul-Qiaadah"
 msgstr ""
 
-#: ../src/main.c:938
+#: ../src/main.c:964
 msgid "Thul-Hijja"
 msgstr ""
 
-#: ../src/main.c:940
+#: ../src/main.c:966
 msgid "Subh"
 msgstr ""
 
-#: ../src/main.c:941
+#: ../src/main.c:967
 msgid "Shorook"
 msgstr ""
 
-#: ../src/main.c:942
+#: ../src/main.c:968
 msgid "Dhuhr"
 msgstr ""
 
-#: ../src/main.c:943
+#: ../src/main.c:969
 msgid "Asr"
 msgstr ""
 
-#: ../src/main.c:944
+#: ../src/main.c:970
 msgid "Maghreb"
 msgstr ""
 
-#: ../src/main.c:945
+#: ../src/main.c:971
 msgid "Isha'a"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:1
+#: ../data/minbar.glade.h:1
 msgid "(in minutes)"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:2
-msgid "<b>Athan</b>"
-msgstr ""
-
-#: ../data/minbar.glade.in.h:3
+#: ../data/minbar.glade.h:2
 msgid "<b>Calculation Method</b>"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:4
-msgid "<b>Location</b>"
-msgstr ""
-
-#: ../data/minbar.glade.in.h:5
+#: ../data/minbar.glade.h:3
 msgid "<b>Notifications</b>"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:6
+#: ../data/minbar.glade.h:4
 msgid "<b>Options</b>"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:7
+#: ../data/minbar.glade.h:5
 msgid "<b>Times</b>"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:8
+#: ../data/minbar.glade.h:6
 msgid "About"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:9
+#: ../data/minbar.glade.h:7
 msgid "Advanced"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:10
+#: ../data/minbar.glade.h:8
 msgid "Calculation error..."
 msgstr ""
 
-#: ../data/minbar.glade.in.h:11
+#: ../data/minbar.glade.h:9
+msgid "City"
+msgstr ""
+
+#: ../data/minbar.glade.h:10
 msgid "City Details"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:12
+#: ../data/minbar.glade.h:11
 msgid "City name:"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:13
+#: ../data/minbar.glade.h:12
 msgid "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:14
+#: ../data/minbar.glade.h:13
 msgid "Current date printing error"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:15
+#: ../data/minbar.glade.h:14
 msgid "Edit City Details"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:16
+#: ../data/minbar.glade.h:15
 msgid ""
 "Egyptian General Authority of Survey\n"
 "University of Islamic Sciences, Karachi (Shaf'i)\n"
@@ -214,19 +210,19 @@ msgid ""
 "Fixed Ishaa Interval (always 90)"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:23
+#: ../data/minbar.glade.h:22
 msgid "Latitude:"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:24
+#: ../data/minbar.glade.h:23
+msgid "Location"
+msgstr ""
+
+#: ../data/minbar.glade.h:24
 msgid "Longitude:"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:25
-msgid "Manchester, UK"
-msgstr ""
-
-#: ../data/minbar.glade.in.h:26
+#: ../data/minbar.glade.h:25
 msgid ""
 "Minbar Prayer Times is free software; you can redistribute it and/or modify "
 "it under the terms of the GNU General Public License as published by the "
@@ -243,94 +239,114 @@ msgid ""
 "Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:31
+#: ../data/minbar.glade.h:30
 msgid "Notifications"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:32 ../data/minbar.schemas.in.h:7
+#: ../data/minbar.glade.h:31 ../data/minbar.schemas.in.in.h:9
 msgid "Play Athan"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:33
+#: ../data/minbar.glade.h:32
 msgid ""
 "Please go to www.islamicfinder.org to\n"
 " find your city details."
 msgstr ""
 
-#: ../data/minbar.glade.in.h:35
-msgid "Prayer Times"
+#: ../data/minbar.glade.h:34
+msgid "Prayer Calendar"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:36
+#: ../data/minbar.glade.h:35
 msgid "Prayer Times on your Desktop"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:37
-msgid "Select Athan File"
+#: ../data/minbar.glade.h:36
+msgid "Preferences"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:38
+#: ../data/minbar.glade.h:37
 msgid "Show/Hide"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:39 ../data/minbar.schemas.in.h:8
+#: ../data/minbar.glade.h:38 ../data/minbar.schemas.in.in.h:11
 msgid "Start minimised to tray."
 msgstr ""
 
-#: ../data/minbar.glade.in.h:40
+#: ../data/minbar.glade.h:39
 msgid "Stop Athan"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:41
+#: ../data/minbar.glade.h:40
 msgid "Time Zone:"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:42
+#: ../data/minbar.glade.h:41
+msgid "Timetable"
+msgstr ""
+
+#: ../data/minbar.glade.h:42
 msgid "Website"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:43
+#: ../data/minbar.glade.h:43
 msgid "Yes, notify before:"
 msgstr ""
 
-#: ../data/minbar.glade.in.h:44
+#: ../data/minbar.glade.h:44
+msgid "gtk-preferences"
+msgstr ""
+
+#: ../data/minbar.glade.h:45
 msgid "minbar was not built with notifications support."
 msgstr ""
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../data/minbar.glade.in.h:46
+#: ../data/minbar.glade.h:47
 msgid "translator-credits"
 msgstr ""
 
-#: ../data/minbar.schemas.in.h:1
+#: ../data/minbar.schemas.in.in.h:1
 msgid "Calculation method"
 msgstr ""
 
-#: ../data/minbar.schemas.in.h:2
+#: ../data/minbar.schemas.in.in.h:2
 msgid "Height of city"
 msgstr ""
 
-#: ../data/minbar.schemas.in.h:3
+#: ../data/minbar.schemas.in.in.h:3
 msgid "Latitude of city"
 msgstr ""
 
-#: ../data/minbar.schemas.in.h:4
+#: ../data/minbar.schemas.in.in.h:4
 msgid "Longitude of city"
 msgstr ""
 
-#: ../data/minbar.schemas.in.h:5
+#: ../data/minbar.schemas.in.in.h:5
 msgid "Name of city"
 msgstr ""
 
-#: ../data/minbar.schemas.in.h:6
+#: ../data/minbar.schemas.in.in.h:6
 msgid "Notification period"
 msgstr ""
 
-#: ../data/minbar.schemas.in.h:9
+#: ../data/minbar.schemas.in.in.h:7
+msgid "Path to Subh athan file."
+msgstr ""
+
+#: ../data/minbar.schemas.in.in.h:8
+msgid "Path to athan file."
+msgstr ""
+
+#: ../data/minbar.schemas.in.in.h:10
+msgid "Set to true to close when clicking the close button instead of hiding."
+msgstr ""
+
+#: ../data/minbar.schemas.in.in.h:12
 msgid "Time Zone, difference from GMT"
 msgstr ""
 
-#: ../data/minbar.schemas.in.h:10
+#: ../data/minbar.schemas.in.in.h:13
 msgid "Whether or not to notify"
 msgstr ""
 

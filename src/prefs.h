@@ -8,3 +8,6 @@
 #define PREF_PREF_NOTIF_TIME 	MINBAR_PREFDIR "/prefs/notiftime"
 #define PREF_PREF_METHOD 	MINBAR_PREFDIR "/prefs/method"
 #define PREF_PREF_HIDDEN 	MINBAR_PREFDIR "/prefs/starthidden"
+#define PREF_PREF_CLOSES 	MINBAR_PREFDIR "/prefs/closes"
+#define PREF_ATHAN_NORMAL 	MINBAR_PREFDIR "/athan/normal"
+#define PREF_ATHAN_SUBH 	MINBAR_PREFDIR "/athan/subh"

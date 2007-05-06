@@ -1,4 +1,3 @@
-still under development (commit test)_
 Minbar is a GNOME Islamic prayer times application on top of libitl,
 the Arabeyes prayer calculation library.
 
@@ -35,7 +34,7 @@ make
 sudo make install
 
 There is already a binary package for GNU/Debian Linux and
-Debian-derived distributions.
+debian-derived distributions.
 
 If you prepared a package for another Linux distribution or ported
 Minbar to another operating system, please let me know by sending me

@@ -32,6 +32,9 @@ static int		notiftime;
 static int 		method;
 static int 		next_prayer_id = -1;
 static gboolean 	start_hidden;
+static gboolean		close_closes;
+static gchar *		athan_file;
+static gchar * 		athan_subh_file;
 
 /* for prayer.h functions */
 static Date 		* prayerDate;
@@ -599,6 +602,7 @@ void init_prefs ()
 	calcMethod 		= g_malloc(sizeof(Method));
 	getMethod(method, calcMethod);
 
+
 	notif  = gconf_client_get_bool(client, PREF_PREF_NOTIF, &err);
 	if(err != NULL)
 	{
@@ -611,7 +615,26 @@ void init_prefs ()
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-
+	
+	close_closes  = gconf_client_get_bool(client, PREF_PREF_CLOSES, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	athan_file  = gconf_client_get_string(client, PREF_ATHAN_NORMAL, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	athan_subh_file  = gconf_client_get_string(client, PREF_ATHAN_SUBH, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	
 	GtkWidget*  entrywidget;	
 	
 	/* Setting what was found to editcity dialog*/
@@ -838,7 +861,10 @@ void load_system_tray()
 
 void check_quit_callback(GtkWidget *widget, gpointer data)
 {
-	gtk_main_quit();
+	if(close_closes)
+		gtk_main_quit();
+	else
+		gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
 }
 
 void quit_callback ( GtkWidget *widget, gpointer data)
@@ -959,7 +985,7 @@ int main(int argc, char *argv[])
 	/* connect the signals in the interface */
 	glade_xml_signal_autoconnect(xml);
 	
-	/* Set up some widgets and options that not stored in the glade xml */
+	/* Set up some widgets and options that are not stored in the glade xml */
 	setup_widgets();
 	
 	/* System tray icon */
@@ -1005,9 +1031,12 @@ void window_state_event_callback (GtkWidget *widget,
 
 void setup_widgets()
 {
+	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
+	gtk_window_set_icon_name(GTK_WINDOW (mainwindow), "minbar");
 
 	GtkWidget * aboutd = glade_xml_get_widget(xml, "aboutdialog");
 	gtk_about_dialog_set_name((GtkAboutDialog * )aboutd, program_name);
+	gtk_window_set_icon_name(GTK_WINDOW (aboutd), "minbar");
 
 	/* set the prayer names in the time table */
 	/* done here so we don't duplicate translation */
@@ -1037,7 +1066,6 @@ void setup_widgets()
 #if USE_TRAY_ICON
 	/* hide on minimise*/	
 
-	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
 	g_signal_connect (mainwindow, "window-state-event", 
 			G_CALLBACK (window_state_event_callback), NULL);
 #else

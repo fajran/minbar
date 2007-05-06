@@ -1,4 +1,19 @@
-2006-03-21  Djihed Afifi  <djihed@gmail.com>
+2007-05-06  Djihed Afifi  <djihed@gmail.com>
+
+	* README : minor corrections.
+	* TODO : Plans for next release.
+	* configure.ac : no need for glade.in.
+		add variable to configure minbar.schemas.in.in
+	* data/Makefile.am : get schemas.in.
+		shutdown gconftool after install.
+	* pixmaps/Makefile.am : specify uninstall hook
+	* src/main.c : Close now only hides.
+		handle preference to close instead (gconf)
+		Athan location preference for subh and normal
+		Load icon from icon cache, not direct image name, to allowtheming.
+	* src/prefs.h : new preferences for athan locations and close option.
+
+2007-03-21  Djihed Afifi  <djihed@gmail.com>
 
 	* pixmaps/Makefile.am : proper icon size.
 
@@ -11,7 +26,7 @@
 
 	* src/main.c : Specify next prayer name in tooltip.
 
-2006-02-17  Djihed Afifi  <djihed@gmail.com>
+2007-02-17  Djihed Afifi  <djihed@gmail.com>
 
 	* doc/minbar.1 : minor corrections.
 

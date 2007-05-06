@@ -8,6 +8,19 @@ appropriate plurals support
 Package for deb/rpm/windows
 Gnome panel entries.
 DONE tooltip should show next prayer and all of them as well.
+DONE store athan path.
+add CLI option to start minimised
+Hijri Calendar
+Prayer Timetable
+Qibla Direction
+Multiple Athan files, subh athan file as well.
+DONE close hides (+option)
+Windows port
+.deb, .rpm
+COOL: change minute string according to changing the number live.
+TODO: display day (sabth, ahad, e...)
+plural forms
+
 
 --some time
 better artwork
@@ -15,5 +28,4 @@ Use direct conf detection.
 
 Seperate APP:
 -hijri events
--prayer times tables
 

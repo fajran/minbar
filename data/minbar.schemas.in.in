@@ -110,10 +110,40 @@
         <locale name="C">
           <short>Start minimised to tray.</short>
         </locale>
+      </schema>
+
+ 	<schema>
+        <key>/schemas/apps/minbar/prefs/closes</key>
+	<applyto>/apps/minbar/prefs/closes</applyto>
+        <owner>minbar</owner>
+        <type>bool</type>
+        <default>false</default>
+        <locale name="C">
+          <short>Set to true to close when clicking the close button instead of hiding.</short>
+        </locale>
+      </schema> 
+ 	
+	<schema>
+        <key>/schemas/apps/minbar/athan/normal</key>
+	<applyto>/apps/minbar/athan/normal</applyto>
+        <owner>minbar</owner>
+        <type>string</type>
+        <default>@ATHANDIR@/athan.ogg</default>
+        <locale name="C">
+          <short>Path to athan file.</short>
+        </locale>
       </schema> 
 
+ 	<schema>
+        <key>/schemas/apps/minbar/athan/subh</key>
+	<applyto>/apps/minbar/athan/subh</applyto>
+        <owner>minbar</owner>
+        <type>string</type>
+        <default>@ATHANDIR@/athan.ogg</default>
+        <locale name="C">
+          <short>Path to Subh athan file.</short>
+        </locale>
+      </schema> 
 
-</schemalist>
-
-                            
+</schemalist>                    
 </gconfschemafile>

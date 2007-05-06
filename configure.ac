@@ -108,15 +108,22 @@ AC_SUBST([AM_CFLAGS])
 AC_SUBST([AM_CXXFLAGS])
 AC_SUBST([AM_LDFLAGS])
 
+if test "x${prefix}" = "xNONE"; then
+	ATHANDIR="${ac_default_prefix}/${DATADIRNAME}/${PACKAGE}"
+else
+	ATHANDIR="${prefix}/${DATADIRNAME}/${PACKAGE}"
+fi
+
+AC_SUBST(ATHANDIR)
+
 AC_CONFIG_FILES([
-Makefile
-data/Makefile
-pixmaps/Makefile
-src/Makefile 
-po/Makefile.in
-doc/Makefile
-data/minbar.glade
-data/minbar.schemas
+	Makefile
+	data/Makefile
+	pixmaps/Makefile
+	src/Makefile 
+	po/Makefile.in
+	doc/Makefile
+	data/minbar.schemas.in
 ])
 
 AC_OUTPUT

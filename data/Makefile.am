@@ -6,6 +6,7 @@ schemasdir = $(GCONF_SCHEMA_FILE_DIR)
 schemas_in_files = minbar.schemas.in
 schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 
+# TODO: there should be a uninstall aswell
 install-data-local:
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(datadir)/$(PACKAGE)

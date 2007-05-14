@@ -1,5 +1,4 @@
 #include <gtk/gtk.h>
-#include <gconf/gconf-client.h>
 #include <glade/glade.h>
 #include <itl/prayer.h>
 #include <itl/hijri.h>
@@ -8,8 +7,8 @@
 #include <string.h>
 
 #include "main.h"
-#include "prefs.h"
 #include "defines.h"
+#include "prefs.h"
 
 /*#define USE_TRAY_ICON   (0)*/
 #define USE_TRAY_ICON   (!(GTK_MINOR_VERSION < 9))
@@ -43,7 +42,11 @@ static Method		* calcMethod;
 static Prayer 		ptList[6];
 
 /* For libraries */
+#if USE_GCONF
 static GConfClient	* client;
+#else
+static GKeyFile		* conffile;
+#endif
 static GladeXML		* xml;
 static GError		* err 	= NULL;
 /* For gstreamer */
@@ -157,19 +160,27 @@ void update_date_label()
 	gchar  *miladi, * dateString;
 	dateString 	= g_malloc(500);
 	miladi 		= g_malloc(200);
-
-	char *utf8, *timeformat;
+	/* TRANSLATOR: this is a format string for strftime
+	 *             see `man 3 strftime` for more details
+	 *             copy it if you're unsure
+	 *             This will print an example: 12 January 2007
+	 */
+	if (!g_date_strftime (miladi, 200, _("%d %B %G"), currentDate))
+	{
+		strcpy (miladi, "???");
+	}
+/*	char *utf8, *timeformat;
 
 	time_t 	result;
 	struct 	tm tm;
 	result = time(NULL);
 	localtime_r(&result, &tm);
 
-	/* TRANSLATOR: this is a format string for strftime
+	 * TRANSLATOR: this is a format string for strftime
 	 *             see `man 3 strftime` for more details
 	 *             copy it if you're unsure
 	 *             This will print an example: 12 January 2007
-	 */
+	 *
 	timeformat = g_locale_from_utf8 (_("%d %B %G"), -1,
 			NULL, NULL, NULL);
 	if (!timeformat) 
@@ -182,20 +193,20 @@ void update_date_label()
 	}
 	g_free (timeformat);
 
-	/* Convert to UTF-8 */
+	* Convert to UTF-8 *
 	utf8 = g_locale_to_utf8 (miladi, -1, NULL, NULL, NULL);
 	strcpy (miladi, utf8);
-
+*/
 	hijri_date 	= g_malloc(sizeof(sDate));
 	h_date(hijri_date, prayerDate->day, prayerDate->month, prayerDate->year);
 	g_snprintf(dateString, 500, "%s %d %s %d \n %s%s", DATE_MARKUP_START, 
 	hijri_date->day, hijri_month[hijri_date->month], 
-	hijri_date->year, utf8, DATE_MARKUP_END);
+	hijri_date->year, miladi, DATE_MARKUP_END);
 
 	gtk_label_set_markup((GtkLabel *)glade_xml_get_widget(xml, 
 				"currentdatelabel"), dateString);
 	g_free(dateString);
-	g_free (utf8);
+	//g_free (utf8);
 	g_free(miladi);
 }
 
@@ -347,7 +358,7 @@ void init_vars()
 	/* set UI vars */
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "selectathan")),
-			(const gchar *) MINBAR_ATHAN_DIR"/"MINBAR_DEFAULT_ATHAN);
+			(const gchar *) MINBAR_DATADIR"/"MINBAR_DEFAULT_ATHAN);
 	setup_file_filters();
 	gtk_file_chooser_add_filter ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "selectathan")),
@@ -380,8 +391,12 @@ void on_enabledathanmenucheck_toggled_callback(GtkWidget *widget,
 			glade_xml_get_widget( xml, "playathan"),
 			enable_athan);
 
+#if USE_GCONF
 	gconf_client_set_bool(client, PREF_PREF_PLAY, 
 				enable_athan, &err);
+#else
+	g_key_file_set_boolean(conffile, "prefs", "play", enable_athan);
+#endif
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -401,8 +416,12 @@ void on_enabledathancheck_toggled_callback(GtkWidget *widget,
 			glade_xml_get_widget( xml, "playathan"),
 			enable_athan);
 
+#if USE_GCONF
 	gconf_client_set_bool(client, PREF_PREF_PLAY, 
 				enable_athan, &err);
+#else
+	g_key_file_set_boolean(conffile, "prefs", "play", enable_athan);
+#endif
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -424,8 +443,13 @@ void on_notifmenucheck_toggled_callback(GtkWidget *widget,
 			glade_xml_get_widget( xml, "notifmenucheck"),
 			notif);
 
+#if USE_GCONF
 	gconf_client_set_bool(client, PREF_PREF_NOTIF, 
 				notif, &err);
+#else
+	g_key_file_set_boolean(conffile, "prefs", "notif", notif);
+#endif
+
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -465,6 +489,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 
 	if(method < 0 || method > 6 ) { method = 5; }
 	getMethod(method, calcMethod);
+#if USE_GCONF
         /* set gconf settings */
 
 	gconf_client_set_float(client, PREF_CITY_LAT, lat, &err);
@@ -528,6 +553,38 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
+#else
+	g_key_file_set_double(conffile, "city", "latitude", lat);	
+	g_key_file_set_double(conffile, "city", "longitude", lon);
+	g_key_file_set_string(conffile, "city", "name", city_name);
+	g_key_file_set_double(conffile, "city", "height", height);
+	g_key_file_set_integer(conffile, "prefs", "correction", correction);
+
+	g_key_file_set_boolean(conffile, "prefs", "play", enable_athan);
+	g_key_file_set_boolean(conffile, "prefs", "starthidden", start_hidden);
+	g_key_file_set_boolean(conffile, "prefs", "notif", notif);
+	g_key_file_set_integer(conffile, "prefs", "notiftime", notiftime);
+
+	g_key_file_set_integer(conffile, "prefs", "method", method);
+	
+	// write this config to the file
+	gsize len;
+	gchar* data = g_key_file_to_data (conffile, &len, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	gchar * file = g_strconcat(g_get_user_config_dir(),"/minbar" ,NULL);
+	g_file_set_contents(file,data,len,&err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	g_free(data);
+	g_free(file);
+#endif
 
 	/* Now hide the cityedit dialog */
 	gtk_widget_hide(glade_xml_get_widget( xml, "editcity"));
@@ -546,6 +603,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 
 void init_prefs ()
 {
+#if USE_GCONF
 	lat 	= gconf_client_get_float(client, PREF_CITY_LAT, &err);
 	if(err != NULL)
 	{
@@ -615,7 +673,7 @@ void init_prefs ()
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-	
+
 	close_closes  = gconf_client_get_bool(client, PREF_PREF_CLOSES, &err);
 	if(err != NULL)
 	{
@@ -634,7 +692,97 @@ void init_prefs ()
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-	
+
+#else
+
+	lat = g_key_file_get_double(conffile, "city", "latitude", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	lon 	= g_key_file_get_double(conffile, "city", "longitude", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	city_name = g_key_file_get_string(conffile, "city", "name", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	height 	= g_key_file_get_double(conffile, "city", "height", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	enable_athan  = g_key_file_get_boolean(conffile, "prefs", "play", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	correction  = g_key_file_get_integer(conffile, "prefs", "correction", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	method  = g_key_file_get_integer(conffile, "prefs", "method", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	if( method < 0 || method > 6)
+	{
+		g_printerr(_("Invalid calculation method in preferences, using 5: Muslim world League \n"));
+	}
+	start_hidden  = g_key_file_get_boolean(conffile, "prefs", "starthidden", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+
+	calcMethod 		= g_malloc(sizeof(Method));
+	getMethod(method, calcMethod);
+
+	notif  = g_key_file_get_boolean(conffile, "prefs", "notif", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	notiftime  = g_key_file_get_integer(conffile, "prefs", "notiftime", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	close_closes  = g_key_file_get_boolean(conffile, "prefs", "closes", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	athan_file  = g_key_file_get_string(conffile, "athan", "normal", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	athan_subh_file  = g_key_file_get_string(conffile, "athan", "subh", &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+#endif
+
 	GtkWidget*  entrywidget;	
 	
 	/* Setting what was found to editcity dialog*/
@@ -973,15 +1121,27 @@ int main(int argc, char *argv[])
 	/* init libraries */
 	gtk_init(&argc, &argv);
 	glade_init();
- 	gconf_init(argc, argv, NULL);
 #if USE_NOTIFY
 	notify_init(program_name);
 #endif
+#if USE_GCONF
+	gconf_init(argc, argv, NULL);
 	/* load gconf client */
 	client = gconf_client_get_default();
-	
+#else
+	conffile = g_key_file_new ();
+	gchar * tmp = g_build_filename(g_get_user_config_dir(),"minbar",NULL);
+	g_key_file_load_from_file (conffile, tmp,
+					G_KEY_FILE_NONE, &err);
+	g_free(tmp);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+#endif
 	/* load the interface */
-	xml = glade_xml_new(MINBAR_GLADEDIR"/"GLADE_MAIN_INTERFACE, NULL, NULL);
+	xml = glade_xml_new(g_build_filename(MINBAR_DATADIR,"minbar",GLADE_MAIN_INTERFACE,NULL), NULL, NULL);
 	/* connect the signals in the interface */
 	glade_xml_signal_autoconnect(xml);
 	

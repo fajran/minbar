@@ -1,3 +1,15 @@
+2006-05-14  Abderrahim Kitouni  <a.kitouni@gmail.com>
+
+	* configure.ac, src/main.c, src/prefs.h : add the possibility to use a
+	keyfile instead of gconf for storing preferences. Minbar doesn't rely on
+	gnome anymore.
+	
+	* configure.ac, acinclude.m4 : added the possibility to use relative
+	filenames for its resources (mainly to be used on Windows). added a
+	couple of GPL'd macros to compute the relative paths.
+	
+	* src/main.c : rewrote part of update_date_label so that it uses glib.
+	
 2007-05-06  Djihed Afifi  <djihed@gmail.com>
 
 	* README : minor corrections.

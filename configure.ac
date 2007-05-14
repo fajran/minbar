@@ -1,15 +1,15 @@
 AC_INIT([minbar], [0.2],[mailto:djihed@gmail.com],[minbar])
 
-AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip])
+AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip -Wall])
 
 AC_CONFIG_SRCDIR([src])
 
 AM_MAINTAINER_MODE
 
 AC_PROG_CC
-AC_ISC_POSIX
+#AC_ISC_POSIX
 AC_HEADER_STDC
-AC_PROG_LIBTOOL
+#AC_PROG_LIBTOOL
 
 # *****
 # GNOME
@@ -24,7 +24,7 @@ GNOME_MAINTAINER_MODE_DEFINES
 # Check for required packages
 # ***************************
 
-pkg_modules="gconf-2.0 gtk+-2.0 glib-2.0 libglade-2.0 gstreamer-0.10"
+pkg_modules="gtk+-2.0 glib-2.0 libglade-2.0 gstreamer-0.10"
 PKG_CHECK_MODULES(MINBAR, [$pkg_modules])
 
 AC_CHECK_HEADER(itl/prayer.h,ITL_LIBS=-litl,AC_MSG_ERROR("itl/prayer.h not found"))
@@ -33,8 +33,8 @@ AC_SUBST(ITL_LIBS)
 dnl libnotify check
 LIBNOTIFY_REQUIRED=0.3.0
 AC_ARG_ENABLE(libnotify,
-            AC_HELP_STRING([--disable-libnotify],
-			   [Disable libnotify support]),,
+            [AS_HELP_STRING([--disable-libnotify],
+			   [Disable libnotify support])],,
 	      enable_libnotify=auto)
 if test "x$enable_libnotify" != "xno"; then
 	PKG_CHECK_MODULES(NOTIFY,                            \
@@ -83,11 +83,28 @@ if test x$SCROLLKEEPER_CONFIG = xno; then
   AC_MSG_ERROR(Couldn't find scrollkeeper-config, please install the scrollkeeper package)
 fi
 
-# **********
-# Use Gconf2
-# **********
+# ****************************************
+# Preferences system (gconf or key-files)
+# ****************************************
+AC_ARG_ENABLE(gconf, [AS_HELP_STRING([--enable-gconf],
+		[whether to use gconf or a keyfile for storing configuration 
+		(by default use gconf if available)])],
+		[gconf=$enableval],
+		[gconf=auto])
 
+PKG_CHECK_MODULES(GCONF, [gconf-2.0], gconf_available=yes, gconf_available=no)
 AM_GCONF_SOURCE_2
+if test x"$gconf" = "xyes"; then
+	if test x"$gconf_available" = "xyes"; then
+		AC_DEFINE([USE_GCONF], [1], [Define to 1 if you want to use gconf.])
+	else
+		AC_MSG_ERROR("You asked for the use of Gconf but it's not available")
+	fi
+elif test x"$gconf" = "xauto" && test x"$gconf_available" = "xyes"; then
+	AC_DEFINE([USE_GCONF], [1], [Define to 1 if you want to use gconf.])
+	gconf=yes
+fi
+AM_CONDITIONAL(USE_GCONF, test x"$gconf" = "xyes")
 
 # ********************
 # Internationalisation
@@ -101,12 +118,27 @@ AM_GLIB_GNU_GETTEXT
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[gettext domain])
 
 # *************************************
+# relative filenames (for windows)
+# *************************************
+AC_ARG_ENABLE(relative-filenames, [AS_HELP_STRING([--enable-relative-filenames],
+		[whether to use gconf or a keyfile for storing configuration 
+		(by default use gconf if available)])],
+		[relative=$enableval],
+		[relative=no])
+if test x"$relative" = "xyes"; then
+	adl_COMPUTE_RELATIVE_PATHS([bindir:datadir:data])
+else
+	data=$datadir
+fi
+AC_SUBST([data])
+
+# *************************************
 # *************************************
 
-AC_SUBST([AM_CPPFLAGS])
-AC_SUBST([AM_CFLAGS])
-AC_SUBST([AM_CXXFLAGS])
-AC_SUBST([AM_LDFLAGS])
+#AC_SUBST([AM_CPPFLAGS])
+#AC_SUBST([AM_CFLAGS])
+#AC_SUBST([AM_CXXFLAGS])
+#AC_SUBST([AM_LDFLAGS])
 
 if test "x${prefix}" = "xNONE"; then
 	ATHANDIR="${ac_default_prefix}/${DATADIRNAME}/${PACKAGE}"

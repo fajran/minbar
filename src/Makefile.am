@@ -1,26 +1,31 @@
 bin_PROGRAMS = minbar
 
+# TODO: I think the headers should go in noinst_HEADERS
 minbar_SOURCES = defines.h \
                   main.h    \
 		  prefs.h    \
 		  main.c
 
+# TODO: /apps/minbar is hardcoded. It should be in defines.h and the first -I isn't necessary
 minbar_CPPFLAGS = \
 	-I$(top_srcdir)					\
 	-DG_LOG_DOMAIN=\"Minbar\"			\
-	-DDATADIR=\""$(pkgdatadir)"\"			\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
-	-DMINBAR_GLADEDIR=\"$(datadir)/$(PACKAGE)\" \
+ 	-DGNOMELOCALEDIR=\""$(data)/locale"\"	\
 	-DMINBAR_PREFDIR=\""/apps/minbar"\" \
-	-DMINBAR_ATHAN_DIR=\"$(datadir)/$(PACKAGE)\" \
-	-DMINBAR_PIXMAPSDIR=\"$(datadir)/pixmaps\" \
+	-DMINBAR_PIXMAPSDIR=\"$(data)/pixmaps\" \
+	-DMINBAR_DATADIR=\"$(data)\"
 	$(DISABLE_DEPRECATED)				\
 	$(AM_CPPFLAGS)
+
+#	-DDATADIR=\""$(pkgdatadir)"\"			\
+#	-DMINBAR_GLADEDIR=\"$(datadir)/$(PACKAGE)\" \
+#	-DMINBAR_ATHAN_DIR=\"$(datadir)/$(PACKAGE)\" \
+#
 
 minbar_CFLAGS = \
 	   $(MINBAR_CFLAGS)	\
 	   $(WARN_CFLAGS)		\
-	   $(AM_CFLAGS)
+	   $(AM_CFLAGS) 
 
 minbar_LDFLAGS = \
 	$(AM_LDFLAGS) -export-dynamic
@@ -34,4 +39,8 @@ minbar_LDADD += $(NOTIFY_LIBS)
 minbar_CPPFLAGS += $(NOTIFY_CFLAGS)
 endif
 
+if USE_GCONF
+minbar_LDADD += $(GCONF_LIBS)
+minbar_CPPFLAGS += $(GCONF_CFLAGS)
+endif
 

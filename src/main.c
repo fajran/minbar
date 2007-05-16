@@ -10,7 +10,6 @@
 #include "defines.h"
 #include "prefs.h"
 
-/*#define USE_TRAY_ICON   (0)*/
 #define USE_TRAY_ICON   (!(GTK_MINOR_VERSION < 9))
 #define USE_NOTIFY	(USE_TRAY_ICON & HAVE_NOTIFY)
 
@@ -64,7 +63,7 @@ static GDate		* currentDate;
 
 sDate 			* hijri_date;
 static gchar 		* next_prayer_string;
-
+static int 		calling_athan_for;
 /* init moved for i18n */
 gchar * hijri_month[13];
 
@@ -206,6 +205,7 @@ void update_date_label()
 	gtk_label_set_markup((GtkLabel *)glade_xml_get_widget(xml, 
 				"currentdatelabel"), dateString);
 	g_free(dateString);
+	g_free(hijri_date);
 	//g_free (utf8);
 	g_free(miladi);
 }
@@ -219,7 +219,6 @@ void calculate_prayer_table()
 	getPrayerTimes (loc, calcMethod, prayerDate, ptList);	
 	next_prayer();
 	update_remaining();
-
 }
 
 void play_events()
@@ -250,6 +249,7 @@ void play_events()
 #endif
 		if (cur_minutes == pt_minutes)
 		{
+			calling_athan_for = i;
 			if(enable_athan){play_athan_callback();}
 #if USE_NOTIFY
 			if(notif)
@@ -308,8 +308,38 @@ void update_date()
 	g_free(currentDate);
 }
 
+void update_calendar()
+{
+	gtk_calendar_select_month((GtkCalendar *) glade_xml_get_widget(xml, "prayer_calendar"),
+			prayerDate->month - 1, prayerDate->year);
+	gtk_calendar_select_day((GtkCalendar *) glade_xml_get_widget(xml, "prayer_calendar"),
+			prayerDate->day);
+}
 
-void update_prayer_labels()
+void prayer_calendar_callback()
+{
+	guint * year = g_malloc(sizeof(guint));
+	guint * month = g_malloc(sizeof(guint));
+	guint * day = g_malloc(sizeof(guint));
+	gtk_calendar_get_date((GtkCalendar *) glade_xml_get_widget(xml, "prayer_calendar"),
+			year, month, day);
+
+	Prayer calendarPtList[6];
+	Date * cDate;	
+	cDate 		= g_malloc(sizeof(Date));
+	cDate->day 	= (int) &day;
+	cDate->month 	= (int) (&month) +1;
+	cDate->year 	= (int) &year;
+
+	getPrayerTimes (loc, calcMethod, cDate, calendarPtList);
+	g_free(cDate);
+	update_prayer_labels(calendarPtList, "salatlabelc");
+	g_free(year);
+	g_free(month);
+	g_free(day);
+}
+
+void update_prayer_labels(Prayer * ptList, gchar * prefix)
 {
 	/* getting labels and putting time strings */
 	gchar * timestring;
@@ -320,7 +350,7 @@ void update_prayer_labels()
 	int i;
 	for (i=0; i < 6; i++)
 	{
-		g_snprintf(timelabel, 20, "salatlabel%d", i);
+		g_snprintf(timelabel, 20, "%s%d", prefix, i);
 		if( i == 1)
 		{
 			g_snprintf(timestring, 50, "%s%02d:%02d%s", 
@@ -355,18 +385,7 @@ void init_vars()
 	loc 			= g_malloc(sizeof(Location));
 	next_prayer_string = g_malloc(400);
 		
-	/* set UI vars */
-	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
-			(glade_xml_get_widget(xml, "selectathan")),
-			(const gchar *) MINBAR_DATADIR"/"MINBAR_DEFAULT_ATHAN);
-	setup_file_filters();
-	gtk_file_chooser_add_filter ((GtkFileChooser *) 
-			(glade_xml_get_widget(xml, "selectathan")),
-	       		filter_supported);
-
-	gtk_file_chooser_add_filter ((GtkFileChooser *) 
-			(glade_xml_get_widget(xml, "selectathan")),
-	       		filter_all);
+	
 	update_date();
 
 	/* Location variables */
@@ -553,6 +572,22 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
+	gconf_client_set_string(client, PREF_ATHAN_SUBH, 
+			gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_subh_chooser")))
+			, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
+	gconf_client_set_string(client, PREF_ATHAN_NORMAL, 
+			gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_chooser")))
+			, &err);
+	if(err != NULL)
+	{
+		g_print("%s\n", err->message);
+		err = NULL;
+	}
 #else
 	g_key_file_set_double(conffile, "city", "latitude", lat);	
 	g_key_file_set_double(conffile, "city", "longitude", lon);
@@ -566,7 +601,14 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	g_key_file_set_integer(conffile, "prefs", "notiftime", notiftime);
 
 	g_key_file_set_integer(conffile, "prefs", "method", method);
-	
+
+	g_key_file_set_string(conffile, "athan", "normal", 
+			gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_chooser")))
+			);
+	g_key_file_set_string(conffile, "athan", "subh", 
+			gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_subh_chooser")))
+			);
+
 	// write this config to the file
 	gsize len;
 	gchar* data = g_key_file_to_data (conffile, &len, &err);
@@ -597,7 +639,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	/* Now calculate new timetable */
 	calculate_prayer_table();
 	/* And set the new labels */
-	update_prayer_labels();
+	update_prayer_labels(ptList, "salatlabel");
 }
 
 
@@ -835,9 +877,40 @@ void init_prefs ()
 	{
 		gtk_widget_show(mainwindow);
 	}
+	else
+	{
+		gtk_widget_hide(mainwindow);
+	}
+
+	/* set UI vars */
+	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
+			(glade_xml_get_widget(xml, "athan_subh_chooser")),
+			(const gchar *) athan_subh_file);
+	setup_file_filters();
+	gtk_file_chooser_add_filter ((GtkFileChooser *) 
+			(glade_xml_get_widget(xml, "athan_subh_chooser")),
+	       		filter_supported);
+
+	gtk_file_chooser_add_filter ((GtkFileChooser *) 
+			(glade_xml_get_widget(xml, "athan_subh_chooser")),
+	       		filter_all);
+
+	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
+			(glade_xml_get_widget(xml, "athan_chooser")),
+			(const gchar *) athan_file);
+	setup_file_filters();
+	gtk_file_chooser_add_filter ((GtkFileChooser *) 
+			(glade_xml_get_widget(xml, "athan_chooser")),
+	       		filter_supported);
+
+	gtk_file_chooser_add_filter ((GtkFileChooser *) 
+			(glade_xml_get_widget(xml, "athan_chooser")),
+	       		filter_all);
+
 
 }
 
+gboolean no_stream_errors;
 void play_athan_callback()
 {
 	
@@ -848,12 +921,21 @@ void play_athan_callback()
 	{
 		exit(-1);
 	}
- 
+	gchar * athanfilename; 
 	/* set filename property on the file source. Also add a message
 	 * handler. */
-	gchar * athanfilename  = gtk_file_chooser_get_filename  
-		((GtkFileChooser *) (glade_xml_get_widget(xml, "selectathan")));
 
+	no_stream_errors = TRUE;
+	if(calling_athan_for == 0)
+	{
+		athanfilename  = gtk_file_chooser_get_filename  
+		((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_subh_chooser")));
+	}
+	else
+	{
+		athanfilename  = gtk_file_chooser_get_filename  
+		((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_chooser")));
+	}
 	g_object_set (G_OBJECT (source), "location", athanfilename, NULL);
 
 	bus = gst_pipeline_get_bus (GST_PIPELINE (pipeline));
@@ -873,6 +955,19 @@ void play_athan_callback()
 	
 	/* Now set to playing and iterate. */
 	gst_element_set_state (pipeline, GST_STATE_PLAYING);
+
+}
+
+void play_subh_athan_callback ()
+{
+	calling_athan_for = 0;
+	play_athan_callback();
+}
+
+void play_normal_athan_callback ()
+{
+	calling_athan_for = 2;
+	play_athan_callback();
 }
 
 void stop_athan_callback()
@@ -902,32 +997,38 @@ gboolean bus_call (GstBus     *bus,
 
 			g_print (_("Error: %s\n"), err->message);
 			g_error_free (err);
-
-			set_file_status(FALSE);
+			
+			no_stream_errors= FALSE;
 			break;
 		}
 		default:
-			set_file_status(TRUE);
 			break;
 		}
+	
+	set_file_status(no_stream_errors);
 	return TRUE;
 }
 
 void set_file_status(gboolean status)
 {
-	if(status)
-	{
-		gtk_image_set_from_stock((GtkImage *)
-			(glade_xml_get_widget(xml, "filestatusimage"))
-			, GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON);
-
-	}
+	gchar * label_name = g_malloc(100);
+	gchar * label_status = g_malloc(100);
+	
+	if(calling_athan_for == 0)
+		strcpy(label_name, "athansubhstatusimage");
 	else
-	{
-		gtk_image_set_from_stock((GtkImage *)
-			(glade_xml_get_widget(xml, "filestatusimage"))
-			, GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_BUTTON);
-	}
+		strcpy(label_name, "athanstatusimage");
+
+	if(status)
+		strcpy(label_status, GTK_STOCK_APPLY);
+	else
+		strcpy(label_status, GTK_STOCK_DIALOG_WARNING);
+
+	gtk_image_set_from_stock((GtkImage *) (glade_xml_get_widget(xml, label_name)),
+			label_status, GTK_ICON_SIZE_BUTTON); 
+
+	g_free(label_name);
+	g_free(label_status);
 }
 
 void new_pad (GstElement *element,
@@ -979,7 +1080,7 @@ gboolean update_interval(gpointer data)
 {
 	update_date(); 
 	calculate_prayer_table(); 
-	update_prayer_labels();
+	update_prayer_labels(ptList, "salatlabel");
 	
 	play_events();
 #if USE_TRAY_ICON
@@ -999,10 +1100,7 @@ void load_system_tray()
 	g_signal_connect ((GtkStatusIcon * ) (status_icon), "popup_menu", 
 			G_CALLBACK(tray_icon_right_clicked_callback) , NULL);
 	g_signal_connect ((GtkStatusIcon * ) (status_icon), "activate", 
-			G_CALLBACK(tray_icon_clicked_callback) , NULL);
-
-
-	
+			G_CALLBACK(tray_icon_clicked_callback) , NULL);	
 }
 #endif
 
@@ -1020,14 +1118,14 @@ void quit_callback ( GtkWidget *widget, gpointer data)
 	gtk_main_quit();
 }
 
-void tray_icon_right_clicked_callback ( GtkWidget *widget, gpointer data)
+void tray_icon_right_clicked_callback (GtkWidget *widget, gpointer data)
 {
 	GtkMenu * popup_menu = (GtkMenu * )(glade_xml_get_widget(xml, "traypopup")); 
 	
 	gtk_menu_set_screen (GTK_MENU (popup_menu), NULL);
 	
 	gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL, NULL, NULL,
-			1, gtk_get_current_event_time());
+			2, gtk_get_current_event_time());
 }
 
 void show_window_clicked_callback (GtkWidget *widget, gpointer data)
@@ -1130,7 +1228,7 @@ int main(int argc, char *argv[])
 	client = gconf_client_get_default();
 #else
 	conffile = g_key_file_new ();
-	gchar * tmp = g_build_filename(g_get_user_config_dir(),"minbar",NULL);
+	gchar * tmp = g_build_filename(g_get_user_config_dir(),"minbar", "prefs.conf" ,NULL);
 	g_key_file_load_from_file (conffile, tmp,
 					G_KEY_FILE_NONE, &err);
 	g_free(tmp);
@@ -1161,7 +1259,9 @@ int main(int argc, char *argv[])
 
 	/* calculate the time table, and update the labels */
 	calculate_prayer_table();
-	update_prayer_labels();
+	update_prayer_labels(ptList, "salatlabel");
+	update_calendar();
+	prayer_calendar_callback();
 #if USE_TRAY_ICON
 	/* set system tray tooltip text */
 	set_status_tooltip();
@@ -1198,6 +1298,9 @@ void setup_widgets()
 	gtk_about_dialog_set_name((GtkAboutDialog * )aboutd, program_name);
 	gtk_window_set_icon_name(GTK_WINDOW (aboutd), "minbar");
 
+	gtk_window_set_icon_name(GTK_WINDOW (glade_xml_get_widget(xml, "CalendarDialog")), "minbar");
+	gtk_window_set_icon_name(GTK_WINDOW (glade_xml_get_widget(xml, "editcity")), "gtk-preferences");
+
 	/* set the prayer names in the time table */
 	/* done here so we don't duplicate translation */
 	gchar * labeltext;
@@ -1205,22 +1308,28 @@ void setup_widgets()
 	
 	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[0]);
 	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "subh"), labeltext);
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "subhc"), labeltext);
 
 	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[1]);
 	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "shourouk"), labeltext);
-	
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "shouroukc"), labeltext);
+
 	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[2]);
 	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "duhr"), labeltext);
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "duhrc"), labeltext);
 
 	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[3]);
 	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "asr"), labeltext);
-	
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "asrc"), labeltext);
+
 	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[4]);
 	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "maghreb"), labeltext);
-	
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "maghrebc"), labeltext);
+
 	g_snprintf(labeltext, 100, "<b>%s:</b>", time_names[5]);
 	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "isha"), labeltext);
-	
+	gtk_label_set_markup((GtkLabel *)	glade_xml_get_widget(xml, "ishac"), labeltext);
+
 	g_free(labeltext);
 
 #if USE_TRAY_ICON

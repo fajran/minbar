@@ -8,8 +8,14 @@ Minbar uses the following optional calculation methods:
 
 You must adjust it to make it use the method you follow in Preferences.
 
+FEATURES
+--------
+
 BUILDING
 --------
+
+Pre built packages could be available for your distribution. Check the 
+software's webpage.
 
 You need a few libraries and programs to build from source, on debian/ubuntu
 these are:
@@ -33,9 +39,6 @@ Build procedure: you just need to run the following commands
 make
 sudo make install
 
-There is already a binary package for GNU/Debian Linux and
-debian-derived distributions.
-
 If you prepared a package for another Linux distribution or ported
 Minbar to another operating system, please let me know by sending me
 an email.
@@ -45,5 +48,5 @@ CONTACT
 Djihed Afifi: djihed@gmail.com
 http://djihed.com/minbar
 
-
 --Djihed
+

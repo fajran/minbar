@@ -5,7 +5,7 @@ desktop_in_files = minbar.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 
-distuninstallcheck_listfiles = find . -type f -print | grep -v scrollkeeper
+#distuninstallcheck_listfiles = find . -type f -print | grep -v scrollkeeper
 
 EXTRA_DIST = \
 	autogen.sh		\

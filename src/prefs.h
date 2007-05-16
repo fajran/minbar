@@ -1,6 +1,6 @@
 #if USE_GCONF
 #include <gconf/gconf-client.h>
-
+#define MINBAR_PREFDIR 		"/apps/minbar"
 #define PREF_CITY_LAT 		MINBAR_PREFDIR "/city/lat"
 #define PREF_CITY_LON  		MINBAR_PREFDIR "/city/lon"
 #define PREF_CITY_NAME 		MINBAR_PREFDIR "/city/name"

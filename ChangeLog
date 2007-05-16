@@ -1,3 +1,16 @@
+2007-05-16  Djihed Afifi  <djihed@gmail.com>
+
+	* Makefile.am : don't use distuninstallcheck_listfiles.
+	* minbar.glade : interface revamp. Introducing calendar,
+		new UI options, seperate athans for subh and normal.
+		etc.
+	* src/Makefile.am : use noinst_HEADERS
+		move /apps/minbar to prefs.h
+	* main.h : new function prototypes.
+	* main.c : add calendar navigation.
+		Add ability to have multiple athans
+		icons for dialogs.
+
 2006-05-14  Abderrahim Kitouni  <a.kitouni@gmail.com>
 
 	* configure.ac, src/main.c, src/prefs.h : add the possibility to use a

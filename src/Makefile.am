@@ -1,20 +1,20 @@
 bin_PROGRAMS = minbar
 
 # TODO: I think the headers should go in noinst_HEADERS
-minbar_SOURCES = defines.h \
-                  main.h    \
-		  prefs.h    \
-		  main.c
+minbar_SOURCES = main.c 
 
-# TODO: /apps/minbar is hardcoded. It should be in defines.h and the first -I isn't necessary
-minbar_CPPFLAGS = \
-	-I$(top_srcdir)					\
-	-DG_LOG_DOMAIN=\"Minbar\"			\
+noinst_HEADERS = defines.h	\
+		 main.h		\
+		 prefs.h
+
+
+#	-I$(top_srcdir)				
+minbar_CPPFLAGS = 				\
+	-DG_LOG_DOMAIN=\"Minbar\"		\
  	-DGNOMELOCALEDIR=\""$(data)/locale"\"	\
-	-DMINBAR_PREFDIR=\""/apps/minbar"\" \
 	-DMINBAR_PIXMAPSDIR=\"$(data)/pixmaps\" \
-	-DMINBAR_DATADIR=\"$(data)\"
-	$(DISABLE_DEPRECATED)				\
+	-DMINBAR_DATADIR=\"$(data)\"		\
+	$(DISABLE_DEPRECATED)			\
 	$(AM_CPPFLAGS)
 
 #	-DDATADIR=\""$(pkgdatadir)"\"			\
@@ -24,14 +24,14 @@ minbar_CPPFLAGS = \
 
 minbar_CFLAGS = \
 	   $(MINBAR_CFLAGS)	\
-	   $(WARN_CFLAGS)		\
+	   $(WARN_CFLAGS)	\
 	   $(AM_CFLAGS) 
 
 minbar_LDFLAGS = \
 	$(AM_LDFLAGS) -export-dynamic
 
-minbar_LDADD = @ITL_LIBS@ \
-	$(MINBAR_LIBS)	\
+minbar_LDADD = @ITL_LIBS@ 	\
+	$(MINBAR_LIBS)		\
  	$(INTLLIBS)
 
 if USE_NOTIFY

@@ -1,5 +1,5 @@
-#define MINBAR_DEFAULT_ATHAN "athan.ogg"
-#define GLADE_MAIN_INTERFACE  "minbar.glade"
+#define MINBAR_DEFAULT_ATHAN	"athan.ogg"
+#define GLADE_MAIN_INTERFACE	"minbar.glade"
 
 /* Pictures, Icons, Graphics, etc */
 

@@ -11,16 +11,17 @@ DONE tooltip should show next prayer and all of them as well.
 DONE store athan path.
 add CLI option to start minimised
 Hijri Calendar
-Prayer Timetable
+DONE Prayer Timetable
 Qibla Direction
-Multiple Athan files, subh athan file as well.
+DONE Multiple Athan files, subh athan file as well.
 DONE close hides (+option)
 Windows port
 .deb, .rpm
 COOL: change minute string according to changing the number live.
 TODO: display day (sabth, ahad, e...)
-plural forms
-
+DONE icons for about and preferences.
+time in date label
+week day in date label
 
 --some time
 better artwork

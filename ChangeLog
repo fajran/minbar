@@ -1,3 +1,11 @@
+2007-05-17  Djihed Afifi  <djihed@gmail.com>
+
+	* Makefile.am : extra EXTRA_DIST files.
+	* doc/minbar.1 : updated man documentation.
+	* src/main.c : command line argument to start hidden.
+		Plural forms for all appropriate messages.
+		Add time and week day to time string.
+
 2007-05-16  Djihed Afifi  <djihed@gmail.com>
 
 	* Makefile.am : don't use distuninstallcheck_listfiles.

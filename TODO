@@ -1,32 +1,31 @@
 --Next release
 DONE ability to start minimised to tray
 DONE fix .desktop installation
-specify hijri date correction
-visual minimise to tray (see rhythmbox's way to do that)
-city names (implicit): use gnome-applets-locations
-appropriate plurals support
-Package for deb/rpm/windows
-Gnome panel entries.
 DONE tooltip should show next prayer and all of them as well.
 DONE store athan path.
-add CLI option to start minimised
-Hijri Calendar
 DONE Prayer Timetable
-Qibla Direction
 DONE Multiple Athan files, subh athan file as well.
 DONE close hides (+option)
+DONE COOL: change minute string according to changing the number live.
+DONE icons for about and preferences.
+DONE time in date label
+DONE week day in date label
+DONE appropriate plurals support
+DONE add CLI option to start minimised
+
+Qibla Direction
+city names (implicit): use gnome-applets-locations
 Windows port
 .deb, .rpm
-COOL: change minute string according to changing the number live.
-TODO: display day (sabth, ahad, e...)
-DONE icons for about and preferences.
-time in date label
-week day in date label
+visual minimise to tray (see rhythmbox's way to do that)
+Package for deb/rpm/windows
+Gnome panel entries.
 
 --some time
 better artwork
 Use direct conf detection.
-
-Seperate APP:
+Hijri Calendar
 -hijri events
-
+-Yearly timetable document
+-different graphics for salat times
+specify hijri date correction -- pending discussion on itl

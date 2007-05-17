@@ -349,6 +349,8 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="adjustment">0 0 30 1 10 10</property>
+                                    <signal name="value_changed" handler="minute_label_callback"/>
+                                    <signal name="change_value" handler="minute_label_callback"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -366,9 +368,9 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="label17">
+                                  <widget class="GtkLabel" id="minutes_label">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">(in minutes)</property>
+                                    <property name="label" translatable="yes">minutes</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -551,6 +553,15 @@ Fixed Ishaa Interval (always 90)</property>
                             <property name="column_spacing">5</property>
                             <property name="row_spacing">1</property>
                             <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
                               <widget class="GtkLabel" id="label28">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -562,15 +573,6 @@ Fixed Ishaa Interval (always 90)</property>
                                 <property name="top_attach">2</property>
                                 <property name="bottom_attach">3</property>
                               </packing>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
                             </child>
                             <child>
                               <widget class="GtkHBox" id="hbox24">
@@ -1313,12 +1315,13 @@ You should have received a copy of the GNU General Public License along with Min
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child>
-                              <widget class="GnomeCanvas" id="qibla_canvas1">
+                              <widget class="GnomeCanvas" id="qibla_canvas">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                 <property name="width">300</property>
                                 <property name="height">300</property>
+                                <property name="aa">True</property>
                               </widget>
                             </child>
                             <child>
@@ -1374,6 +1377,7 @@ You should have received a copy of the GNU General Public License along with Min
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="on_enabledathancheck_toggled_callback"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>

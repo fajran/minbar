@@ -33,6 +33,7 @@ static gboolean 	start_hidden;
 static gboolean		close_closes;
 static gchar *		athan_file;
 static gchar * 		athan_subh_file;
+static gboolean 	* start_hidden_arg = FALSE;
 
 /* for prayer.h functions */
 static Date 		* prayerDate;
@@ -134,14 +135,20 @@ void update_remaining()
 	else if (difference < 60 )
 	{
 		g_snprintf(next_prayer_string, 400,
-				_("%d minutes until %s prayer."),
-				minutes, time_names[next_prayer_id]);
+				_("%d %s until %s prayer."),
+				minutes,
+				ngettext("minute", "minutes", minutes),
+				time_names[next_prayer_id]);
 	}
 	else
 	{
 		g_snprintf(next_prayer_string, 400,
-				_("%d hours and %d minutes until %s prayer."),
-				hours, minutes, time_names[next_prayer_id]);
+				_("%d %s and %d %s until %s prayer."),
+				hours,
+				ngettext("hour", "hours", hours),
+				minutes,
+				ngettext("minute", "minutes", minutes),
+				time_names[next_prayer_id]);
 	}
 	g_snprintf(trbuf, 600,
 			("%s%s%s"),
@@ -156,9 +163,20 @@ void update_remaining()
 
 void update_date_label()
 {
-	gchar  *miladi, * dateString;
+	gchar  *miladi, * dateString, * weekday, * time_s;
 	dateString 	= g_malloc(500);
 	miladi 		= g_malloc(200);
+	weekday		= g_malloc(50);
+	time_s		= g_malloc(50);
+
+	g_date_strftime(weekday, 50, "%A", currentDate);
+
+	time_t 	result;
+	struct 	tm * curtime;
+	result 	= time(NULL);
+	curtime = localtime(&result);
+
+
 	/* TRANSLATOR: this is a format string for strftime
 	 *             see `man 3 strftime` for more details
 	 *             copy it if you're unsure
@@ -166,48 +184,37 @@ void update_date_label()
 	 */
 	if (!g_date_strftime (miladi, 200, _("%d %B %G"), currentDate))
 	{
-		strcpy (miladi, "???");
+		g_date_strftime (miladi, 200, "%d %B %G", currentDate);
 	}
-/*	char *utf8, *timeformat;
 
-	time_t 	result;
-	struct 	tm tm;
-	result = time(NULL);
-	localtime_r(&result, &tm);
-
-	 * TRANSLATOR: this is a format string for strftime
+	/* TRANSLATOR: this is a format string for strftime
 	 *             see `man 3 strftime` for more details
 	 *             copy it if you're unsure
-	 *             This will print an example: 12 January 2007
-	 *
-	timeformat = g_locale_from_utf8 (_("%d %B %G"), -1,
-			NULL, NULL, NULL);
-	if (!timeformat) 
+	 *             This will print an example: 19:17.
+	 *             if you want to use 12 hour format, use: %I:%M %p
+	 *             which will print something similar to: 7:17 pm  
+	 */
+	if (!strftime (time_s, 50, _("%H:%M"), curtime))
 	{
-		strcpy (miladi, "!!!");
+		strftime (time_s, 50, "%H:%M", curtime);
 	}
-	else if (strftime(miladi, 200, timeformat, &tm) <= 0)
-	{
-		strcpy (miladi, "???");
-	}
-	g_free (timeformat);
-
-	* Convert to UTF-8 *
-	utf8 = g_locale_to_utf8 (miladi, -1, NULL, NULL, NULL);
-	strcpy (miladi, utf8);
-*/
+	
 	hijri_date 	= g_malloc(sizeof(sDate));
 	h_date(hijri_date, prayerDate->day, prayerDate->month, prayerDate->year);
-	g_snprintf(dateString, 500, "%s %d %s %d \n %s%s", DATE_MARKUP_START, 
+	g_snprintf(dateString, 500, "%s %s, %d %s %d \n %s \n%s%s", DATE_MARKUP_START,
+	weekday,
 	hijri_date->day, hijri_month[hijri_date->month], 
-	hijri_date->year, miladi, DATE_MARKUP_END);
+	hijri_date->year, 
+	miladi, 
+	time_s,
+	DATE_MARKUP_END);
 
 	gtk_label_set_markup((GtkLabel *)glade_xml_get_widget(xml, 
 				"currentdatelabel"), dateString);
 	g_free(dateString);
 	g_free(hijri_date);
-	//g_free (utf8);
 	g_free(miladi);
+	g_free(weekday);
 }
 
 void calculate_prayer_table()
@@ -321,15 +328,13 @@ void prayer_calendar_callback()
 	guint * year = g_malloc(sizeof(guint));
 	guint * month = g_malloc(sizeof(guint));
 	guint * day = g_malloc(sizeof(guint));
-	gtk_calendar_get_date((GtkCalendar *) glade_xml_get_widget(xml, "prayer_calendar"),
-			year, month, day);
 
 	Prayer calendarPtList[6];
 	Date * cDate;	
 	cDate 		= g_malloc(sizeof(Date));
-	cDate->day 	= (int) &day;
-	cDate->month 	= (int) (&month) +1;
-	cDate->year 	= (int) &year;
+	cDate->day 	= (int) *day;
+	cDate->month 	= (int) (*month) +1;
+	cDate->year 	= (int) *year;
 
 	getPrayerTimes (loc, calcMethod, cDate, calendarPtList);
 	g_free(cDate);
@@ -337,6 +342,20 @@ void prayer_calendar_callback()
 	g_free(year);
 	g_free(month);
 	g_free(day);
+}
+
+/* This is cool: this will change the label next to the notification 
+ * spin button the preferences window according to the value of 
+ * the spin button
+ * */
+void minute_label_callback(GtkWidget *widget, gpointer user_data)
+{
+	gtk_label_set_text((GtkLabel *) 
+		glade_xml_get_widget(xml, "minutes_label"),
+		ngettext("minute", "minutes", 
+			gtk_spin_button_get_value((GtkSpinButton *)
+				widget))
+		);
 }
 
 void update_prayer_labels(Prayer * ptList, gchar * prefix)
@@ -551,7 +570,6 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	}
 
 	gconf_client_set_bool(client, PREF_PREF_HIDDEN, start_hidden, &err);
-	/* g_print("%d minimised\n", start_hidden);*/
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -873,7 +891,7 @@ void init_prefs ()
 
 	/* show on start up? */
 	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
-	if(!start_hidden)
+	if(!start_hidden && !start_hidden_arg)
 	{
 		gtk_widget_show(mainwindow);
 	}
@@ -1219,6 +1237,23 @@ int main(int argc, char *argv[])
 	/* init libraries */
 	gtk_init(&argc, &argv);
 	glade_init();
+
+	/* command line options */
+	GOptionEntry options[] = 
+	{
+		{"hide", 'h', 0, G_OPTION_ARG_NONE, &start_hidden_arg, 	
+			_("Hide main window on start up."), NULL },
+		{ NULL }
+	};
+	
+	GOptionContext *context = NULL;
+	context = g_option_context_new (NULL);
+  	g_option_context_add_main_entries (context, options, PACKAGE_NAME);
+  	g_option_context_set_help_enabled (context, TRUE);
+
+	g_option_context_parse (context, &argc, &argv, NULL);
+  	g_option_context_free (context);
+	
 #if USE_NOTIFY
 	notify_init(program_name);
 #endif
@@ -1262,6 +1297,7 @@ int main(int argc, char *argv[])
 	update_prayer_labels(ptList, "salatlabel");
 	update_calendar();
 	prayer_calendar_callback();
+	calculate_qibla_direction();
 #if USE_TRAY_ICON
 	/* set system tray tooltip text */
 	set_status_tooltip();
@@ -1276,6 +1312,10 @@ int main(int argc, char *argv[])
 	/* start the event loop */
   	gtk_main();
 	return 0;
+}
+
+void calculate_qibla_direction()
+{
 }
 
 

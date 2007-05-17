@@ -12,6 +12,9 @@ EXTRA_DIST = \
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
+	HACKING			\
+	AUTHORS			\
+	NEWS			\
 	$(desktop_in_files)	
 
 CLEANFILES = \

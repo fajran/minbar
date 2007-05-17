@@ -27,10 +27,10 @@ GNOME_MAINTAINER_MODE_DEFINES
 pkg_modules="gtk+-2.0 glib-2.0 libglade-2.0 gstreamer-0.10"
 PKG_CHECK_MODULES(MINBAR, [$pkg_modules])
 
-AC_CHECK_HEADER(itl/prayer.h,ITL_LIBS=-litl,AC_MSG_ERROR("itl/prayer.h not found"))
+AC_CHECK_HEADER(itl/prayer.h,ITL_LIBS=-litl,AC_MSG_ERROR("itl/prayer.h not found."))
 AC_SUBST(ITL_LIBS)
 
-dnl libnotify check
+# libnotify check
 LIBNOTIFY_REQUIRED=0.3.0
 AC_ARG_ENABLE(libnotify,
             [AS_HELP_STRING([--disable-libnotify],

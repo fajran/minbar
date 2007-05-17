@@ -17,7 +17,7 @@ void 		setup_widgets(void);
 void 		set_status_tooltip(void);
 void 		play_events(void);
 void		update_calendar(void);
-
+void		calculate_qibla_direction(void);
 /* Gstramer */
 int 		init_pipelines(void);
 void 		new_pad (GstElement *element, GstPad *pad, gpointer data);
@@ -43,3 +43,4 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget, gpointer user_data)
 void play_subh_athan_callback(void);
 void play_normal_athan_callback(void);
 void prayer_calendar_callback(void);
+void minute_label_callback(GtkWidget *widget, gpointer user_data);

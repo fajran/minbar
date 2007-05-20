@@ -1,7 +1,8 @@
 bin_PROGRAMS = minbar
 
 # TODO: I think the headers should go in noinst_HEADERS
-minbar_SOURCES = main.c 
+minbar_SOURCES = main.c \
+		locations-xml.c locations-xml.h 
 
 noinst_HEADERS = defines.h	\
 		 main.h		\

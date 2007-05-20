@@ -5,10 +5,13 @@
 #include <gst/gst.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <libgnomecanvas/libgnomecanvas.h>
+#include <math.h>
 
 #include "main.h"
 #include "defines.h"
 #include "prefs.h"
+#include "locations-xml.h" 
 
 #define USE_TRAY_ICON   (!(GTK_MINOR_VERSION < 9))
 #define USE_NOTIFY	(USE_TRAY_ICON & HAVE_NOTIFY)
@@ -114,7 +117,7 @@ void update_remaining()
 	int cur_minutes = curtime->tm_min + curtime->tm_hour * 60; 
 	if(ptList[next_prayer_id].hour < curtime->tm_hour)
 	{
-		/* salat is on next day (subh) after midnight */
+		/* salat is on next day (subh, and even Isha sometimes) after midnight */
 		next_minutes += 60*24;
 	}
 
@@ -138,6 +141,14 @@ void update_remaining()
 				_("%d %s until %s prayer."),
 				minutes,
 				ngettext("minute", "minutes", minutes),
+				time_names[next_prayer_id]);
+	}
+	else if (difference % 60 == 0)
+	{
+		g_snprintf(next_prayer_string, 400,
+				_("%d %s until %s prayer."),
+				hours,
+				ngettext("hour", "hours", hours),
 				time_names[next_prayer_id]);
 	}
 	else
@@ -329,6 +340,9 @@ void prayer_calendar_callback()
 	guint * month = g_malloc(sizeof(guint));
 	guint * day = g_malloc(sizeof(guint));
 
+	gtk_calendar_get_date((GtkCalendar *) glade_xml_get_widget(xml, "prayer_calendar"),
+			year, month, day);
+
 	Prayer calendarPtList[6];
 	Date * cDate;	
 	cDate 		= g_malloc(sizeof(Date));
@@ -338,7 +352,7 @@ void prayer_calendar_callback()
 
 	getPrayerTimes (loc, calcMethod, cDate, calendarPtList);
 	g_free(cDate);
-	update_prayer_labels(calendarPtList, "salatlabelc");
+	update_prayer_labels(calendarPtList, "salatlabelc", FALSE);
 	g_free(year);
 	g_free(month);
 	g_free(day);
@@ -358,7 +372,7 @@ void minute_label_callback(GtkWidget *widget, gpointer user_data)
 		);
 }
 
-void update_prayer_labels(Prayer * ptList, gchar * prefix)
+void update_prayer_labels(Prayer * ptList, gchar * prefix, gboolean coloured)
 {
 	/* getting labels and putting time strings */
 	gchar * timestring;
@@ -370,13 +384,13 @@ void update_prayer_labels(Prayer * ptList, gchar * prefix)
 	for (i=0; i < 6; i++)
 	{
 		g_snprintf(timelabel, 20, "%s%d", prefix, i);
-		if( i == 1)
+		if( i == 1 && coloured)
 		{
 			g_snprintf(timestring, 50, "%s%02d:%02d%s", 
 				MARKUP_FAINT_START, ptList[i].hour, 
 				ptList[i].minute, MARKUP_FAINT_END);
 		}
-		else if ( i == next_prayer_id)
+		else if ( i == next_prayer_id && coloured)
 		{
 			g_snprintf(timestring, 50, "%s%02d:%02d%s", 
 				MARKUP_SPECIAL_START, ptList[i].hour, 
@@ -657,7 +671,9 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	/* Now calculate new timetable */
 	calculate_prayer_table();
 	/* And set the new labels */
-	update_prayer_labels(ptList, "salatlabel");
+	update_prayer_labels(ptList, "salatlabel", TRUE);
+	calculate_qibla_direction();
+	prayer_calendar_callback();
 }
 
 
@@ -1098,7 +1114,7 @@ gboolean update_interval(gpointer data)
 {
 	update_date(); 
 	calculate_prayer_table(); 
-	update_prayer_labels(ptList, "salatlabel");
+	update_prayer_labels(ptList, "salatlabel", TRUE);
 	
 	play_events();
 #if USE_TRAY_ICON
@@ -1237,6 +1253,9 @@ int main(int argc, char *argv[])
 	/* init libraries */
 	gtk_init(&argc, &argv);
 	glade_init();
+	
+	/* initialize GStreamer */
+	gst_init (&argc, &argv);
 
 	/* command line options */
 	GOptionEntry options[] = 
@@ -1285,16 +1304,14 @@ int main(int argc, char *argv[])
 #if USE_TRAY_ICON
 	load_system_tray();
 #endif
-	/* initialize GStreamer */
-	gst_init (&argc, &argv);
-	
+		
 	/* Initialise preferenes and variables */	
 	init_prefs();
 	init_vars();
 
-	/* calculate the time table, and update the labels */
+	/* calculate the time table, and update the labels, other inits */
 	calculate_prayer_table();
-	update_prayer_labels(ptList, "salatlabel");
+	update_prayer_labels(ptList, "salatlabel", TRUE);
 	update_calendar();
 	prayer_calendar_callback();
 	calculate_qibla_direction();
@@ -1314,10 +1331,120 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+double qibla;
+GnomeCanvasGroup *root;
 void calculate_qibla_direction()
 {
-}
+	GtkWidget * canvas = (GtkWidget *)glade_xml_get_widget(xml, "qibla_canvas");
+	/* needed so we don't draw on previous when loaction is changed*/
+	if(root)
+	{
+		while (root->item_list) 
+		{
+			gtk_object_destroy (GTK_OBJECT (root->item_list->data));
+		}
+	}
+	
+	/* just in case */	
+	gtk_widget_set_direction ((GtkWidget*)canvas, GTK_TEXT_DIR_RTL);
+	gnome_canvas_set_pixels_per_unit((GnomeCanvas*) canvas, 1);	
 
+	root = gnome_canvas_root (GNOME_CANVAS (canvas));
+
+	double height =  (double) GTK_WIDGET (canvas)->allocation.height;
+	double width  =  (double) GTK_WIDGET (canvas)->allocation.width;
+	double actual;
+	
+	gnome_canvas_set_scroll_region((GnomeCanvas *) canvas, 0.0, 0.0, width , height);
+
+	/* we want a circle, so pick the smallest */
+	if (width < height)
+		actual = width;
+	else
+		actual = height;
+	
+	/* the circle */
+	gnome_canvas_item_new (root,
+				gnome_canvas_ellipse_get_type (),
+				"x1", (width - actual + 10) / 2,
+				"y1", (height - actual + 10) / 2,
+				"x2", width - ((width - actual + 10) / 2),
+				"y2", height - ((height - actual + 10) / 2),
+				"fill_color_rgba", 0x00000020,
+				"outline_color", "darkgreen",
+				"width_pixels", 1,
+				NULL);
+
+	/* center dot */
+	gnome_canvas_item_new (root,
+				gnome_canvas_ellipse_get_type (),
+				"x1", (width / 2) - 2.5,
+				"y1", (height / 2) - 2.5,
+				"x2", (width / 2) + 2.5,
+				"y2", (height / 2) + 2.5,
+				"fill_color", "blue",
+				"width_pixels", 0,
+				NULL);
+	
+	qibla = getNorthQibla(loc);
+	/* it was deg, convert to rad */
+	double qiblarad = - (qibla * (M_PI / 2)) / 90;
+	double nq = (actual - 10) / 2;
+	double lastx = (cos(qiblarad - (M_PI/2))) * nq;
+	double lasty = (sin(qiblarad - (M_PI/2))) * nq;
+
+	GnomeCanvasPoints * points;
+	points = gnome_canvas_points_new (2);
+	points->coords[0] = width / 2;
+	points->coords[1] = height / 2;
+	points->coords[2] = lastx + (width / 2);
+	points->coords[3] = lasty + (height / 2);
+	/* the qibla arrow */
+	gnome_canvas_item_new (root,
+				gnome_canvas_line_get_type (),
+				"points", points,
+				"fill_color", "blue",
+				"width_pixels", 2,
+				"first_arrowhead", FALSE,
+				"last_arrowhead", TRUE,
+				"arrow_shape_a", 9.0,
+				"arrow_shape_b", 7.0,
+				"arrow_shape_c", 4.0,
+				NULL);
+	int deg, min;
+	double sec;
+
+	decimal2Dms (qibla, &deg, &min, &sec);
+	
+	/* text should not overlap with arrow */
+	double level;
+	if(fabs(qibla) > 90)
+		level = (height / 2) - 20.0;
+	else
+		level = (height / 2) + 20.0;
+
+	gchar * qiblabuf;
+	qiblabuf = g_malloc(100);
+
+	g_snprintf(qiblabuf, 100,
+			("%s\n%d %s"),
+			_("Qibla direction"),
+			abs(deg),
+			(qibla == 0 || fabs(qibla) == 180) ? "" : qibla < 0 ? _("East") : _("West")
+			);
+	
+	gnome_canvas_item_new (root,
+			       gnome_canvas_text_get_type (),
+			       "text", qiblabuf,
+			       "x", width / 2,
+			       "y", level,
+			       "font", "sans-serif 9",
+			       "anchor", GTK_ANCHOR_CENTER,
+			       "justification", GTK_JUSTIFY_CENTER,
+			       "fill_color", "black",
+			       NULL);
+	g_free(qiblabuf);
+}
 
 void window_state_event_callback (GtkWidget *widget, 
 		GdkEventWindowState *event)
@@ -1396,5 +1523,84 @@ void setup_widgets()
 	gtk_widget_set_sensitive ( (GtkWidget *) notif_c, FALSE);
 #endif
 }
+
+gboolean locations_loaded = FALSE;
+
+void load_locations_callback()
+{
+	if (!locations_loaded)
+	{
+		 setup_locations_applet();
+		 locations_loaded = TRUE;
+	}
+	gtk_widget_show(glade_xml_get_widget(xml, "locationsDialog"));
+}
+
+GtkWidget * tree;
+void setup_locations_applet()
+{
+	GtkTreeStore *model;
+	GtkTreeSelection *selection;
+	GtkWidget *scrolled_window;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *cell_renderer;
+	WeatherLocation *current_location;
+
+       	scrolled_window	= (GtkWidget*) glade_xml_get_widget(xml, "location_list_scroll");
+
+	model 		= gtk_tree_store_new (GWEATHER_XML_NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
+	tree 		= gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
+	
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree), FALSE);
+
+	/* Add a colum for the locations */
+	cell_renderer 	= gtk_cell_renderer_text_new ();
+	column 		= gtk_tree_view_column_new_with_attributes ("not used", cell_renderer,
+				       "text", GWEATHER_XML_COL_LOC, NULL);
+	gtk_tree_view_append_column ((GtkTreeView *)tree, column);
+	gtk_tree_view_set_expander_column (GTK_TREE_VIEW (tree), column);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_window), tree);
+	gtk_widget_show (tree);
+	gtk_widget_show (scrolled_window);
+
+	/* current_location = weather_location_clone (gw_applet->gweather_pref.location);*/ 
+	/* load locations from xml file */
+	if (gweather_xml_load_locations ((GtkTreeView *)tree, NULL))
+	{
+		GtkWidget *d;
+		d = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+			    _("Failed to load the Locations XML "
+			      "database.  Please report this as "
+			      "a bug."));
+		gtk_dialog_run (GTK_DIALOG (d));
+		gtk_widget_destroy (d);
+	}
+}
+
+void locationok_callback()
+{
+	if(!tree)
+		return;
+
+	GtkTreeSelection * selection;
+	selection = gtk_tree_view_get_selection ((GtkTreeView *)tree);
+		
+	GtkTreeModel *model;	
+	GtkTreeIter iter;
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+
+	WeatherLocation *loc = NULL;
+
+	gtk_tree_model_get (model, &iter, GWEATHER_XML_COL_POINTER, &loc, -1);
+
+	if (!loc)
+		return;
+	
+	g_print("%s, %s, \n", loc->name, loc->coordinates);
+}
+
 
 

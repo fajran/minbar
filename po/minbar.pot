@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-17 07:51+0100\n"
+"POT-Creation-Date: 2007-05-20 13:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../src/main.c:132
+#: ../src/main.c:134
 #, c-format
 msgid "Time for prayer: %s"
 msgstr ""
 
-#: ../src/main.c:138
+#: ../src/main.c:140
 #, c-format
 msgid "%d %s until %s prayer."
 msgstr ""
 
-#: ../src/main.c:140 ../src/main.c:150 ../src/main.c:355
+#: ../src/main.c:142 ../src/main.c:152 ../src/main.c:360
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/main.c:146
+#: ../src/main.c:148
 #, c-format
 msgid "%d %s and %d %s until %s prayer."
 msgstr ""
 
-#: ../src/main.c:148
+#: ../src/main.c:150
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] ""
@@ -49,7 +49,7 @@ msgstr[1] ""
 #. *             copy it if you're unsure
 #. *             This will print an example: 12 January 2007
 #.
-#: ../src/main.c:185
+#: ../src/main.c:187
 msgid "%d %B %G"
 msgstr ""
 
@@ -60,120 +60,132 @@ msgstr ""
 #. *             if you want to use 12 hour format, use: %I:%M %p
 #. *             which will print something similar to: 7:17 pm
 #.
-#: ../src/main.c:197
+#: ../src/main.c:199
 msgid "%H:%M"
 msgstr ""
 
-#: ../src/main.c:251
+#: ../src/main.c:253
 #, c-format
 msgid "%d minutes until %s prayer."
 msgstr ""
 
-#: ../src/main.c:266
+#: ../src/main.c:268
 #, c-format
 msgid "It is time for %s prayer."
 msgstr ""
 
-#: ../src/main.c:711 ../src/main.c:802
+#: ../src/main.c:717 ../src/main.c:808
 msgid ""
 "Invalid calculation method in preferences, using 5: Muslim world League \n"
 msgstr ""
 
-#: ../src/main.c:1016
+#: ../src/main.c:1022
 #, c-format
 msgid "Error: %s\n"
 msgstr ""
 
-#: ../src/main.c:1085
+#: ../src/main.c:1091
 msgid "All files"
 msgstr ""
 
-#: ../src/main.c:1091
+#: ../src/main.c:1097
 msgid "Supported files"
 msgstr ""
 
-#: ../src/main.c:1214 ../minbar.desktop.in.h:2
+#: ../src/main.c:1220 ../minbar.desktop.in.h:2
 msgid "Minbar Prayer Times"
 msgstr ""
 
-#: ../src/main.c:1216
+#: ../src/main.c:1222
 msgid "skip"
 msgstr ""
 
-#: ../src/main.c:1217
+#: ../src/main.c:1223
 msgid "Muharram"
 msgstr ""
 
-#: ../src/main.c:1218
+#: ../src/main.c:1224
 msgid "Safar"
 msgstr ""
 
-#: ../src/main.c:1219
+#: ../src/main.c:1225
 msgid "Rabi I"
 msgstr ""
 
-#: ../src/main.c:1220
+#: ../src/main.c:1226
 msgid "Rabi II"
 msgstr ""
 
-#: ../src/main.c:1221
+#: ../src/main.c:1227
 msgid "Jumada I"
 msgstr ""
 
-#: ../src/main.c:1222
+#: ../src/main.c:1228
 msgid "Jumada II"
 msgstr ""
 
-#: ../src/main.c:1223
+#: ../src/main.c:1229
 msgid "Rajab"
 msgstr ""
 
-#: ../src/main.c:1224
+#: ../src/main.c:1230
 msgid "Shaaban"
 msgstr ""
 
-#: ../src/main.c:1225
+#: ../src/main.c:1231
 msgid "Ramadan"
 msgstr ""
 
-#: ../src/main.c:1226
+#: ../src/main.c:1232
 msgid "Shawwal"
 msgstr ""
 
-#: ../src/main.c:1227
+#: ../src/main.c:1233
 msgid "Thul-Qiaadah"
 msgstr ""
 
-#: ../src/main.c:1228
+#: ../src/main.c:1234
 msgid "Thul-Hijja"
 msgstr ""
 
-#: ../src/main.c:1230
+#: ../src/main.c:1236
 msgid "Subh"
 msgstr ""
 
-#: ../src/main.c:1231
+#: ../src/main.c:1237
 msgid "Shorook"
 msgstr ""
 
-#: ../src/main.c:1232
+#: ../src/main.c:1238
 msgid "Dhuhr"
 msgstr ""
 
-#: ../src/main.c:1233
+#: ../src/main.c:1239
 msgid "Asr"
 msgstr ""
 
-#: ../src/main.c:1234
+#: ../src/main.c:1240
 msgid "Maghreb"
 msgstr ""
 
-#: ../src/main.c:1235
+#: ../src/main.c:1241
 msgid "Isha'a"
 msgstr ""
 
-#: ../src/main.c:1245
+#: ../src/main.c:1251
 msgid "Hide main window on start up."
+msgstr ""
+
+#: ../src/main.c:1425 ../src/main.c:1432 ../src/main.c:1441
+msgid "Qibla Direction"
+msgstr ""
+
+#: ../src/main.c:1434
+msgid "East"
+msgstr ""
+
+#: ../src/main.c:1443
+msgid "West"
 msgstr ""
 
 #: ../data/minbar.glade.h:1

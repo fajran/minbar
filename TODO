@@ -12,14 +12,18 @@ DONE time in date label
 DONE week day in date label
 DONE appropriate plurals support
 DONE add CLI option to start minimised
+DONE Qibla Direction
 
-Qibla Direction
+Accept non integer values for timezone
 city names (implicit): use gnome-applets-locations
 Windows port
 .deb, .rpm
 visual minimise to tray (see rhythmbox's way to do that)
 Package for deb/rpm/windows
-Gnome panel entries.
+Copyright notices
+configure summary
+Free all the widgets being allocated
+make sure all cities have coordinates
 
 --some time
 better artwork
@@ -29,3 +33,8 @@ Hijri Calendar
 -Yearly timetable document
 -different graphics for salat times
 specify hijri date correction -- pending discussion on itl
+support more media types
+the ability to track the sun for qibla
+list of athans in interface instead of file selection
+Gnome panel entries.
+load locations after a fixed time.

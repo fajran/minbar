@@ -3,7 +3,7 @@ void 		calculate_prayer_table(void);
 void 		play_athan_at_prayer(void);
 void		next_prayer(void);
 void 		update_date(void);
-void 		update_prayer_labels(Prayer * ptList, gchar * prefix);
+void 		update_prayer_labels(Prayer * ptList, gchar * prefix, gboolean coloured);
 gboolean 	update_interval(gpointer data);
 void 		setup_file_filters (void);
 void 		init_prefs (void);
@@ -18,6 +18,9 @@ void 		set_status_tooltip(void);
 void 		play_events(void);
 void		update_calendar(void);
 void		calculate_qibla_direction(void);
+void		setup_locations_applet(void);
+void 		locationok_callback(void);
+
 /* Gstramer */
 int 		init_pipelines(void);
 void 		new_pad (GstElement *element, GstPad *pad, gpointer data);
@@ -44,3 +47,4 @@ void play_subh_athan_callback(void);
 void play_normal_athan_callback(void);
 void prayer_calendar_callback(void);
 void minute_label_callback(GtkWidget *widget, gpointer user_data);
+void load_locations_callback(void);

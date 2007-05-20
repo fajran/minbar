@@ -1,3 +1,11 @@
+2007-05-20  Djihed Afifi  <djihed@gmail.com>
+
+	* configure.ac : new dependencies: libgnomecanvas, libxml.
+	* minbar.glade : Locations window.
+	* src/main.h : adding locations-xml.{c,h}
+	* src/main.c : Qibla direction code.
+		loactions code
+
 2007-05-17  Djihed Afifi  <djihed@gmail.com>
 
 	* Makefile.am : extra EXTRA_DIST files.

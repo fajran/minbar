@@ -21,7 +21,7 @@ void		calculate_qibla_direction(void);
 void		setup_locations_applet(void);
 void 		locationok_callback(void);
 
-/* Gstramer */
+/* Gstreamer */
 int 		init_pipelines(void);
 void 		new_pad (GstElement *element, GstPad *pad, gpointer data);
 void 		set_file_status(gboolean status);

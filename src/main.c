@@ -541,6 +541,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 
 	if(method < 0 || method > 6 ) { method = 5; }
 	getMethod(method, calcMethod);
+
 #if USE_GCONF
         /* set gconf settings */
 
@@ -1129,7 +1130,7 @@ gboolean update_interval(gpointer data)
 void load_system_tray()
 {
 	status_icon 	= gtk_status_icon_new_from_file
-		(MINBAR_PIXMAPSDIR"/"MINBAR_KAABA_ICON);
+		(g_build_filename(MINBAR_PIXMAPSDIR,MINBAR_KAABA_ICON,NULL));
 	
 	g_signal_connect ((GtkStatusIcon * ) (status_icon), "popup_menu", 
 			G_CALLBACK(tray_icon_right_clicked_callback) , NULL);
@@ -1277,15 +1278,14 @@ int main(int argc, char *argv[])
 	notify_init(program_name);
 #endif
 #if USE_GCONF
-	gconf_init(argc, argv, NULL);
 	/* load gconf client */
 	client = gconf_client_get_default();
 #else
 	conffile = g_key_file_new ();
-	gchar * tmp = g_build_filename(g_get_user_config_dir(),"minbar", "prefs.conf" ,NULL);
-	g_key_file_load_from_file (conffile, tmp,
+	gchar * filename = g_build_filename(g_get_user_config_dir(),"minbar", "prefs.conf" ,NULL);
+	g_key_file_load_from_file (conffile, filename,
 					G_KEY_FILE_NONE, &err);
-	g_free(tmp);
+	g_free(filename);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -1293,7 +1293,7 @@ int main(int argc, char *argv[])
 	}
 #endif
 	/* load the interface */
-	xml = glade_xml_new(g_build_filename(MINBAR_DATADIR,"minbar",GLADE_MAIN_INTERFACE,NULL), NULL, NULL);
+	xml = glade_xml_new(g_build_filename(MINBAR_DATADIR,GLADE_MAIN_INTERFACE,NULL), NULL, NULL);
 	/* connect the signals in the interface */
 	glade_xml_signal_autoconnect(xml);
 	
@@ -1540,11 +1540,11 @@ GtkWidget * tree;
 void setup_locations_applet()
 {
 	GtkTreeStore *model;
-	GtkTreeSelection *selection;
+	/*GtkTreeSelection *selection;*/
 	GtkWidget *scrolled_window;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell_renderer;
-	WeatherLocation *current_location;
+	/*WeatherLocation *current_location;*/
 
        	scrolled_window	= (GtkWidget*) glade_xml_get_widget(xml, "location_list_scroll");
 
@@ -1598,9 +1598,26 @@ void locationok_callback()
 
 	if (!loc)
 		return;
+	gtk_widget_hide(glade_xml_get_widget(xml, "locationsDialog"));
+	g_print("%s, %f,%f \n", loc->name, loc->longitude, loc->latitude);
+
+	lat = (loc->latitude * 180) / M_PI;
+	lon = (loc->longitude * 180) / M_PI;
+	city_name = g_strdup(loc->name);  /* is this ok or should I use g_strdup ? */
+
+	/* update the editcity dialog (copied from init_vars) */
+
+		GtkWidget*  entrywidget;	
 	
-	g_print("%s, %s, \n", loc->name, loc->coordinates);
+	/* Setting what was found to editcity dialog*/
+	entrywidget = glade_xml_get_widget( xml, "latitude");	
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, lat);
+
+	entrywidget = glade_xml_get_widget( xml, "longitude");	
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, lon);
+
+	entrywidget = glade_xml_get_widget( xml, "cityname");	
+	gtk_entry_set_text((GtkEntry *)entrywidget, city_name);
+
 }
-
-
 

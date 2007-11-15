@@ -13,15 +13,15 @@ DONE week day in date label
 DONE appropriate plurals support
 DONE add CLI option to start minimised
 DONE Qibla Direction
+DONE configure summary
+DONE city names (implicit): use gnome-applets-locations
 
 Accept non integer values for timezone
-city names (implicit): use gnome-applets-locations
 Windows port
 .deb, .rpm
 visual minimise to tray (see rhythmbox's way to do that)
 Package for deb/rpm/windows
 Copyright notices
-configure summary
 Free all the widgets being allocated
 make sure all cities have coordinates
 

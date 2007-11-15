@@ -1,3 +1,18 @@
+2007-11-08  Abderrahim Kitouni  <a.kitouni@gmail.com>
+
+	* configure.ac, data/Makefile.am, src/Makefile.am : clean up, added
+				configure summary and gconf uninstall rule.
+	* po/POTFILE.in : replaced minbar.schemas.in.in by minbar.schema.in
+	* src/locations-xml.c : copied dmsh2rad from weather.c
+	* src/main.c : minor corrections (mainly using g_build_filename instead
+			of hardcoding '/'), Locations are now fully working although
+			there may be some bugs.
+	* src/main.h : fixed a typo.
+	* data/minbar.glade : I forgot if I modified anything but cvs diff says
+				I did. Feel free to rollback.
+	* data/Locations.xml : replacing .in by this (from gnome-applets 2.18)
+	* TODO: updated.
+
 2007-05-20  Djihed Afifi  <djihed@gmail.com>
 
 	* configure.ac : new dependencies: libgnomecanvas, libxml.

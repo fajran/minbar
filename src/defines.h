@@ -1,6 +1,5 @@
 #define MINBAR_DEFAULT_ATHAN	"athan.ogg"
 #define GLADE_MAIN_INTERFACE	"minbar.glade"
-#define XML_LOCATION		"/usr/local/share/minbar"
 
 /* Pictures, Icons, Graphics, etc */
 

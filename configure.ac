@@ -4,12 +4,8 @@ AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip -Wall])
 
 AC_CONFIG_SRCDIR([src])
 
-AM_MAINTAINER_MODE
-
 AC_PROG_CC
-#AC_ISC_POSIX
 AC_HEADER_STDC
-#AC_PROG_LIBTOOL
 
 # *****
 # GNOME
@@ -135,17 +131,7 @@ AC_SUBST([data])
 # *************************************
 # *************************************
 
-#AC_SUBST([AM_CPPFLAGS])
-#AC_SUBST([AM_CFLAGS])
-#AC_SUBST([AM_CXXFLAGS])
-#AC_SUBST([AM_LDFLAGS])
-
-if test "x${prefix}" = "xNONE"; then
-	ATHANDIR="${ac_default_prefix}/${DATADIRNAME}/${PACKAGE}"
-else
-	ATHANDIR="${prefix}/${DATADIRNAME}/${PACKAGE}"
-fi
-
+ATHANDIR="${data}/${PACKAGE}"
 AC_SUBST(ATHANDIR)
 
 AC_CONFIG_FILES([
@@ -159,3 +145,20 @@ AC_CONFIG_FILES([
 ])
 
 AC_OUTPUT
+
+echo ----------------------------------------------------------------------
+if test x"$enable_libnotify" = xyes; then
+	echo Libnotify notifications : Enabled \(version $LIBNOTIFY_VERSION_MAJOR.\
+	$LIBNOTIFY_VERSION_MINOR.$LIBNOTIFY_VERSION_MICRO\).
+else
+	echo Libnotify notifications : Disabled.
+fi
+if test x"$gconf" = xyes; then
+	echo Configuration : gconf.
+else
+	echo Configuration : gkeyfile.
+fi
+if test x"$relative" = xyes; then
+	echo Using relative pathnames : minbar should be called from its directory.
+fi
+echo ----------------------------------------------------------------------

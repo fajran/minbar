@@ -18,6 +18,7 @@
  */
 
 #include <string.h>
+#include <math.h>
 #include <locale.h>
 #include <gtk/gtk.h>
 #include <libxml/xmlreader.h>
@@ -327,7 +328,7 @@ gweather_xml_load_locations( GtkTreeView *tree, WeatherLocation *current )
   int ret = -1;
 
   /* Open the xml file containing the different locations */
-  xml = xmlNewTextReaderFilename (XML_LOCATION "/Locations.xml");
+  xml = xmlNewTextReaderFilename (g_build_filename(MINBAR_DATADIR,"Locations.xml",NULL));
   
   if( xml == NULL )
   {
@@ -376,6 +377,42 @@ error_out:
   return ret;
 }
 
+/*
+ * Convert string of the form "DD-MM-SSH" to radians
+ * DD:degrees (to 3 digits), MM:minutes, SS:seconds H:hemisphere (NESW)
+ * Return value is positive for N,E; negative for S,W.
+ */
+static gdouble dmsh2rad (const gchar *latlon)
+{
+    char *p1, *p2;
+    int deg, min, sec, dir;
+    gdouble value;
+    
+    if (latlon == NULL)
+	return DBL_MAX;
+    p1 = strchr(latlon, '-');
+    p2 = strrchr(latlon, '-');
+    if (p1 == NULL || p1 == latlon) {
+        return DBL_MAX;
+    } else if (p1 == p2) {
+	sscanf (latlon, "%d-%d", &deg, &min);
+	sec = 0;
+    } else if (p2 == 1 + p1) {
+	return DBL_MAX;
+    } else {
+	sscanf (latlon, "%d-%d-%d", &deg, &min, &sec);
+    }
+    if (deg > 180 || min >= 60 || sec >= 60)
+	return DBL_MAX;
+    value = (gdouble)((deg * 60 + min) * 60 + sec) * M_PI / 648000.;
+
+    dir = toupper(latlon[strlen(latlon) - 1]);
+    if (dir == 'W' || dir == 'S')
+	value = -value;
+    else if (dir != 'E' && dir != 'N' && (value != 0.0 || dir != '0'))
+	value = DBL_MAX;
+    return value;
+}
 
 WeatherLocation *weather_location_new (const gchar *name, const gchar *code,
 				       const gchar *zone, const gchar *radar,
@@ -417,8 +454,8 @@ WeatherLocation *weather_location_new (const gchar *name, const gchar *code,
 	if (g_strv_length (pieces) == 2)
 	{
             location->coordinates = g_strdup(coordinates);
-            location->latitude = -1.0 /*dmsh2rad (pieces[0])*/;
-	    location->longitude = -1.0 /* dmsh2rad (pieces[1])*/;
+            location->latitude = dmsh2rad (pieces[0]);
+	    location->longitude = dmsh2rad (pieces[1]);
 	}
 
 	g_strfreev (pieces);

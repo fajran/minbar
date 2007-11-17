@@ -144,6 +144,8 @@ AC_SUBST([data])
 ATHANDIR="${data}/${PACKAGE}"
 AC_SUBST(ATHANDIR)
 
+
+#	data/minbar.schemas.in
 AC_CONFIG_FILES([
 	Makefile
 	data/Makefile
@@ -151,7 +153,6 @@ AC_CONFIG_FILES([
 	src/Makefile 
 	po/Makefile.in
 	doc/Makefile
-	data/minbar.schemas.in
 	pixmaps/icons/Makefile
 	pixmaps/icons/16x16/Makefile
 	pixmaps/icons/24x24/Makefile
@@ -159,7 +160,6 @@ AC_CONFIG_FILES([
 	pixmaps/icons/48x48/Makefile
 	pixmaps/icons/64x64/Makefile
 	pixmaps/icons/128x128/Makefile
-
 ])
 
 AC_OUTPUT

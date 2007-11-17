@@ -1,13 +1,14 @@
+<?xml version="1.0"?>
 <gconfschemafile>
     <schemalist>        
 
-            
+ 
       <schema>
         <key>/schemas/apps/minbar/city/lat</key>
         <owner>minbar</owner>
 	<applyto>/apps/minbar/city/lat</applyto>        
 	<type>float</type>
-        <default>@MAKKAH_LAT@</default>
+        <default>21.43</default>
         <locale name="C">
           <short>Latitude of city</short>
         </locale>
@@ -18,7 +19,7 @@
 	<applyto>/apps/minbar/city/lon</applyto>
         <owner>minbar</owner>
         <type>float</type>
-        <default>@MAKKAH_LON@</default>
+        <default>39.77</default>
         <locale name="C">
           <short>Longitude of city</short>
         </locale>
@@ -128,7 +129,7 @@
 	<applyto>/apps/minbar/athan/normal</applyto>
         <owner>minbar</owner>
         <type>string</type>
-        <default>@ATHANDIR@/athan.ogg</default>
+	<default>@datarootdir@/@PACKAGE@/athan.ogg</default>
         <locale name="C">
           <short>Path to athan file.</short>
         </locale>
@@ -139,7 +140,7 @@
 	<applyto>/apps/minbar/athan/subh</applyto>
         <owner>minbar</owner>
         <type>string</type>
-        <default>@ATHANDIR@/athan.ogg</default>
+	<default>@datarootdir@/@PACKAGE@/athan.ogg</default>
         <locale name="C">
           <short>Path to Subh athan file.</short>
         </locale>

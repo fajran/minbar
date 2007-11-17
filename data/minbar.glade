@@ -1290,6 +1290,8 @@ Abderrahim Kitouni &lt;a.kitouni@gmail.com&gt;</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                 <child>
                                   <widget class="GnomeCanvas" id="qibla_canvas">
+                                    <property name="width_request">200</property>
+                                    <property name="height_request">150</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>

@@ -1374,6 +1374,15 @@ void calculate_qibla_direction()
 
 	double height =  (double) GTK_WIDGET (canvas)->allocation.height;
 	double width  =  (double) GTK_WIDGET (canvas)->allocation.width;
+	if(height <40)
+	{
+		height = 140;
+	}
+	if(width < 40)
+	{
+		width = 180;
+	}
+	/*gtk_widget_set_width*/
 	double actual;
 	
 	gnome_canvas_set_scroll_region((GnomeCanvas *) canvas, 0.0, 0.0, width , height);

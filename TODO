@@ -26,9 +26,11 @@ DONE Integrate new artwork
 DONE Copyright notices
 DONE Clickable web page
 DONE properly handle Makkah case
+test start when minimised
+
 
 --some time
-
+use: http://commons.wikimedia.org/wiki/Image:Compass.svg
 Package for deb/rpm/windows
 Use direct conf detection.
 Hijri Calendar

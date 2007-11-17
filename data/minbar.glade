@@ -601,16 +601,138 @@ Fixed Ishaa Interval (always 90)</property>
                               <placeholder/>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="label28">
+                              <widget class="GtkHBox" id="hbox18">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="ypad">5</property>
+                                <child>
+                                  <widget class="GtkButton" id="athansubhplay">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                    <property name="label" translatable="yes">gtk-media-play</property>
+                                    <property name="use_stock">True</property>
+                                    <property name="response_id">0</property>
+                                    <signal name="clicked" handler="play_subh_athan_callback"/>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkButton" id="subhathanstop">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                    <property name="label" translatable="yes">gtk-media-stop</property>
+                                    <property name="use_stock">True</property>
+                                    <property name="response_id">0</property>
+                                    <signal name="clicked" handler="stop_athan_callback"/>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label29">
+                                    <property name="visible">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkHBox" id="hbox14">
+                                <property name="visible">True</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                <child>
+                                  <widget class="GtkFileChooserButton" id="athan_chooser">
+                                    <property name="visible">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                    <property name="title" translatable="yes">Select Athan File</property>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="GtkImage" id="athanstatusimage">
+                                    <property name="visible">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                    <property name="stock">gtk-apply</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                                <property name="top_attach">3</property>
+                                <property name="bottom_attach">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="label27">
+                                <property name="visible">True</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                <property name="xalign">1</property>
+                                <property name="label" translatable="yes">Normal Athan:</property>
+                              </widget>
+                              <packing>
+                                <property name="top_attach">3</property>
+                                <property name="bottom_attach">4</property>
+                                <property name="x_options">GTK_SHRINK | GTK_FILL</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkHBox" id="hbox11">
+                                <property name="visible">True</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                <child>
+                                  <widget class="GtkFileChooserButton" id="athan_subh_chooser">
+                                    <property name="visible">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                    <property name="title" translatable="yes">Select Athan File</property>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="GtkImage" id="athansubhstatusimage">
+                                    <property name="visible">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                    <property name="stock">gtk-apply</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="label26">
+                                <property name="visible">True</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                <property name="xalign">1</property>
+                                <property name="label" translatable="yes">Subh Athan:</property>
+                              </widget>
+                              <packing>
+                                <property name="x_options">GTK_SHRINK | GTK_FILL</property>
                               </packing>
                             </child>
                             <child>
@@ -667,138 +789,16 @@ Fixed Ishaa Interval (always 90)</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="label26">
+                              <widget class="GtkLabel" id="label28">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="xalign">1</property>
-                                <property name="label" translatable="yes">Subh Athan:</property>
-                              </widget>
-                              <packing>
-                                <property name="x_options">GTK_SHRINK | GTK_FILL</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkHBox" id="hbox11">
-                                <property name="visible">True</property>
-                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <child>
-                                  <widget class="GtkFileChooserButton" id="athan_subh_chooser">
-                                    <property name="visible">True</property>
-                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="title" translatable="yes">Select Athan File</property>
-                                  </widget>
-                                </child>
-                                <child>
-                                  <widget class="GtkImage" id="athansubhstatusimage">
-                                    <property name="visible">True</property>
-                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="stock">gtk-apply</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
+                                <property name="ypad">5</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="label27">
-                                <property name="visible">True</property>
-                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="xalign">1</property>
-                                <property name="label" translatable="yes">Normal Athan:</property>
-                              </widget>
-                              <packing>
-                                <property name="top_attach">3</property>
-                                <property name="bottom_attach">4</property>
-                                <property name="x_options">GTK_SHRINK | GTK_FILL</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkHBox" id="hbox14">
-                                <property name="visible">True</property>
-                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <child>
-                                  <widget class="GtkFileChooserButton" id="athan_chooser">
-                                    <property name="visible">True</property>
-                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="title" translatable="yes">Select Athan File</property>
-                                  </widget>
-                                </child>
-                                <child>
-                                  <widget class="GtkImage" id="athanstatusimage">
-                                    <property name="visible">True</property>
-                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="stock">gtk-apply</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">3</property>
-                                <property name="bottom_attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkHBox" id="hbox18">
-                                <property name="visible">True</property>
-                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <child>
-                                  <widget class="GtkButton" id="athansubhplay">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="label" translatable="yes">gtk-media-play</property>
-                                    <property name="use_stock">True</property>
-                                    <property name="response_id">0</property>
-                                    <signal name="clicked" handler="play_subh_athan_callback"/>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkButton" id="subhathanstop">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="label" translatable="yes">gtk-media-stop</property>
-                                    <property name="use_stock">True</property>
-                                    <property name="response_id">0</property>
-                                    <signal name="clicked" handler="stop_athan_callback"/>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="label29">
-                                    <property name="visible">True</property>
-                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="position">2</property>
-                                  </packing>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
+                                <property name="top_attach">2</property>
+                                <property name="bottom_attach">3</property>
                               </packing>
                             </child>
                           </widget>
@@ -1087,63 +1087,86 @@ Abderrahim Kitouni &lt;a.kitouni@gmail.com&gt;</property>
                             <property name="n_columns">2</property>
                             <property name="row_spacing">10</property>
                             <child>
-                              <widget class="GtkLabel" id="salatlabel5">
+                              <widget class="GtkLabel" id="subh">
                                 <property name="visible">True</property>
-                                <property name="xalign">0.10000000149011612</property>
-                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:05&lt;/b&gt;&lt;/span&gt;</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label">&lt;b&gt;Subh:&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
-                                <property name="selectable">True</property>
+                                <property name="width_chars">10</property>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="shourouk">
+                                <property name="visible">True</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label">&lt;b&gt;Sunrise:&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
                               </widget>
                               <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">5</property>
-                                <property name="bottom_attach">6</property>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="salatlabel3">
+                              <widget class="GtkLabel" id="duhr">
                                 <property name="visible">True</property>
-                                <property name="xalign">0.10000000149011612</property>
-                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:03&lt;/b&gt;&lt;/span&gt;</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label">&lt;b&gt;Duhr:&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
-                                <property name="selectable">True</property>
                               </widget>
                               <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
+                                <property name="top_attach">2</property>
+                                <property name="bottom_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="asr">
+                                <property name="visible">True</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label">&lt;b&gt;Asr:&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                              </widget>
+                              <packing>
                                 <property name="top_attach">3</property>
                                 <property name="bottom_attach">4</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="salatlabel4">
+                              <widget class="GtkLabel" id="maghreb">
                                 <property name="visible">True</property>
-                                <property name="xalign">0.10000000149011612</property>
-                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:04&lt;/b&gt;&lt;/span&gt;</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label">&lt;b&gt;Maghreb:&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
-                                <property name="selectable">True</property>
                               </widget>
                               <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
                                 <property name="top_attach">4</property>
                                 <property name="bottom_attach">5</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="salatlabel2">
+                              <widget class="GtkLabel" id="isha">
+                                <property name="visible">True</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label">&lt;b&gt;Isha'a:&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                              </widget>
+                              <packing>
+                                <property name="top_attach">5</property>
+                                <property name="bottom_attach">6</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="salatlabel0">
                                 <property name="visible">True</property>
                                 <property name="xalign">0.10000000149011612</property>
-                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:02&lt;/b&gt;&lt;/span&gt;</property>
+                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:00&lt;/b&gt;&lt;/span&gt;</property>
                                 <property name="use_markup">True</property>
                                 <property name="selectable">True</property>
+                                <property name="width_chars">7</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
-                                <property name="top_attach">2</property>
-                                <property name="bottom_attach">3</property>
                               </packing>
                             </child>
                             <child>
@@ -1162,87 +1185,64 @@ Abderrahim Kitouni &lt;a.kitouni@gmail.com&gt;</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="salatlabel0">
+                              <widget class="GtkLabel" id="salatlabel2">
                                 <property name="visible">True</property>
                                 <property name="xalign">0.10000000149011612</property>
-                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:00&lt;/b&gt;&lt;/span&gt;</property>
+                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:02&lt;/b&gt;&lt;/span&gt;</property>
                                 <property name="use_markup">True</property>
                                 <property name="selectable">True</property>
-                                <property name="width_chars">7</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="isha">
-                                <property name="visible">True</property>
-                                <property name="xalign">0.89999997615814209</property>
-                                <property name="label">&lt;b&gt;Isha'a:&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
-                              </widget>
-                              <packing>
-                                <property name="top_attach">5</property>
-                                <property name="bottom_attach">6</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="maghreb">
-                                <property name="visible">True</property>
-                                <property name="xalign">0.89999997615814209</property>
-                                <property name="label">&lt;b&gt;Maghreb:&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
-                              </widget>
-                              <packing>
-                                <property name="top_attach">4</property>
-                                <property name="bottom_attach">5</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="asr">
-                                <property name="visible">True</property>
-                                <property name="xalign">0.89999997615814209</property>
-                                <property name="label">&lt;b&gt;Asr:&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
-                              </widget>
-                              <packing>
-                                <property name="top_attach">3</property>
-                                <property name="bottom_attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="duhr">
-                                <property name="visible">True</property>
-                                <property name="xalign">0.89999997615814209</property>
-                                <property name="label">&lt;b&gt;Duhr:&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
-                              </widget>
-                              <packing>
                                 <property name="top_attach">2</property>
                                 <property name="bottom_attach">3</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="shourouk">
+                              <widget class="GtkLabel" id="salatlabel4">
                                 <property name="visible">True</property>
-                                <property name="xalign">0.89999997615814209</property>
-                                <property name="label">&lt;b&gt;Sunrise:&lt;/b&gt;</property>
+                                <property name="xalign">0.10000000149011612</property>
+                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:04&lt;/b&gt;&lt;/span&gt;</property>
                                 <property name="use_markup">True</property>
+                                <property name="selectable">True</property>
                               </widget>
                               <packing>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                                <property name="top_attach">4</property>
+                                <property name="bottom_attach">5</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="subh">
+                              <widget class="GtkLabel" id="salatlabel3">
                                 <property name="visible">True</property>
-                                <property name="xalign">0.89999997615814209</property>
-                                <property name="label">&lt;b&gt;Subh:&lt;/b&gt;</property>
+                                <property name="xalign">0.10000000149011612</property>
+                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:03&lt;/b&gt;&lt;/span&gt;</property>
                                 <property name="use_markup">True</property>
-                                <property name="width_chars">10</property>
+                                <property name="selectable">True</property>
                               </widget>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                                <property name="top_attach">3</property>
+                                <property name="bottom_attach">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="salatlabel5">
+                                <property name="visible">True</property>
+                                <property name="xalign">0.10000000149011612</property>
+                                <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:05&lt;/b&gt;&lt;/span&gt;</property>
+                                <property name="use_markup">True</property>
+                                <property name="selectable">True</property>
+                              </widget>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                                <property name="top_attach">5</property>
+                                <property name="bottom_attach">6</property>
+                              </packing>
                             </child>
                           </widget>
                         </child>
@@ -1642,131 +1642,18 @@ Abderrahim Kitouni &lt;a.kitouni@gmail.com&gt;</property>
                                     <property name="n_columns">2</property>
                                     <property name="row_spacing">10</property>
                                     <child>
-                                      <widget class="GtkLabel" id="subhc">
+                                      <widget class="GtkLabel" id="salatlabelc5">
                                         <property name="visible">True</property>
-                                        <property name="xalign">0.89999997615814209</property>
-                                        <property name="label">&lt;b&gt;Subh:&lt;/b&gt;</property>
+                                        <property name="xalign">0.10000000149011612</property>
+                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:05&lt;/b&gt;&lt;/span&gt;</property>
                                         <property name="use_markup">True</property>
-                                        <property name="width_chars">10</property>
-                                      </widget>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="shouroukc">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0.89999997615814209</property>
-                                        <property name="label">&lt;b&gt;Sunrise:&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="selectable">True</property>
                                       </widget>
                                       <packing>
-                                        <property name="top_attach">1</property>
-                                        <property name="bottom_attach">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="duhrc">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0.89999997615814209</property>
-                                        <property name="label">&lt;b&gt;Duhr:&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="top_attach">2</property>
-                                        <property name="bottom_attach">3</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="asrc">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0.89999997615814209</property>
-                                        <property name="label">&lt;b&gt;Asr:&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="top_attach">3</property>
-                                        <property name="bottom_attach">4</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="maghrebc">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0.89999997615814209</property>
-                                        <property name="label">&lt;b&gt;Maghreb:&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="top_attach">4</property>
-                                        <property name="bottom_attach">5</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="ishac">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0.89999997615814209</property>
-                                        <property name="label">&lt;b&gt;Isha'a:&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
-                                      </widget>
-                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
                                         <property name="top_attach">5</property>
                                         <property name="bottom_attach">6</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="salatlabelc0">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0.10000000149011612</property>
-                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:00&lt;/b&gt;&lt;/span&gt;</property>
-                                        <property name="use_markup">True</property>
-                                        <property name="selectable">True</property>
-                                        <property name="width_chars">7</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="right_attach">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="salatlabelc1">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0.10000000149011612</property>
-                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:01&lt;/b&gt;&lt;/span&gt;</property>
-                                        <property name="use_markup">True</property>
-                                        <property name="selectable">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="right_attach">2</property>
-                                        <property name="top_attach">1</property>
-                                        <property name="bottom_attach">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="salatlabelc2">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0.10000000149011612</property>
-                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:02&lt;/b&gt;&lt;/span&gt;</property>
-                                        <property name="use_markup">True</property>
-                                        <property name="selectable">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="right_attach">2</property>
-                                        <property name="top_attach">2</property>
-                                        <property name="bottom_attach">3</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="salatlabelc4">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0.10000000149011612</property>
-                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:04&lt;/b&gt;&lt;/span&gt;</property>
-                                        <property name="use_markup">True</property>
-                                        <property name="selectable">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="right_attach">2</property>
-                                        <property name="top_attach">4</property>
-                                        <property name="bottom_attach">5</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1785,19 +1672,132 @@ Abderrahim Kitouni &lt;a.kitouni@gmail.com&gt;</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkLabel" id="salatlabelc5">
+                                      <widget class="GtkLabel" id="salatlabelc4">
                                         <property name="visible">True</property>
                                         <property name="xalign">0.10000000149011612</property>
-                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:05&lt;/b&gt;&lt;/span&gt;</property>
+                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:04&lt;/b&gt;&lt;/span&gt;</property>
                                         <property name="use_markup">True</property>
                                         <property name="selectable">True</property>
                                       </widget>
                                       <packing>
                                         <property name="left_attach">1</property>
                                         <property name="right_attach">2</property>
+                                        <property name="top_attach">4</property>
+                                        <property name="bottom_attach">5</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="salatlabelc2">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.10000000149011612</property>
+                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:02&lt;/b&gt;&lt;/span&gt;</property>
+                                        <property name="use_markup">True</property>
+                                        <property name="selectable">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                        <property name="top_attach">2</property>
+                                        <property name="bottom_attach">3</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="salatlabelc1">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.10000000149011612</property>
+                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:01&lt;/b&gt;&lt;/span&gt;</property>
+                                        <property name="use_markup">True</property>
+                                        <property name="selectable">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                        <property name="top_attach">1</property>
+                                        <property name="bottom_attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="salatlabelc0">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.10000000149011612</property>
+                                        <property name="label">&lt;span color="red"&gt;&lt;b&gt;00:00&lt;/b&gt;&lt;/span&gt;</property>
+                                        <property name="use_markup">True</property>
+                                        <property name="selectable">True</property>
+                                        <property name="width_chars">7</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="ishac">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.89999997615814209</property>
+                                        <property name="label">&lt;b&gt;Isha'a:&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </widget>
+                                      <packing>
                                         <property name="top_attach">5</property>
                                         <property name="bottom_attach">6</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="maghrebc">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.89999997615814209</property>
+                                        <property name="label">&lt;b&gt;Maghreb:&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="top_attach">4</property>
+                                        <property name="bottom_attach">5</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="asrc">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.89999997615814209</property>
+                                        <property name="label">&lt;b&gt;Asr:&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="top_attach">3</property>
+                                        <property name="bottom_attach">4</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="duhrc">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.89999997615814209</property>
+                                        <property name="label">&lt;b&gt;Duhr:&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="top_attach">2</property>
+                                        <property name="bottom_attach">3</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="shouroukc">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.89999997615814209</property>
+                                        <property name="label">&lt;b&gt;Sunrise:&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="top_attach">1</property>
+                                        <property name="bottom_attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="subhc">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0.89999997615814209</property>
+                                        <property name="label">&lt;b&gt;Subh:&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                        <property name="width_chars">10</property>
+                                      </widget>
                                     </child>
                                   </widget>
                                 </child>
@@ -1877,7 +1877,8 @@ Abderrahim Kitouni &lt;a.kitouni@gmail.com&gt;</property>
     <property name="modal">True</property>
     <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
     <property name="destroy_with_parent">True</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="icon_name">minbar</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="skip_taskbar_hint">True</property>
     <signal name="close" handler="gtk_widget_hide" object="locationsDialog"/>
     <signal name="delete_event" handler="gtk_widget_hide" object="locationsDialog"/>

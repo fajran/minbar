@@ -1,9 +1,10 @@
-2007-11-08  Djihed Afifi <djihed@gmail.com>
+2007-11-17  Djihed Afifi <djihed@gmail.com>
 
 	* configure.ac: more info in configure summary - thanks Abderrahim.
 	* src/main.c : Location search callbacks and functions.
 			Correction is now double.
 			properly handle wcase when location is Makkah.
+			Hack to fix showing qibla on minimise.
 	* src/main.h : Added func prototypes.
 	* data/minbar.glade : Add callbacks for the search. Rearrage main
 			interface.

@@ -38,7 +38,7 @@ Functions
 	All functions should be declared first, then defined. 
 
 Glade Interfaces
-	Please use Glade 3.0 or above to edit the glade user interface files.
+	Use Glade 3.0 or above to edit the glade user interface files.
 	Avoid using glade 2.0 at all cost. Load the xml files at run
 	time, no need to "build".
 Widgets

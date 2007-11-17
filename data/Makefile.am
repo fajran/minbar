@@ -7,7 +7,7 @@ schemas_DATA = minbar.schemas
 
 install-data-local:
 	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) gconftool-2 --makefile-install-rule  minbar.schemas 2>&1 > /dev/null
-	gconftool-2 --shutdown # TODO: why this?
+	gconftool-2 --shutdown
 
 uninstall-local:
 	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) gconftool-2 --makefile-uninstall-rule minbar.schemas

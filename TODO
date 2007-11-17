@@ -15,20 +15,21 @@ DONE add CLI option to start minimised
 DONE Qibla Direction
 DONE configure summary
 DONE city names (implicit): use gnome-applets-locations
-
-gracefully handle non existant files.
-More info ala eog
-Accept non integer values for timezone
-Windows port
-.deb, .rpm
-visual minimise to tray (see rhythmbox's way to do that)
-Package for deb/rpm/windows
-Copyright notices
-Free all the widgets being allocated
-make sure all cities have coordinates
+DONE More info ala eog
+DONE better artwork
+DONE gracefully handle non existant files.
+  I'm not sure what to do about this. Currently
+  if the directory containing the sound file does not exist
+  it warns on startup.
+DONE Accept non integer values for timezone
+DONE Integrate new artwork
+DONE Copyright notices
+DONE Clickable web page
+DONE properly handle Makkah case
 
 --some time
-better artwork
+
+Package for deb/rpm/windows
 Use direct conf detection.
 Hijri Calendar
 -hijri events

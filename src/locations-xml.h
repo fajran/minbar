@@ -1,4 +1,4 @@
-/* gweather-xml.h 
+/* locations-xml.h 
  *
  * Copyright (C) 2004 Gareth Owen
  *

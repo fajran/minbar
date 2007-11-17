@@ -7,7 +7,7 @@
         <owner>minbar</owner>
 	<applyto>/apps/minbar/city/lat</applyto>        
 	<type>float</type>
-        <default>21.4200</default>
+        <default>@MAKKAH_LAT@</default>
         <locale name="C">
           <short>Latitude of city</short>
         </locale>
@@ -18,7 +18,7 @@
 	<applyto>/apps/minbar/city/lon</applyto>
         <owner>minbar</owner>
         <type>float</type>
-        <default>39.8300</default>
+        <default>@MAKKAH_LON@</default>
         <locale name="C">
           <short>Longitude of city</short>
         </locale>
@@ -29,7 +29,7 @@
 	<applyto>/apps/minbar/city/name</applyto>
         <owner>minbar</owner>
         <type>string</type>
-        <default>Mecca</default>
+        <default>Makkah</default>
         <locale name="C">
           <short>Name of city</short>
         </locale>
@@ -47,11 +47,11 @@
      
 
 	<schema>
-        <key>/schemas/apps/minbar/prefs/correction</key>
-	<applyto>/apps/minbar/prefs/correction</applyto>
+        <key>/schemas/apps/minbar/prefs/correctiond</key>
+	<applyto>/apps/minbar/prefs/correctiond</applyto>
         <owner>minbar</owner>
-        <type>int</type>
-        <default>3</default>
+        <type>float</type>
+        <default>3.0</default>
         <locale name="C">
           <short>Time Zone, difference from GMT</short>
         </locale>

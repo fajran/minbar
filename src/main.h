@@ -1,3 +1,25 @@
+/* main.h
+ *
+ * Copyright (C) 2006-2007 
+ * 		Djihed Afifi <djihed@gmail.com>,
+ * 		Abderrahim Kitouni <a.kitouni@gmail.com> 
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+
 /* Functions */ 
 void 	calculate_prayer_table(void);
 void 	play_athan_at_prayer(void);
@@ -50,4 +72,6 @@ void 	locationok_callback(void);
 void 	find_entry_changed(GtkEditable *entry);
 gboolean find_location (GtkTreeModel *model, GtkTreeIter *iter, const gchar *location, gboolean go_parent);
 void	find_next_clicked (GtkButton *button);
+gboolean tray_destroy_cb (GtkObject *object);
+void	activate_url (GtkAboutDialog *about, const gchar *link, gpointer data);
 

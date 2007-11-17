@@ -1,3 +1,24 @@
+/* main.c - main program
+ *
+ * Copyright (C) 2006-2007 
+ * 		Djihed Afifi <djihed@gmail.com>,
+ * 		Abderrahim Kitouni <a.kitouni@gmail.com> 
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <itl/prayer.h>
@@ -27,7 +48,7 @@ static gfloat 		height;
 static gfloat 		lon;
 static gchar 		* city_name;
 static gboolean 	enable_athan;
-static int 		correction = 0;
+static double 		correction = 0.0;
 static gboolean		notif;
 static int		notiftime;
 static int 		method;
@@ -212,8 +233,8 @@ void update_date_label()
 	
 	hijri_date 	= g_malloc(sizeof(sDate));
 	h_date(hijri_date, prayerDate->day, prayerDate->month, prayerDate->year);
-	g_snprintf(dateString, 500, "%s %s, %d %s %d \n %s \n%s%s", DATE_MARKUP_START,
-	weekday,
+	g_snprintf(dateString, 500, "%s %s%s %d %s %d \n %s \n%s%s", DATE_MARKUP_START,
+	weekday, /* The comma may differ from language to language*/ _(","),
 	hijri_date->day, hijri_month[hijri_date->month], 
 	hijri_date->year, 
 	miladi, 
@@ -525,7 +546,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	g_stpcpy(city_name, gtk_entry_get_text((GtkEntry *)entrywidget)); 
 
 	entrywidget 	= glade_xml_get_widget( xml, "correction");
-	correction 	=  (int)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+	correction 	=  (double)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
 
 	entrywidget 	= glade_xml_get_widget( xml, "yesnotif");
 	notif 		=  gtk_toggle_button_get_active((GtkToggleButton *)entrywidget);
@@ -567,7 +588,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 		err = NULL;
 	}
 
-	gconf_client_set_int(client, PREF_CITY_CORRECTION, 
+	gconf_client_set_float(client, PREF_CITY_CORRECTION, 
 						correction, &err);
 
 	if(err != NULL)
@@ -626,7 +647,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	g_key_file_set_double(conffile, "city", "longitude", lon);
 	g_key_file_set_string(conffile, "city", "name", city_name);
 	g_key_file_set_double(conffile, "city", "height", height);
-	g_key_file_set_integer(conffile, "prefs", "correction", correction);
+	g_key_file_set_double(conffile, "prefs", "correction", correction);
 
 	g_key_file_set_boolean(conffile, "prefs", "play", enable_athan);
 	g_key_file_set_boolean(conffile, "prefs", "starthidden", start_hidden);
@@ -711,7 +732,7 @@ void init_prefs ()
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-	correction  = gconf_client_get_int(client, PREF_CITY_CORRECTION, &err);
+	correction  = gconf_client_get_float(client, PREF_CITY_CORRECTION, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -802,7 +823,7 @@ void init_prefs ()
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-	correction  = g_key_file_get_integer(conffile, "prefs", "correction", &err);
+	correction  = g_key_file_get_double(conffile, "prefs", "correction", &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -1385,7 +1406,6 @@ void calculate_qibla_direction()
 				"fill_color", "blue",
 				"width_pixels", 0,
 				NULL);
-	
 	qibla = getNorthQibla(loc);
 	/* it was deg, convert to rad */
 	double qiblarad = - (qibla * (M_PI / 2)) / 90;
@@ -1399,7 +1419,37 @@ void calculate_qibla_direction()
 	points->coords[1] = height / 2;
 	points->coords[2] = lastx + (width / 2);
 	points->coords[3] = lasty + (height / 2);
-	/* the qibla arrow */
+
+	
+	/* if the place is Makkah itself, don't draw arrow */
+	if((int)(lat * 100 ) == 2143 && (int)(lon * 100 ) == 3977)
+	{
+		gchar * qiblabuf;
+		qiblabuf = g_malloc(100);
+
+		g_snprintf(qiblabuf, 100,
+			"%s",
+			_("In Makkah!")
+			);
+	double level = (height / 2) - 20.0;
+
+	
+	gnome_canvas_item_new (root,
+			       gnome_canvas_text_get_type (),
+			       "text", qiblabuf,
+			       "x", width / 2,
+			       "y", level,
+			       "font", "sans-serif 9",
+			       "anchor", GTK_ANCHOR_CENTER,
+			       "justification", GTK_JUSTIFY_CENTER,
+			       "fill_color", "black",
+			       NULL);
+	g_free(qiblabuf);
+	}
+	else
+	{
+		/* the qibla arrow */
+
 	gnome_canvas_item_new (root,
 				gnome_canvas_line_get_type (),
 				"points", points,
@@ -1424,9 +1474,9 @@ void calculate_qibla_direction()
 		level = (height / 2) + 20.0;
 
 	gchar * qiblabuf;
-	qiblabuf = g_malloc(100);
+	qiblabuf = g_malloc(300);
 
-	g_snprintf(qiblabuf, 100,
+	g_snprintf(qiblabuf, 300,
 			("%s\n%d %s"),
 			_("Qibla direction"),
 			abs(deg),
@@ -1443,7 +1493,9 @@ void calculate_qibla_direction()
 			       "justification", GTK_JUSTIFY_CENTER,
 			       "fill_color", "black",
 			       NULL);
+	
 	g_free(qiblabuf);
+	}
 }
 
 void window_state_event_callback (GtkWidget *widget, 
@@ -1456,6 +1508,21 @@ void window_state_event_callback (GtkWidget *widget,
 	}
 }
 
+void
+activate_url (GtkAboutDialog *about,
+              const gchar    *link,
+	      gpointer        data)
+{
+#ifdef G_OS_WIN32
+  ShellExecuteA (0, "open", link, NULL, NULL, SW_SHOWNORMAL);
+#else
+  gchar *command = getenv("BROWSER");
+  command = g_strdup_printf("%s '%s' &", command ? command : "gnome-open", link);
+  system(command);
+  g_free(command);
+#endif
+}
+
 void setup_widgets()
 {
 	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
@@ -1463,7 +1530,21 @@ void setup_widgets()
 
 	GtkWidget * aboutd = glade_xml_get_widget(xml, "aboutdialog");
 	gtk_about_dialog_set_name((GtkAboutDialog * )aboutd, program_name);
+	
+	gtk_about_dialog_set_url_hook (/*(GtkAboutDialog * )aboutd,*/ activate_url, NULL, NULL);
+	
+	gtk_about_dialog_set_website ((GtkAboutDialog * )aboutd, "http://www.djihed.com/minbar");
+	gtk_about_dialog_set_website_label ((GtkAboutDialog * )aboutd, _("Minbar Website"));
+
 	gtk_window_set_icon_name(GTK_WINDOW (aboutd), "minbar");
+
+	const char *artists[] =
+	{
+		"Yulian Ardiansyah <yulian.ardiansyah@gmail.com>",
+     		NULL
+   	};
+
+	gtk_about_dialog_set_artists((GtkAboutDialog * )aboutd, artists);
 
 	gtk_window_set_icon_name(GTK_WINDOW (glade_xml_get_widget(xml, "CalendarDialog")), "minbar");
 	gtk_window_set_icon_name(GTK_WINDOW (glade_xml_get_widget(xml, "editcity")), "gtk-preferences");

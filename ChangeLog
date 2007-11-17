@@ -1,3 +1,19 @@
+2007-11-08  Djihed Afifi <djihed@gmail.com>
+
+	* configure.ac: more info in configure summary - thanks Abderrahim.
+	* src/main.c : Location search callbacks and functions.
+			Correction is now double.
+			properly handle wcase when location is Makkah.
+	* src/main.h : Added func prototypes.
+	* data/minbar.glade : Add callbacks for the search. Rearrage main
+			interface.
+	* data/Locations.xml : Using one that only contains languages included 
+			in minbar. Will be updated when new languages are in.
+	* data/minbar.schemas.in.in : correction is "double" now. Needed
+			for places with 1/2 hour corrections.
+	* TODO: updated.
+	* pixmaps/icons/*: New shiny icons! thanks to Yulian Ardiansyah
+
 2007-11-08  Abderrahim Kitouni  <a.kitouni@gmail.com>
 
 	* configure.ac, data/Makefile.am, src/Makefile.am : clean up, added

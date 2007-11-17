@@ -1,4 +1,4 @@
-/* gweather-xml.c - Locations.xml parsing code
+/* locations-xml.c - Locations.xml parsing code
  *
  * Copyright (C) 2005 Ryan Lortie, 2004 Gareth Owen
  *

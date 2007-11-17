@@ -1,3 +1,5 @@
+
+
 AC_INIT([minbar], [0.2],[mailto:djihed@gmail.com],[minbar])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip -Wall])
@@ -6,6 +8,14 @@ AC_CONFIG_SRCDIR([src])
 
 AC_PROG_CC
 AC_HEADER_STDC
+
+# *********
+# Some vars
+# *********
+MAKKAH_LAT=21.43
+MAKKAH_LON=39.77
+AC_SUBST(MAKKAH_LON)
+AC_SUBST(MAKKAH_LAT)
 
 # *****
 # GNOME
@@ -142,6 +152,14 @@ AC_CONFIG_FILES([
 	po/Makefile.in
 	doc/Makefile
 	data/minbar.schemas.in
+	pixmaps/icons/Makefile
+	pixmaps/icons/16x16/Makefile
+	pixmaps/icons/24x24/Makefile
+	pixmaps/icons/32x32/Makefile
+	pixmaps/icons/48x48/Makefile
+	pixmaps/icons/64x64/Makefile
+	pixmaps/icons/128x128/Makefile
+
 ])
 
 AC_OUTPUT
@@ -154,7 +172,6 @@ echo "Configure Summary
 	Compiler ...................:  ${CC} 
 	Extra Compiler Warnings ....:  ${WARN_CFLAGS}
 	Extra debugging support ....:  ${enable_debug}
-
 "
 
 if test x"$enable_libnotify" = xyes; then

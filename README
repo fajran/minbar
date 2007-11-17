@@ -8,16 +8,15 @@ Minbar uses the following optional calculation methods:
 
 You must adjust it to make it use the method you follow in Preferences.
 
-FEATURES
---------
-
 BUILDING
 --------
+Before building from source, please check whether your distribution
+has a package already. Search for Minbar in your distro repositories
+or check out:
 
-Pre built packages could be available for your distribution. Check the 
-software's webpage.
+http://djihed.com/minbar
 
-You need a few libraries and programs to build from source, on debian/ubuntu
+To build, you need a few libraries and programs to build from source, on debian/ubuntu
 these are:
 
 automake1.9

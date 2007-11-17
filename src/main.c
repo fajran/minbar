@@ -1542,7 +1542,7 @@ void setup_widgets()
 	
 	gtk_about_dialog_set_url_hook (/*(GtkAboutDialog * )aboutd,*/ activate_url, NULL, NULL);
 	
-	gtk_about_dialog_set_website ((GtkAboutDialog * )aboutd, "http://www.djihed.com/minbar");
+	gtk_about_dialog_set_website ((GtkAboutDialog * )aboutd, "http://djihed.com/minbar");
 	gtk_about_dialog_set_website_label ((GtkAboutDialog * )aboutd, _("Minbar Website"));
 
 	gtk_window_set_icon_name(GTK_WINDOW (aboutd), "minbar");
@@ -1553,6 +1553,8 @@ void setup_widgets()
      		NULL
    	};
 
+	gtk_window_set_transient_for((GtkWindow *)glade_xml_get_widget(xml, "locationsDialog") ,
+                                        (GtkWindow *)glade_xml_get_widget(xml, "editcity"));
 	gtk_about_dialog_set_artists((GtkAboutDialog * )aboutd, artists);
 
 	gtk_window_set_icon_name(GTK_WINDOW (glade_xml_get_widget(xml, "CalendarDialog")), "minbar");

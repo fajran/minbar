@@ -16,6 +16,8 @@ DONE Qibla Direction
 DONE configure summary
 DONE city names (implicit): use gnome-applets-locations
 
+gracefully handle non existant files.
+More info ala eog
 Accept non integer values for timezone
 Windows port
 .deb, .rpm

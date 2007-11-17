@@ -1599,7 +1599,7 @@ void locationok_callback()
 	if (!loc)
 		return;
 	gtk_widget_hide(glade_xml_get_widget(xml, "locationsDialog"));
-	g_print("%s, %f,%f \n", loc->name, loc->longitude, loc->latitude);
+	/*g_print("%s, %f,%f \n", loc->name, loc->longitude, loc->latitude);*/
 
 	lat = (loc->latitude * 180) / M_PI;
 	lon = (loc->longitude * 180) / M_PI;
@@ -1608,7 +1608,7 @@ void locationok_callback()
 	/* update the editcity dialog (copied from init_vars) */
 
 		GtkWidget*  entrywidget;	
-	
+
 	/* Setting what was found to editcity dialog*/
 	entrywidget = glade_xml_get_widget( xml, "latitude");	
 	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, lat);
@@ -1618,6 +1618,144 @@ void locationok_callback()
 
 	entrywidget = glade_xml_get_widget( xml, "cityname");	
 	gtk_entry_set_text((GtkEntry *)entrywidget, city_name);
-
 }
+
+
+
+void
+find_entry_changed (GtkEditable *entry/*, GWeatherPref *pref*/)
+{
+	GtkTreeModel *model;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	GtkWidget *nextbutton;
+	const gchar *location;
+
+	nextbutton = (GtkWidget *) glade_xml_get_widget(xml, "findnextbutton");
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW(tree));
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree));
+	gtk_tree_model_get_iter_first (model, &iter);
+
+	location = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	if (find_location (model, &iter, location, TRUE)) 
+	{
+		gtk_widget_set_sensitive (nextbutton , TRUE);
+
+		path = gtk_tree_model_get_path (model, &iter);
+		gtk_tree_view_expand_to_path (GTK_TREE_VIEW(tree), path);
+		gtk_tree_selection_select_iter (selection, &iter);
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW(tree), path, NULL, TRUE, 0.5, 0);
+
+		gtk_tree_path_free (path);
+	} 
+	else 
+	{
+		gtk_widget_set_sensitive (nextbutton, FALSE);
+	}
+}
+
+
+/* shamelessly copied from gweather code */
+gboolean
+find_location (GtkTreeModel *model, GtkTreeIter *iter, const gchar *location, gboolean go_parent)
+{
+	GtkTreeIter iter_child;
+	GtkTreeIter iter_parent;
+	gchar *aux_loc;
+	gboolean valid;
+	int len;
+
+	len = strlen (location);
+
+	if (len <= 0) {
+		return FALSE;
+	}
+	
+	do {
+		
+		gtk_tree_model_get (model, iter, GWEATHER_XML_COL_LOC, &aux_loc, -1);
+
+		if (g_ascii_strncasecmp (aux_loc, location, len) == 0) {
+			g_free (aux_loc);
+			return TRUE;
+		}
+
+		if (gtk_tree_model_iter_has_child (model, iter)) {
+			gtk_tree_model_iter_nth_child (model, &iter_child, iter, 0);
+
+			if (find_location (model, &iter_child, location, FALSE)) {
+				/* Manual copying of the iter */
+				iter->stamp = iter_child.stamp;
+				iter->user_data = iter_child.user_data;
+				iter->user_data2 = iter_child.user_data2;
+				iter->user_data3 = iter_child.user_data3;
+
+				g_free (aux_loc);
+				
+				return TRUE;
+			}
+		}
+		g_free (aux_loc);
+
+		valid = gtk_tree_model_iter_next (model, iter);		
+	} while (valid);
+
+	if (go_parent) {
+		iter_parent = *iter;
+		if (gtk_tree_model_iter_parent (model, iter, &iter_parent) && gtk_tree_model_iter_next (model, iter)) {
+			return find_location (model, iter, location, TRUE);
+		}
+	}
+	return FALSE;
+}
+
+void
+find_next_clicked (GtkButton *button)
+{
+	GtkTreeModel *model;
+	GtkEntry *entry;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	GtkTreeIter iter_parent;
+	GtkTreePath *path;
+	const gchar *location;
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW(tree));
+	entry = GTK_ENTRY (glade_xml_get_widget(xml, "location_search_entry"));
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree));
+
+	if (gtk_tree_selection_count_selected_rows (selection) >= 1) {
+		gtk_tree_selection_get_selected (selection, &model, &iter);
+		/* Select next or select parent */
+		if (!gtk_tree_model_iter_next (model, &iter)) {
+			iter_parent = iter;
+			if (!gtk_tree_model_iter_parent (model, &iter, &iter_parent) || !gtk_tree_model_iter_next (model, &iter))
+				gtk_tree_model_get_iter_first (model, &iter);
+		}
+
+	} else {
+		gtk_tree_model_get_iter_first (model, &iter);
+	}
+
+	location = gtk_entry_get_text (entry);
+
+	if (find_location (model, &iter, location, TRUE)) {
+		gtk_widget_set_sensitive ((GtkWidget *)button, TRUE);
+
+		path = gtk_tree_model_get_path (model, &iter);
+		gtk_tree_view_expand_to_path (GTK_TREE_VIEW(tree), path);
+		gtk_tree_selection_select_path (selection, path);
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW(tree), path, NULL, TRUE, 0.5, 0);
+
+		gtk_tree_path_free (path);
+	} else {
+		gtk_widget_set_sensitive ((GtkWidget * )button, FALSE);
+	}
+}
+
 

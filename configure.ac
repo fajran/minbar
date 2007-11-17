@@ -146,19 +146,29 @@ AC_CONFIG_FILES([
 
 AC_OUTPUT
 
+echo ""
 echo ----------------------------------------------------------------------
+echo "Configure Summary 
+
+	Source code location .......:  ${srcdir}
+	Compiler ...................:  ${CC} 
+	Extra Compiler Warnings ....:  ${WARN_CFLAGS}
+	Extra debugging support ....:  ${enable_debug}
+
+"
+
 if test x"$enable_libnotify" = xyes; then
-	echo Libnotify notifications : Enabled \(version $LIBNOTIFY_VERSION_MAJOR.\
-	$LIBNOTIFY_VERSION_MINOR.$LIBNOTIFY_VERSION_MICRO\).
+	echo "	Libnotify notifications ....: Enabled (version $LIBNOTIFY_VERSION_MAJOR.\ 
+$LIBNOTIFY_VERSION_MINOR.$LIBNOTIFY_VERSION_MICRO)."
 else
-	echo Libnotify notifications : Disabled.
+	echo "	Libnotify notifications ....: Disabled."
 fi
 if test x"$gconf" = xyes; then
-	echo Configuration : gconf.
+	echo "	Configuration ..............: gconf."
 else
-	echo Configuration : gkeyfile.
+	echo "	Configuration ..............: gkeyfile."
 fi
 if test x"$relative" = xyes; then
-	echo Using relative pathnames : minbar should be called from its directory.
+	echo "	Using relative pathnames : minbar should be called from its directory."
 fi
 echo ----------------------------------------------------------------------

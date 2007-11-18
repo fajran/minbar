@@ -5,5 +5,6 @@ include /usr/share/cdbs/1/class/autotools.mk
 include /usr/share/cdbs/1/class/gnome.mk
 
 DEB_CONFIGURE_EXTRA_FLAGS := --enable-libnotify
+DEB_CONFIGURE_SCRIPT_ENV += LDFLAGS+=" -export-dynamic"
 
 # Add here any variable or target overrides you need.

@@ -1,3 +1,56 @@
+minbar (0.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Sun, 18 Nov 2007 02:01:23 +0100
+
+minbar (0.1-9) unstable; urgency=low
+
+  * Tighten build-dep on libnotify. (Closes: #409978)
+     + revert to build-depending on libnotify-dev-gtk2.10 as suggested by Loïc
+       Minier.
+     + notify_notification_attach_to_status_icon is available with
+       libnotify >= 0.4.1.
+
+ -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Mon, 16 Apr 2007 15:34:52 +0200
+
+minbar (0.1-8) unstable; urgency=low
+
+  * No need for libnotify-dev-gtk2.10, now we need libnotify-dev.
+
+ -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Sat, 14 Apr 2007 01:58:46 +0200
+
+minbar (0.1-7) unstable; urgency=low
+
+  * Upload to unstable. (Closes: #409978)
+
+ -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Fri, 13 Apr 2007 23:43:30 +0200
+
+minbar (0.1-6) experimental; urgency=low
+
+  * Add -export-dynamic to LDFLAGS in debian/rules.
+    Thanks Ahmad M. Afuni.
+
+ -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Sun, 11 Feb 2007 22:45:49 +0100
+
+minbar (0.1-5) experimental; urgency=low
+
+  * Build-Depends on libnotify-dev-gtk2.10.
+
+ -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Tue,  6 Feb 2007 23:14:02 +0100
+
+minbar (0.1-4) experimental; urgency=low
+
+  * Tighten Build-Depends.
+
+ -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Mon, 15 Jan 2007 14:13:28 +0100
+
+minbar (0.1-3) experimental; urgency=low
+
+  * Also Build-Depend on intltool.
+
+ -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Mon, 15 Jan 2007 14:03:06 +0100
+
 minbar (0.1-2) experimental; urgency=low
 
   * Build-Depend on scrollkeeper. (Closes: #406958)

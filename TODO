@@ -30,6 +30,7 @@ test start when minimised
 
 
 --some time
+Detect running instance and don't duplicate.
 use: http://commons.wikimedia.org/wiki/Image:Compass.svg
 Package for deb/rpm/windows
 Use direct conf detection.

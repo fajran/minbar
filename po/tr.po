@@ -16,6 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+
 #: ../src/main.c:156
 #, c-format
 msgid "Time for prayer: %s"
@@ -24,7 +25,7 @@ msgstr "%s namazı vakti: "
 #: ../src/main.c:162 ../src/main.c:170
 #, c-format
 msgid "%d %s until %s prayer."
-msgstr "%d %s namazına %s kaldı."
+msgstr "%d %s sonra %s vakti girecek."
 
 #: ../src/main.c:164 ../src/main.c:182 ../src/main.c:390
 msgid "minute"
@@ -41,7 +42,7 @@ msgstr[1] "saat"
 #: ../src/main.c:178
 #, c-format
 msgid "%d %s and %d %s until %s prayer."
-msgstr "%d %s namazına %d %s ve %s kaldı."
+msgstr "%d %s ve %d %s sonra %s vakti girecek."
 
 #. TRANSLATOR: this is a format string for strftime
 #. *             see `man 3 strftime` for more details
@@ -71,12 +72,12 @@ msgstr ","
 #: ../src/main.c:283
 #, c-format
 msgid "%d minutes until %s prayer."
-msgstr "%d namazına %s dakika var."
+msgstr "%d dakika sonra %s vakti girecek."
 
 #: ../src/main.c:298
 #, c-format
 msgid "It is time for %s prayer."
-msgstr "%s namazı vakti girdi."
+msgstr "%s namazı vakti."
 
 #: ../src/main.c:749 ../src/main.c:840
 #, c-format
@@ -111,7 +112,7 @@ msgstr "Muharrem"
 
 #: ../src/main.c:1256
 msgid "Safar"
-msgstr "Sefer"
+msgstr "Safer"
 
 #: ../src/main.c:1257
 msgid "Rabi I"

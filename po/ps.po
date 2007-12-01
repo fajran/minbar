@@ -33,7 +33,7 @@ msgstr ".لمانځه %d تر %s %s"
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "منټ"
-msgstr[1] "منټونه"
+msgstr[1] "منټه"
 
 #: ../src/main.c:172
 #: ../src/main.c:180

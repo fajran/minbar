@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Minbar 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-17 18:30+0000\n"
-"PO-Revision-Date: 2007-11-28 19:27-0800\n"
+"PO-Revision-Date: 2007-12-02 20:21-0800\n"
 "Last-Translator: zabeehkhan <zabeehkhan@gmail.com>\n"
 "Language-Team: Pashto\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr ".لمانځه %d تر %s %s"
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "منټ"
-msgstr[1] "منټه"
+msgstr[1] "منټونه"
 
 #: ../src/main.c:172
 #: ../src/main.c:180
@@ -120,11 +120,11 @@ msgstr "صفر"
 
 #: ../src/main.c:1257
 msgid "Rabi I"
-msgstr "ربي ۱"
+msgstr "ربيع ۱"
 
 #: ../src/main.c:1258
 msgid "Rabi II"
-msgstr "ربي ۲"
+msgstr "ربيع ۲"
 
 #: ../src/main.c:1259
 msgid "Jumada I"
@@ -156,7 +156,7 @@ msgstr "ذولقعده"
 
 #: ../src/main.c:1266
 msgid "Thul-Hijja"
-msgstr "ذولحېجه"
+msgstr "ذولحجه"
 
 #: ../src/main.c:1268
 msgid "Subh"
@@ -280,7 +280,6 @@ msgid ""
 "Umm Al-Qurra, Saudi Arabia\n"
 "Fixed Ishaa Interval (always 90)"
 msgstr ""
-""
 "اجپشن جنرل اتارټي اف سروي\n"
 "(يونېورسټي اف اسلامک ساېنسز، کراچۍ (شافي\n"
 "(يونېورسټي اف اسلامک ساېنسز، کراچۍ (حنفي\n"
@@ -320,11 +319,12 @@ msgid ""
 "\n"
 "You should have received a copy of the GNU General Public License along with Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 msgstr ""
-"Minbar Prayer Times is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
-"\n"
-"Minbar Prayer Times is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
+"منبار لمونځ وختونه يو وړيا ساوتری دی؛ تاسو دا ساوتری د جي اېن يو د ټولګړي منښتليک د توکيو له مخې، چې د وړيا ساوتريو د بنسټ له خوا خپور شوی، بيا خپرولی او/يا بدلولی شئ؛.د منښتليک ۲يمه نسخه، او يا (ستاسو په خوښه) هره نوې .نسخه کارولی شئ\n"
+" \n"
+"منبار لمونځ وختونه په دې هيله خپريږي چې تاسې لپاره ګټور .ووسيږي، خو پرته له هر ډول ورنټۍ څخه.د نورو خبرتياوو لپاره د جي اېن يو ټولګړی منښتليک وګورﺉ\n"
+" \n"
+"تاسو به د منبار لمونځ وختونو ساوتري سره د جي اېن يو د ټولګړي منښتليک يوه لمېسه ترلاسه کړې وي. که نه، نو د وړيا ساوتريو بنسټ :ته ليک ولېږئ\n"
+"Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
 #: ../data/minbar.glade.h:34
 msgid "Normal Athan:"
@@ -410,27 +410,27 @@ msgstr ":پلټنه_"
 
 #: ../data/minbar.glade.h:54
 msgid "gtk-apply"
-msgstr "gtk-apply"
+msgstr "gtk-کارول"
 
 #: ../data/minbar.glade.h:55
 msgid "gtk-cancel"
-msgstr "gtk-cancel"
+msgstr "gtk-ړنګونه"
 
 #: ../data/minbar.glade.h:56
 msgid "gtk-close"
-msgstr "gtk-close"
+msgstr "gtk-بندول"
 
 #: ../data/minbar.glade.h:57
 msgid "gtk-media-play"
-msgstr "gtk-media-play"
+msgstr "gtk-رسنۍ-غږول"
 
 #: ../data/minbar.glade.h:58
 msgid "gtk-media-stop"
-msgstr "gtk-media-stop"
+msgstr "gtk-رسنۍ-تمول"
 
 #: ../data/minbar.glade.h:59
 msgid "gtk-preferences"
-msgstr "gtk-preferences"
+msgstr "gtk-غوراوي"
 
 #: ../data/minbar.glade.h:60
 msgid "minbar was not built with notifications support."
@@ -438,7 +438,7 @@ msgstr ".منبار د يادښتونو د ملاتړ سره نه وو جوړ ش
 
 #: ../data/minbar.glade.h:61
 msgid "minutes"
-msgstr "منټونه"
+msgstr "منټه"
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
 #: ../data/minbar.glade.h:63

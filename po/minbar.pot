@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-17 18:30+0000\n"
+"POT-Creation-Date: 2007-12-02 16:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -182,27 +182,27 @@ msgstr ""
 msgid "Hide main window on start up."
 msgstr ""
 
-#: ../src/main.c:1432
+#: ../src/main.c:1441
 msgid "In Makkah!"
 msgstr ""
 
-#: ../src/main.c:1481
+#: ../src/main.c:1490
 msgid "Qibla direction"
 msgstr ""
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "East"
 msgstr ""
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "West"
 msgstr ""
 
-#: ../src/main.c:1537
+#: ../src/main.c:1546
 msgid "Minbar Website"
 msgstr ""
 
-#: ../src/main.c:1654
+#: ../src/main.c:1665
 msgid ""
 "Failed to load the Locations XML database.  Please report this as a bug."
 msgstr ""

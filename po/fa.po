@@ -162,7 +162,7 @@ msgstr "ذیحجه"
 
 #: ../src/main.c:1268
 msgid "Subh"
-msgstr "اذان صبح"
+msgstr "صبح"
 
 #: ../src/main.c:1269
 msgid "Shorook"
@@ -170,19 +170,19 @@ msgstr "طلوع آفتاب"
 
 #: ../src/main.c:1270
 msgid "Dhuhr"
-msgstr "اذان ظهر"
+msgstr "ظهر"
 
 #: ../src/main.c:1271
 msgid "Asr"
-msgstr "اذان عصر"
+msgstr "عصر"
 
 #: ../src/main.c:1272
 msgid "Maghreb"
-msgstr "اذان مغرب"
+msgstr "مغرب"
 
 #: ../src/main.c:1273
 msgid "Isha'a"
-msgstr "اذان عشاء"
+msgstr "عشاء"
 
 #: ../src/main.c:1286
 msgid "Hide main window on start up."

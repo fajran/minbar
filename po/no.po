@@ -65,9 +65,9 @@ msgid ","
 msgstr ""
 
 #: ../src/main.c:283
-#, c-format
+#, fuzzy, c-format
 msgid "%d minutes until %s prayer."
-msgstr "%s er om %d minutter."
+msgstr "%d er om %s minutter."
 
 #: ../src/main.c:298
 #, c-format

@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../src/main.c:156
 #, c-format
@@ -223,11 +223,11 @@ msgstr "<b>طریقهء حساب</b>"
 
 #: ../data/minbar.glade.h:2
 msgid "<b>Notifications</b>"
-msgstr "<b>نوٹیفکیشنز</b>"
+msgstr "<b>تنبيهات</b>"
 
 #: ../data/minbar.glade.h:3
-msgid "<b>اختیارات</b>"
-msgstr ""
+msgid "<b>Options</b>"
+msgstr "<b>اختیارات</b>"
 
 #: ../data/minbar.glade.h:4
 msgid "<b>Times</b>"
@@ -290,7 +290,7 @@ msgstr ""
 "مصری عام سروے اتهارٹی\n"
 "جامعه اسلامی ساءنس، کراچی (شافعی)۔\n"
 "جامعه اسلامی ساءنس، کراچی (حنفی)۔\n"
-"جنوبی امریکه کی اسلامی سوساءٹی\n"
+"شمال امریکه کی اسلامی سوساءٹی\n"
 "۔(MWL) مسلم عالمی لیگ\n"
 "امﹼ القراء، سعودی عرب\n"
 "عشاء تک مقرره وقفه (همیشه ٩٠ منٹ)"
@@ -345,7 +345,7 @@ msgstr "عام اذان:"
 
 #: ../data/minbar.glade.h:35
 msgid "Notifications"
-msgstr "نوٹیفکیشنز"
+msgstr "تنبيهات"
 
 #: ../data/minbar.glade.h:36 ../data/minbar.schemas.in.in.h:9
 msgid "Play Athan"
@@ -369,7 +369,7 @@ msgstr "ترجیحات"
 
 #: ../data/minbar.glade.h:41
 msgid "Quit"
-msgstr ""
+msgstr "چھوڑیں"
 
 #: ../data/minbar.glade.h:42
 msgid "Select Athan File"
@@ -393,11 +393,11 @@ msgstr "اذان صبح:"
 
 #: ../data/minbar.glade.h:47
 msgid "Time Zone:"
-msgstr "ٹاءم زون"
+msgstr "علاقاءی وقت:"
 
 #: ../data/minbar.glade.h:48
 msgid "Timetable"
-msgstr "ٹاءم ٹیبل:"
+msgstr "جدول اوقات:"
 
 #: ../data/minbar.glade.h:49
 msgid "Today"
@@ -445,7 +445,7 @@ msgstr ""
 
 #: ../data/minbar.glade.h:60
 msgid "minbar was not built with notifications support."
-msgstr ""
+msgstr "منبربناتے وقت اس میں تنبیھات شامل نھیں کی گءیں۔"
 
 #: ../data/minbar.glade.h:61
 msgid "minutes"
@@ -454,7 +454,7 @@ msgstr "منٹ"
 #. TRANSLATORS: Replace this string with your names, one name per line.
 #: ../data/minbar.glade.h:63
 msgid "translator-credits"
-msgstr ""
+msgstr "مترجم"
 
 #: ../data/minbar.schemas.in.in.h:1
 msgid "Calculation method"
@@ -478,7 +478,7 @@ msgstr "شهر کا نام"
 
 #: ../data/minbar.schemas.in.in.h:6
 msgid "Notification period"
-msgstr "نوٹیفکیشن کاوقفه"
+msgstr "وقفهء تنبيهات"
 
 #: ../data/minbar.schemas.in.in.h:7
 msgid "Path to Subh athan file."
@@ -490,7 +490,7 @@ msgstr "اذان کی فاءل کارسته۔"
 
 #: ../data/minbar.schemas.in.in.h:10
 msgid "Set to true to close when clicking the close button instead of hiding."
-msgstr ""
+msgstr "بند بٹن کلک کرنے پر ونڈو کو چھپانے کی بجاءے بند کریں۔"
 
 #: ../data/minbar.schemas.in.in.h:12
 msgid "Time Zone, difference from GMT"

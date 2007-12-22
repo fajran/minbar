@@ -429,27 +429,27 @@ msgstr "_Rechercher:"
 
 #: ../data/minbar.glade.h:54
 msgid "gtk-apply"
-msgstr "gtk-appliquer"
+msgstr ""
 
 #: ../data/minbar.glade.h:55
 msgid "gtk-cancel"
-msgstr "gtk-annuler"
+msgstr ""
 
 #: ../data/minbar.glade.h:56
 msgid "gtk-close"
-msgstr "gtk-fermer"
+msgstr ""
 
 #: ../data/minbar.glade.h:57
 msgid "gtk-media-play"
-msgstr "gtk-media-jouer"
+msgstr ""
 
 #: ../data/minbar.glade.h:58
 msgid "gtk-media-stop"
-msgstr "gtk-media-arrêter"
+msgstr ""
 
 #: ../data/minbar.glade.h:59
 msgid "gtk-preferences"
-msgstr "gtk-préférences"
+msgstr ""
 
 #: ../data/minbar.glade.h:60
 msgid "minbar was not built with notifications support."

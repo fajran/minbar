@@ -1168,8 +1168,8 @@ gboolean update_interval(gpointer data)
 #if USE_TRAY_ICON
 void load_system_tray()
 {
-	status_icon 	= gtk_status_icon_new_from_file
-		(g_build_filename(MINBAR_PIXMAPSDIR,MINBAR_KAABA_ICON,NULL));
+	status_icon 	= gtk_status_icon_new_from_icon_name
+		("minbar");
 	
 	g_signal_connect ((GtkStatusIcon * ) (status_icon), "popup_menu", 
 			G_CALLBACK(tray_icon_right_clicked_callback) , NULL);

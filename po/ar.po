@@ -65,7 +65,7 @@ msgstr "تفصلنا %Id %s و %Id %s عن صلاة %s"
 #.
 #: ../src/main.c:217
 msgid "%d %B %G"
-msgstr "%Id %B %G"
+msgstr "%d %B %G"
 
 #. TRANSLATOR: this is a format string for strftime
 #. *             see `man 3 strftime` for more details

@@ -29,6 +29,7 @@ libitl-dev
 libgconf2-dev
 libgstreamer0.10-dev
 libnotify-dev
+libgnomecanvas2-dev
 
 Build essentials: make, gcc, ...
 

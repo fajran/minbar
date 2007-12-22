@@ -1,46 +1,38 @@
---Next release
-DONE ability to start minimised to tray
-DONE fix .desktop installation
-DONE tooltip should show next prayer and all of them as well.
-DONE store athan path.
-DONE Prayer Timetable
-DONE Multiple Athan files, subh athan file as well.
-DONE close hides (+option)
-DONE COOL: change minute string according to changing the number live.
-DONE icons for about and preferences.
-DONE time in date label
-DONE week day in date label
-DONE appropriate plurals support
-DONE add CLI option to start minimised
-DONE Qibla Direction
-DONE configure summary
-DONE city names (implicit): use gnome-applets-locations
-DONE More info ala eog
-DONE better artwork
-DONE gracefully handle non existant files.
-  I'm not sure what to do about this. Currently
-  if the directory containing the sound file does not exist
-  it warns on startup.
-DONE Accept non integer values for timezone
-DONE Integrate new artwork
-DONE Copyright notices
-DONE Clickable web page
-DONE properly handle Makkah case
-test start when minimised
-
+--0.2
+Ability to start minimised to tray
+Fix .desktop installation
+Tooltip should show next prayer and all of them as well.
+Store athan path.
+Prayer Timetable
+Multiple Athan files, subh athan file as well.
+Close hides (+option)
+Change minute string according to changing the number live.
+Icons for about and preferences.
+Time in date label
+Week day in date label
+Appropriate plurals support
+Add CLI option to start minimised
+Qibla Direction
+Configure summary
+City names (implicit): use gnome-applets-locations
+Better artwork
+Accept non integer values for timezone
+Integrate new artwork
+Copyright notices
+Clickable web page
+Properly handle Makkah case
+Version number in about dialogue as well as copyright year.
 
 --some time
 Detect running instance and don't duplicate.
 use: http://commons.wikimedia.org/wiki/Image:Compass.svg
-Package for deb/rpm/windows
 Use direct conf detection.
 Hijri Calendar
 -hijri events
 -Yearly timetable document
 -different graphics for salat times
-specify hijri date correction -- pending discussion on itl
-support more media types
-the ability to track the sun for qibla
-list of athans in interface instead of file selection
+Specify hijri date correction -- pending discussion on itl
+Support more media types
+List of athans in interface instead of file selection
 Gnome panel entries.
-load locations after a fixed time.
+Load locations after a fixed time.

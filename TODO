@@ -36,3 +36,4 @@ Support more media types
 List of athans in interface instead of file selection
 Gnome panel entries.
 Load locations after a fixed time.
+Build systems: properly specify auxiliary files, clean files.

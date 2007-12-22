@@ -910,7 +910,7 @@ Fixed Ishaa Interval (always 90)</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="gravity">GDK_GRAVITY_CENTER</property>
-    <property name="copyright" translatable="yes">Copyright (c) 2006 Djihed Afifi &lt;djihed@gmail.com&gt;</property>
+    <property name="copyright" translatable="yes">Copyright (c) 2006, 2007 Djihed Afifi &lt;djihed@gmail.com&gt;</property>
     <property name="comments" translatable="yes">Prayer Times on your Desktop</property>
     <property name="license" translatable="yes">Minbar Prayer Times is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 

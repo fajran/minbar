@@ -929,6 +929,8 @@ void init_prefs ()
 
 	/* show on start up? */
 	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
+	
+#if USE_TRAY_ICON
 	if(!start_hidden && !start_hidden_arg)
 	{
 		gtk_widget_show(mainwindow);
@@ -937,7 +939,9 @@ void init_prefs ()
 	{
 		gtk_widget_hide(mainwindow);
 	}
-
+#else
+	gtk_widget_show(mainwindow);
+#endif
 	/* set UI vars */
 	/* Check existence of file */
 	FILE * testfile;

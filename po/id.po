@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Minbar 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-17 18:30+0000\n"
+"POT-Creation-Date: 2007-12-21 22:03+0000\n"
 "PO-Revision-Date: 2007-11-20 06:06+0000\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
 
 #: ../src/main.c:156
 #, c-format
@@ -28,11 +29,15 @@ msgstr "%d %s menit menjelang sholat %s."
 
 #: ../src/main.c:164 ../src/main.c:182 ../src/main.c:390
 msgid "minute"
-msgstr "menit"
+msgid_plural "minutes"
+msgstr[0] "menit"
+msgstr[1] "menit"
 
 #: ../src/main.c:172 ../src/main.c:180
 msgid "hour"
-msgstr "jam"
+msgid_plural "hours"
+msgstr[0] "jam"
+msgstr[1] "jam"
 
 #: ../src/main.c:178
 #, c-format
@@ -179,31 +184,30 @@ msgstr "Isya"
 msgid "Hide main window on start up."
 msgstr "Sembunyikan jendela utama saat mulai."
 
-#: ../src/main.c:1432
+#: ../src/main.c:1441
 msgid "In Makkah!"
 msgstr "Di Mekah!"
 
-#: ../src/main.c:1481
+#: ../src/main.c:1490
 msgid "Qibla direction"
 msgstr "Arah kiblat"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "East"
 msgstr "Timur"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "West"
 msgstr "Barat"
 
-#: ../src/main.c:1537
+#: ../src/main.c:1546
 msgid "Minbar Website"
 msgstr "Situs Web Minbar"
 
-#: ../src/main.c:1654
+#: ../src/main.c:1665
 msgid ""
 "Failed to load the Locations XML database.  Please report this as a bug."
-msgstr ""
-"Gagal memuat basis data XML Lokasi.  Mohon laporkan ini sebagai bug."
+msgstr "Gagal memuat basis data XML Lokasi.  Mohon laporkan ini sebagai bug."
 
 #: ../data/minbar.glade.h:1
 msgid "<b>Calculation Method</b>"
@@ -254,8 +258,8 @@ msgid "City name:"
 msgstr "Nama kota:"
 
 #: ../data/minbar.glade.h:13
-msgid "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
-msgstr "Hak cipta (c) 2006 Djihed Afifi <djihed@gmail.com>"
+msgid "Copyright (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
+msgstr "Hak cipta (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
 
 #: ../data/minbar.glade.h:14
 msgid "Current date printing error"
@@ -292,8 +296,8 @@ msgid ""
 "If you cannot find your location, please go to www.islamicfinder.org to "
 "search for it."
 msgstr ""
-"Bila anda tidak dapat menemukan lokasi anda, silahkan kunjungi "
-"www.islamicfinder.org untuk mencarinya."
+"Bila anda tidak dapat menemukan lokasi anda, silahkan kunjungi www."
+"islamicfinder.org untuk mencarinya."
 
 #: ../data/minbar.glade.h:25
 msgid "Latitude:"
@@ -495,7 +499,9 @@ msgstr "Path ke berkas adzan."
 
 #: ../data/minbar.schemas.in.in.h:10
 msgid "Set to true to close when clicking the close button instead of hiding."
-msgstr "Set ke benar untuk menutup ketika meng-klik tombol tutup, bukan sekedar menyembunyikan."
+msgstr ""
+"Set ke benar untuk menutup ketika meng-klik tombol tutup, bukan sekedar "
+"menyembunyikan."
 
 #: ../data/minbar.schemas.in.in.h:12
 msgid "Time Zone, difference from GMT"

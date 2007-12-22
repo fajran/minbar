@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-17 18:30+0000\n"
+"POT-Creation-Date: 2007-12-21 22:03+0000\n"
 "PO-Revision-Date: 2007-11-30 17:10+02\n"
 "Last-Translator: Mustafa Doğan <dogan@politics.ankara.edu.tr>\n"
 "Language-Team: Türkçe <TR@li.org>\n"
@@ -15,7 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-
 
 #: ../src/main.c:156
 #, c-format
@@ -83,7 +82,9 @@ msgstr "%s namazı vakti."
 #, c-format
 msgid ""
 "Invalid calculation method in preferences, using 5: Muslim world League \n"
-msgstr "Tercih edilen hesaplama metodu geçersizdir, Muslim World League metodu kullanılacaktır.\n"
+msgstr ""
+"Tercih edilen hesaplama metodu geçersizdir, Muslim World League metodu "
+"kullanılacaktır.\n"
 
 #: ../src/main.c:1054
 #, c-format
@@ -182,30 +183,32 @@ msgstr "Yatsı"
 msgid "Hide main window on start up."
 msgstr "Ana ekranı açılışta gizle"
 
-#: ../src/main.c:1432
+#: ../src/main.c:1441
 msgid "In Makkah!"
 msgstr "Mekke'de!"
 
-#: ../src/main.c:1481
+#: ../src/main.c:1490
 msgid "Qibla direction"
 msgstr "Kıble yönü"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "East"
 msgstr "Doğu"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "West"
 msgstr "Batı"
 
-#: ../src/main.c:1537
+#: ../src/main.c:1546
 msgid "Minbar Website"
 msgstr "Minber Anasayfası"
 
-#: ../src/main.c:1654
+#: ../src/main.c:1665
 msgid ""
 "Failed to load the Locations XML database.  Please report this as a bug."
-msgstr "Locations XML veritabanı yüklenirken hata oluştu. Lütfen bu durumu hata olarak bildirin."
+msgstr ""
+"Locations XML veritabanı yüklenirken hata oluştu. Lütfen bu durumu hata "
+"olarak bildirin."
 
 #: ../data/minbar.glade.h:1
 msgid "<b>Calculation Method</b>"
@@ -256,8 +259,8 @@ msgid "City name:"
 msgstr "Şehir adı:"
 
 #: ../data/minbar.glade.h:13
-msgid "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
-msgstr "Telif hakkı (c) 2006 Djihed Afifi <djihed@gmail.com>"
+msgid "Copyright (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
+msgstr "Telif hakkı (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
 
 #: ../data/minbar.glade.h:14
 msgid "Current date printing error"

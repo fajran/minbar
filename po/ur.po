@@ -1,12 +1,11 @@
 # Copyright (C) 
 # This file is distributed under the same license as the Minbar package.
 #
-
 msgid ""
 msgstr ""
 "Project-Id-Version: Minbar 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-17 18:30+0000\n"
+"POT-Creation-Date: 2007-12-21 22:03+0000\n"
 "PO-Revision-Date: 2007-11-26 22:30+0800\n"
 "Last-Translator: Suleman Khalid <sulemankm2@yahoo.com>\n"
 "Language-Team: Urdu <LL@li.org>\n"
@@ -50,6 +49,7 @@ msgstr "۔%d %s اور %d %s اور %s نماز"
 #: ../src/main.c:217
 msgid "%d %B %G"
 msgstr ""
+
 # January	جنوری
 # February	فروری
 # March	مارچ
@@ -62,7 +62,6 @@ msgstr ""
 # October	اکتوبر
 # Nov	نومبر
 # Dec	دسمبر
-
 #. TRANSLATOR: this is a format string for strftime
 #. *             see `man 3 strftime` for more details
 #. *             copy it if you're unsure
@@ -192,30 +191,31 @@ msgstr "عشاء"
 msgid "Hide main window on start up."
 msgstr "ابتدا میں مین وِنڈو نگاه سے اوجهل رهے۔"
 
-#: ../src/main.c:1432
+#: ../src/main.c:1441
 msgid "In Makkah!"
 msgstr "مکه میں!۔"
 
-#: ../src/main.c:1481
+#: ../src/main.c:1490
 msgid "Qibla direction"
 msgstr "سمتِ قبله"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "East"
 msgstr "مشرق"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "West"
 msgstr "مغرب"
 
-#: ../src/main.c:1537
+#: ../src/main.c:1546
 msgid "Minbar Website"
 msgstr "منبر ویب ساءٹ"
 
-#: ../src/main.c:1654
+#: ../src/main.c:1665
 msgid ""
 "Failed to load the Locations XML database.  Please report this as a bug."
-msgstr "جگهوں کی ڈیٹابیس لادنے میں ناکامی۔ براءے مهربانی اس مسءلے کو رپورٹ کیجیءے۔"
+msgstr ""
+"جگهوں کی ڈیٹابیس لادنے میں ناکامی۔ براءے مهربانی اس مسءلے کو رپورٹ کیجیءے۔"
 
 #: ../data/minbar.glade.h:1
 msgid "<b>Calculation Method</b>"
@@ -266,8 +266,8 @@ msgid "City name:"
 msgstr "نام شهر:"
 
 #: ../data/minbar.glade.h:13
-msgid "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
-msgstr "2006 Djihed Afifi <djihed@gmail.com> (c) حقوق نقل"
+msgid "Copyright (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
+msgstr "2006, 2007 Djihed Afifi <djihed@gmail.com> (c) حقوق نقل"
 
 #: ../data/minbar.glade.h:14
 msgid "Current date printing error"
@@ -295,7 +295,6 @@ msgstr ""
 "امﹼ القراء، سعودی عرب\n"
 "عشاء تک مقرره وقفه (همیشه ٩٠ منٹ)"
 
-
 #: ../data/minbar.glade.h:23
 msgid "Find City"
 msgstr "شهر تلاش کیجءے"
@@ -304,7 +303,9 @@ msgstr "شهر تلاش کیجءے"
 msgid ""
 "If you cannot find your location, please go to www.islamicfinder.org to "
 "search for it."
-msgstr "اگر آپ اپنا مقام تلاش نهےں کر سکے تو براءے مهربانی www.islamicfinder.org پر جاکر تلاش کریں۔"
+msgstr ""
+"اگر آپ اپنا مقام تلاش نهےں کر سکے تو براءے مهربانی www.islamicfinder.org پر "
+"جاکر تلاش کریں۔"
 
 #: ../data/minbar.glade.h:25
 msgid "Latitude:"

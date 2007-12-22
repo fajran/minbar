@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-17 18:30+0000\n"
+"POT-Creation-Date: 2007-12-21 22:03+0000\n"
 "PO-Revision-Date: 22012007\n"
 "Last-Translator: Johann Manaf Tepstad\n"
 "Language-Team: Arabeyes\n"
@@ -178,29 +178,29 @@ msgstr ""
 msgid "Hide main window on start up."
 msgstr ""
 
-#: ../src/main.c:1432
+#: ../src/main.c:1441
 msgid "In Makkah!"
 msgstr ""
 
-#: ../src/main.c:1481
+#: ../src/main.c:1490
 msgid "Qibla direction"
 msgstr ""
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "East"
 msgstr ""
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 #, fuzzy
 msgid "West"
 msgstr "Vevside"
 
-#: ../src/main.c:1537
+#: ../src/main.c:1546
 #, fuzzy
 msgid "Minbar Website"
 msgstr "Vevside"
 
-#: ../src/main.c:1654
+#: ../src/main.c:1665
 msgid ""
 "Failed to load the Locations XML database.  Please report this as a bug."
 msgstr ""
@@ -259,8 +259,8 @@ msgid "City name:"
 msgstr "By:"
 
 #: ../data/minbar.glade.h:13
-msgid "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
-msgstr "Kopibeskyttet (c) 2007 Djihed Afifi <djihed@gmail.com>"
+msgid "Copyright (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
+msgstr "Kopibeskyttet (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
 
 #: ../data/minbar.glade.h:14
 msgid "Current date printing error"

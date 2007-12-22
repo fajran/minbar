@@ -1,7 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Minbar\n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-12-21 22:03+0000\n"
 "PO-Revision-Date: 2007-12-02 22:36+0400\n"
 "Last-Translator: R. F. Abasquliyev <rauf.abasquliyev@gmail.com>\n"
 "Language-Team: Russian <abdurrauf@mail.ru>\n"
@@ -9,30 +10,27 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Russian\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\\n\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\\n\n"
 
 #: ../src/main.c:156
 #, c-format
 msgid "Time for prayer: %s"
 msgstr "Время намаза: %s"
 
-#: ../src/main.c:162
-#: ../src/main.c:170
+#: ../src/main.c:162 ../src/main.c:170
 #, c-format
 msgid "%d %s until %s prayer."
 msgstr "%d %s до %s намаза."
 
-#: ../src/main.c:164
-#: ../src/main.c:182
-#: ../src/main.c:390
+#: ../src/main.c:164 ../src/main.c:182 ../src/main.c:390
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "минута"
 msgstr[1] "минуты"
 msgstr[2] "минуты"
 
-#: ../src/main.c:172
-#: ../src/main.c:180
+#: ../src/main.c:172 ../src/main.c:180
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "час"
@@ -79,11 +77,13 @@ msgstr "%d минут до %s намаза."
 msgid "It is time for %s prayer."
 msgstr "Время намаза %s."
 
-#: ../src/main.c:749
-#: ../src/main.c:840
+#: ../src/main.c:749 ../src/main.c:840
 #, c-format
-msgid "Invalid calculation method in preferences, using 5: Muslim world League \n"
-msgstr "В настройках указан неправильный метод вычисления. Вместо него будет использоваться метод 5: Лига Исламских Государств \n"
+msgid ""
+"Invalid calculation method in preferences, using 5: Muslim world League \n"
+msgstr ""
+"В настройках указан неправильный метод вычисления. Вместо него будет "
+"использоваться метод 5: Лига Исламских Государств \n"
 
 #: ../src/main.c:1054
 #, c-format
@@ -98,8 +98,7 @@ msgstr "Все файлы"
 msgid "Supported files"
 msgstr "Поддерживаемые файлы"
 
-#: ../src/main.c:1252
-#: ../minbar.desktop.in.h:2
+#: ../src/main.c:1252 ../minbar.desktop.in.h:2
 msgid "Minbar Prayer Times"
 msgstr "Программа расчета времени намаза «Минбар»"
 
@@ -183,29 +182,32 @@ msgstr "Иша"
 msgid "Hide main window on start up."
 msgstr "Скрывать главное окно при запуске."
 
-#: ../src/main.c:1432
+#: ../src/main.c:1441
 msgid "In Makkah!"
 msgstr "В Мекке!"
 
-#: ../src/main.c:1481
+#: ../src/main.c:1490
 msgid "Qibla direction"
 msgstr "Направление к Кибле"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "East"
 msgstr "Восток"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "West"
 msgstr "Запад"
 
-#: ../src/main.c:1537
+#: ../src/main.c:1546
 msgid "Minbar Website"
 msgstr "Вебсайт программы «Минбар»"
 
-#: ../src/main.c:1654
-msgid "Failed to load the Locations XML database.  Please report this as a bug."
-msgstr "Невозможно сагрузить XML-базу данных местоположений. Пожалуйста, сообщите об этой ошибке."
+#: ../src/main.c:1665
+msgid ""
+"Failed to load the Locations XML database.  Please report this as a bug."
+msgstr ""
+"Невозможно сагрузить XML-базу данных местоположений. Пожалуйста, сообщите об "
+"этой ошибке."
 
 #: ../data/minbar.glade.h:1
 msgid "<b>Calculation Method</b>"
@@ -256,8 +258,8 @@ msgid "City name:"
 msgstr "Название города:"
 
 #: ../data/minbar.glade.h:13
-msgid "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
-msgstr "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
+msgid "Copyright (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
+msgstr "Copyright (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
 
 #: ../data/minbar.glade.h:14
 msgid "Current date printing error"
@@ -290,8 +292,12 @@ msgid "Find City"
 msgstr "Найти город"
 
 #: ../data/minbar.glade.h:24
-msgid "If you cannot find your location, please go to www.islamicfinder.org to search for it."
-msgstr "Если Вы не можете найти в списке Ваш город, пожалуйста поищите его на сайте www.islamicfinder.org ."
+msgid ""
+"If you cannot find your location, please go to www.islamicfinder.org to "
+"search for it."
+msgstr ""
+"Если Вы не можете найти в списке Ваш город, пожалуйста поищите его на сайте "
+"www.islamicfinder.org ."
 
 #: ../data/minbar.glade.h:25
 msgid "Latitude:"
@@ -311,17 +317,36 @@ msgstr "Расписание времени намазов «Минбар»"
 
 #: ../data/minbar.glade.h:29
 msgid ""
-"Minbar Prayer Times is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
+"Minbar Prayer Times is free software; you can redistribute it and/or modify "
+"it under the terms of the GNU General Public License as published by the "
+"Free Software Foundation; either version 2 of the License, or (at your "
+"option) any later version.\n"
 "\n"
-"Minbar Prayer Times is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
+"Minbar Prayer Times is distributed in the hope that it will be useful, but "
+"WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY "
+"or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
+"You should have received a copy of the GNU General Public License along with "
+"Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 "
+"Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 msgstr ""
-"Программа расчета времени намаза «Минбар» относится к категории свободного программного обеспечения. Вы имеете право распространять данную программу и/или модифицировать ее, придерживаясь при этом условий 2-ой или более поздней (на Ваш выбор) версии лицензии GNU General Public License, опубликованной фондом Free Software Foundation.\n"
+"Программа расчета времени намаза «Минбар» относится к категории свободного "
+"программного обеспечения. Вы имеете право распространять данную программу и/"
+"или модифицировать ее, придерживаясь при этом условий 2-ой или более поздней "
+"(на Ваш выбор) версии лицензии GNU General Public License, опубликованной "
+"фондом Free Software Foundation.\n"
 "\n"
-"Программа расчета времени намаза «Минбар» распространяется в надежде на то, что она будет полезна кому-либо, но БЕЗ КАКОЙ ЛИБО ГАРАНТИИ; в том числе без вытекающей гарантии ТОВАРНОЙ ПРИГОДНОСТИ или ПРИГОДНОСТИ ДЛЯ ЧАСТНОГО ИСПОЛЬЗОВАНИЯ. См. лицензию GNU General Public License для более подробной информации. \n"
+"Программа расчета времени намаза «Минбар» распространяется в надежде на то, "
+"что она будет полезна кому-либо, но БЕЗ КАКОЙ ЛИБО ГАРАНТИИ; в том числе без "
+"вытекающей гарантии ТОВАРНОЙ ПРИГОДНОСТИ или ПРИГОДНОСТИ ДЛЯ ЧАСТНОГО "
+"ИСПОЛЬЗОВАНИЯ. См. лицензию GNU General Public License для более подробной "
+"информации. \n"
 "\n"
-"Вместе с программой расчета времени намаза «Минбар» вы должны получить копию лицензии GNU General Public License; в противном случае для ее приобретения обращайтесь по адресу: Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
+"Вместе с программой расчета времени намаза «Минбар» вы должны получить копию "
+"лицензии GNU General Public License; в противном случае для ее приобретения "
+"обращайтесь по адресу: Free Software Foundation, Inc., 59 Temple Place, "
+"Suite 330, Boston, MA  02111-1307  USA"
 
 #: ../data/minbar.glade.h:34
 msgid "Normal Athan:"
@@ -331,8 +356,7 @@ msgstr "Нормальный азан:"
 msgid "Notifications"
 msgstr "Уведомления"
 
-#: ../data/minbar.glade.h:36
-#: ../data/minbar.schemas.in.in.h:9
+#: ../data/minbar.glade.h:36 ../data/minbar.schemas.in.in.h:9
 msgid "Play Athan"
 msgstr "Прослушать азан"
 
@@ -364,8 +388,7 @@ msgstr "Выбрать файл азана"
 msgid "Show/Hide"
 msgstr "Показать/Скрыть"
 
-#: ../data/minbar.glade.h:44
-#: ../data/minbar.schemas.in.in.h:11
+#: ../data/minbar.glade.h:44 ../data/minbar.schemas.in.in.h:11
 msgid "Start minimised to tray."
 msgstr "Запускать свернутым в системный лоток."
 
@@ -489,4 +512,3 @@ msgstr "Уведомлять или нет"
 #: ../minbar.desktop.in.h:1
 msgid "Islamic prayer times"
 msgstr "Время намазов"
-

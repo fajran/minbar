@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: minbar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-17 18:30+0000\n"
+"POT-Creation-Date: 2007-12-21 22:03+0000\n"
 "PO-Revision-Date: 2007-12-03 14:18+0100\n"
 "Last-Translator: Abdelmonam Kouka <abdelmonam.kouka@ubuntume.com>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -17,35 +17,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 
-
 #: ../src/main.c:156
 #, c-format
 msgid "Time for prayer: %s"
 msgstr "Il est l'heure de la prière du %s"
 
-#: ../src/main.c:162
-#: ../src/main.c:170
+#: ../src/main.c:162 ../src/main.c:170
+#, c-format
 msgid "%d %s until %s prayer."
 msgstr "%d %s d'ici la prière du %s."
 
-#: ../src/main.c:164
-#: ../src/main.c:182
-#: ../src/main.c:390
+#: ../src/main.c:164 ../src/main.c:182 ../src/main.c:390
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minute"
 msgstr[1] "minutes"
 
-#: ../src/main.c:172
-#: ../src/main.c:180
+#: ../src/main.c:172 ../src/main.c:180
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "heur"
 msgstr[1] "heurs"
 
 #: ../src/main.c:178
+#, c-format
 msgid "%d %s and %d %s until %s prayer."
-msgstr "%d %d et %d %s  d'ici la prière du %s."
+msgstr "%d %s et %d %s d'ici la prière du %s."
 
 #. TRANSLATOR: this is a format string for strftime
 #. *             see `man 3 strftime` for more details
@@ -82,10 +79,10 @@ msgstr "%d minutes d'ici la prière du %s."
 msgid "It is time for %s prayer."
 msgstr "Il est l'heure de la prière du %s."
 
-#: ../src/main.c:749
-#: ../src/main.c:840
+#: ../src/main.c:749 ../src/main.c:840
 #, c-format
-msgid "Invalid calculation method in preferences, using 5: Muslim world League \n"
+msgid ""
+"Invalid calculation method in preferences, using 5: Muslim world League \n"
 msgstr ""
 "Méthode de calcul invalide dans les préférences, méthode 5 utilisée :\n"
 "Ligue mondiale musulmane \n"
@@ -103,8 +100,7 @@ msgstr "Tous les fichiers"
 msgid "Supported files"
 msgstr "Fichiers gérés"
 
-#: ../src/main.c:1252
-#: ../minbar.desktop.in.h:2
+#: ../src/main.c:1252 ../minbar.desktop.in.h:2
 msgid "Minbar Prayer Times"
 msgstr "Horaires de prière avec Minbar"
 
@@ -188,29 +184,32 @@ msgstr "Isha"
 msgid "Hide main window on start up."
 msgstr "Cacher la fenêtre principale au démarrage"
 
-#: ../src/main.c:1432
+#: ../src/main.c:1441
 msgid "In Makkah!"
 msgstr "A la Mecque"
 
-#: ../src/main.c:1481
+#: ../src/main.c:1490
 msgid "Qibla direction"
 msgstr "Direction du Qibla"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "East"
 msgstr "Est"
 
-#: ../src/main.c:1483
+#: ../src/main.c:1492
 msgid "West"
 msgstr "Ouest"
 
-#: ../src/main.c:1537
+#: ../src/main.c:1546
 msgid "Minbar Website"
 msgstr "Minbar Site Web"
 
-#: ../src/main.c:1654
-msgid "Failed to load the Locations XML database.  Please report this as a bug."
-msgstr "Impossible de charger l'emplacement de la base de données XML. Veuillez rapporter ce bogue."
+#: ../src/main.c:1665
+msgid ""
+"Failed to load the Locations XML database.  Please report this as a bug."
+msgstr ""
+"Impossible de charger l'emplacement de la base de données XML. Veuillez "
+"rapporter ce bogue."
 
 #: ../data/minbar.glade.h:1
 msgid "<b>Calculation Method</b>"
@@ -261,8 +260,8 @@ msgid "City name:"
 msgstr "Nom de ville :"
 
 #: ../data/minbar.glade.h:13
-msgid "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
-msgstr "Copyright (c) 2006 Djihed Afifi <djihed@gmail.com>"
+msgid "Copyright (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
+msgstr "Copyright (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
 
 #: ../data/minbar.glade.h:14
 msgid "Current date printing error"
@@ -295,8 +294,12 @@ msgid "Find City"
 msgstr "Rechercher la cité"
 
 #: ../data/minbar.glade.h:24
-msgid "If you cannot find your location, please go to www.islamicfinder.org to search for it."
-msgstr "Si vous ne trouvez pas votre localisation, veuillez aller à www.islamicfinder.org afin de  la rechercher."
+msgid ""
+"If you cannot find your location, please go to www.islamicfinder.org to "
+"search for it."
+msgstr ""
+"Si vous ne trouvez pas votre localisation, veuillez aller à www."
+"islamicfinder.org afin de  la rechercher."
 
 #: ../data/minbar.glade.h:25
 msgid "Latitude:"
@@ -316,17 +319,33 @@ msgstr "Calendrier de prière"
 
 #: ../data/minbar.glade.h:29
 msgid ""
-"Minbar Prayer Times is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
+"Minbar Prayer Times is free software; you can redistribute it and/or modify "
+"it under the terms of the GNU General Public License as published by the "
+"Free Software Foundation; either version 2 of the License, or (at your "
+"option) any later version.\n"
 "\n"
-"Minbar Prayer Times is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
+"Minbar Prayer Times is distributed in the hope that it will be useful, but "
+"WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY "
+"or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
+"You should have received a copy of the GNU General Public License along with "
+"Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 "
+"Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 msgstr ""
-"Minbar Prayer Times is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
+"Minbar Prayer Times is free software; you can redistribute it and/or modify "
+"it under the terms of the GNU General Public License as published by the "
+"Free Software Foundation; either version 2 of the License, or (at your "
+"option) any later version.\n"
 "\n"
-"Minbar Prayer Times is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
+"Minbar Prayer Times is distributed in the hope that it will be useful, but "
+"WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY "
+"or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
+"You should have received a copy of the GNU General Public License along with "
+"Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 "
+"Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 
 #: ../data/minbar.glade.h:34
 msgid "Normal Athan:"
@@ -336,8 +355,7 @@ msgstr "Athan normal:"
 msgid "Notifications"
 msgstr "Notifications"
 
-#: ../data/minbar.glade.h:36
-#: ../data/minbar.schemas.in.in.h:9
+#: ../data/minbar.glade.h:36 ../data/minbar.schemas.in.in.h:9
 msgid "Play Athan"
 msgstr "Jouer l'appel à la prière"
 
@@ -369,8 +387,7 @@ msgstr "Choisir le fichier d'appel à la prière"
 msgid "Show/Hide"
 msgstr "Montrer/Cacher"
 
-#: ../data/minbar.glade.h:44
-#: ../data/minbar.schemas.in.in.h:11
+#: ../data/minbar.glade.h:44 ../data/minbar.schemas.in.in.h:11
 msgid "Start minimised to tray."
 msgstr "Démarrer en mode réduit"
 
@@ -481,7 +498,9 @@ msgstr "Chemin d'accès au fichier Athan."
 
 #: ../data/minbar.schemas.in.in.h:10
 msgid "Set to true to close when clicking the close button instead of hiding."
-msgstr "Mettre à vrai pour fermer après appuis sur le bouton fermer au lieu de cacher."
+msgstr ""
+"Mettre à vrai pour fermer après appuis sur le bouton fermer au lieu de "
+"cacher."
 
 #: ../data/minbar.schemas.in.in.h:12
 msgid "Time Zone, difference from GMT"
@@ -497,14 +516,17 @@ msgstr "Horaires de prière musulmane"
 
 #~ msgid "<b>Athan</b>"
 #~ msgstr "<b>Appel à la prière</b>"
+
 #~ msgid "Manchester, UK"
 #~ msgstr "Manchester, Royaume-Uni"
+
 #~ msgid ""
 #~ "Please go to www.islamicfinder.org to\n"
 #~ " find your city details."
 #~ msgstr ""
 #~ "Veuillez consulter www.islamicfinder.org pour trouver les coordonnées\n"
 #~ " de votre ville."
+
 #~ msgid "Gnome Prayer Times"
 #~ msgstr "Horaires de prière"
 
@@ -515,36 +537,49 @@ msgstr "Horaires de prière musulmane"
 #~ msgstr ""
 #~ "%sApproximativement %d heures et %d minutes\n"
 #~ "d'ici la prochaine prière : %s.%s"
+
 #~ msgid ""
 #~ "%sApproximatly %d hours and %d minutes\n"
 #~ "until next prayer: %s.%s"
 #~ msgstr ""
 #~ "%sApproximativement %d heures et %d minutes\n"
 #~ "d'ici la prochaine prière : %s.%s"
+
 #~ msgid "<b>Asr:</b>"
 #~ msgstr "<b>Aasr :</b>"
+
 #~ msgid "<b>Duhr:</b>"
 #~ msgstr "<b>Dhohr :</b>"
+
 #~ msgid "<b>Isha'a:</b>"
 #~ msgstr "<b>Isha :</b>"
+
 #~ msgid "<b>Maghreb:</b>"
 #~ msgstr "<b>Maghreb :</b>"
+
 #~ msgid "<b>Subh:</b>"
 #~ msgstr "<b>Sobh :</b>"
+
 #~ msgid "<b>Sunrise:</b>"
 #~ msgstr "<b>Lever du soleil :</b>"
+
 #~ msgid "<span color=\"red\"><b>00:05</b></span>"
 #~ msgstr "<span color=\"red\"><b>00:05</b></span>"
+
 #~ msgid "<span color=\"red\"><b>00:03</b></span>"
 #~ msgstr "<span color=\"red\"><b>00:03</b></span>"
+
 #~ msgid "<span color=\"red\"><b>00:04</b></span>"
 #~ msgstr "<span color=\"red\"><b>00:04</b></span>"
+
 #~ msgid "<span color=\"red\"><b>00:02</b></span>"
 #~ msgstr "<span color=\"red\"><b>00:02</b></span>"
+
 #~ msgid "<span color=\"red\"><b>00:01</b></span>"
 #~ msgstr "<span color=\"red\"><b>00:01</b></span>"
+
 #~ msgid "<span color=\"red\"><b>00:00</b></span>"
 #~ msgstr "<span color=\"red\"><b>00:00</b></span>"
+
 #~ msgid "gtk-quit"
 #~ msgstr "gtk-quit"
-

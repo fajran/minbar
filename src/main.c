@@ -34,7 +34,7 @@
 #include "prefs.h"
 #include "locations-xml.h" 
 
-#define USE_TRAY_ICON   (!(GTK_MINOR_VERSION < 9))
+#define USE_TRAY_ICON   1
 #define USE_NOTIFY	(USE_TRAY_ICON & HAVE_NOTIFY)
 
 #if USE_NOTIFY

@@ -30,7 +30,7 @@ GNOME_MAINTAINER_MODE_DEFINES
 # Check for required packages
 # ***************************
 
-pkg_modules="gtk+-2.0 glib-2.0 libglade-2.0 gstreamer-0.10 libgnomecanvas-2.0 libxml-2.0"
+pkg_modules="gtk+-2.0 >= 2.10 glib-2.0 libglade-2.0 gstreamer-0.10 libgnomecanvas-2.0 libxml-2.0"
 PKG_CHECK_MODULES(MINBAR, [$pkg_modules])
 
 AC_CHECK_HEADER(itl/prayer.h,ITL_LIBS=-litl,AC_MSG_ERROR("itl/prayer.h not found."))

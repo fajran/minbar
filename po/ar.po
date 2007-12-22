@@ -28,7 +28,7 @@ msgstr "حان وقت صلاة: %s"
 #: ../src/main.c:170
 #, c-format
 msgid "%d %s until %s prayer."
-msgstr "تفصلنا %d %s عن صلاة %s"
+msgstr "تفصلنا %Id %s عن صلاة %s"
 
 #: ../src/main.c:164
 #: ../src/main.c:182
@@ -56,7 +56,7 @@ msgstr[5] "ساعة"
 #: ../src/main.c:178
 #, c-format
 msgid "%d %s and %d %s until %s prayer."
-msgstr "تفصلنا %d %s و %d %s عن صلاة %s"
+msgstr "تفصلنا %Id %s و %Id %s عن صلاة %s"
 
 #. TRANSLATOR: this is a format string for strftime
 #. *             see `man 3 strftime` for more details
@@ -65,7 +65,7 @@ msgstr "تفصلنا %d %s و %d %s عن صلاة %s"
 #.
 #: ../src/main.c:217
 msgid "%d %B %G"
-msgstr "%d %B %G"
+msgstr "%Id %B %G"
 
 #. TRANSLATOR: this is a format string for strftime
 #. *             see `man 3 strftime` for more details
@@ -86,7 +86,7 @@ msgstr "،"
 #: ../src/main.c:283
 #, c-format
 msgid "%d minutes until %s prayer."
-msgstr "بقي %d دقائق على صلاة %s"
+msgstr "بقي %Id دقائق على صلاة %s"
 
 #: ../src/main.c:298
 #, c-format
@@ -115,7 +115,7 @@ msgstr "الملفات المدعومة"
 #: ../src/main.c:1252
 #: ../minbar.desktop.in.h:2
 msgid "Minbar Prayer Times"
-msgstr "برنامج أوقات الصّلاة «منبر»"
+msgstr "برنامج مواقيت الصّلاة «منبر»"
 
 #: ../src/main.c:1254
 msgid "skip"
@@ -235,7 +235,7 @@ msgstr "<b>الخيارات</b>"
 
 #: ../data/minbar.glade.h:4
 msgid "<b>Times</b>"
-msgstr "<b>الأوقات</b>"
+msgstr "<b>المواقيت</b>"
 
 #: ../data/minbar.glade.h:5
 msgid "About"
@@ -271,7 +271,7 @@ msgstr "اسم المدينة:"
 
 #: ../data/minbar.glade.h:13
 msgid "Copyright (c) 2006, 2007 Djihed Afifi <djihed@gmail.com>"
-msgstr "جميع الحقوق محفوظة © 2006, 2007 جهاد عفيفي <djihed@gmail.com>"
+msgstr "جميع الحقوق محفوظة © 2006، 2007 جهاد عفيفي <djihed@gmail.com>"
 
 #: ../data/minbar.glade.h:14
 msgid "Current date printing error"
@@ -331,9 +331,9 @@ msgid ""
 "\n"
 "You should have received a copy of the GNU General Public License along with Minbar Prayer Times; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA"
 msgstr ""
-"أوقات الصلاة «منبر» برنامج حر؛ بإمكانك إعادة توزيعه أو تعديله تحت شروط الرخصة العمومية العامة لجنو والتي نشرتها منظمة البرمجيات الحرة؛ سواء الإصدارة 2 من الرخصة أو أي إصدارة بعدها حسب رغبتك.\n"
+"مواقيت الصلاة «منبر» برنامج حر؛ بإمكانك إعادة توزيعه أو تعديله تحت شروط الرخصة العمومية العامة لجنو والتي نشرتها منظمة البرمجيات الحرة؛ سواء الإصدارة 2 من الرخصة أو أي إصدارة بعدها حسب رغبتك.\n"
 "\n"
-"يوزّع برنامج أوقات الصلاة «منبر» على أمل أن يكون مفيدًا لمن يستخدمه دون أدنى مسؤولية؛ ولا حتى أي ضمان يضمن صلاحية العرض في السوق أو توافقه مع أي استخدام محدد. يمكنك مراجعة الرخصة العمومية العامة لجنو لمزيد من التفاصيل.\n"
+"يوزّع برنامج مواقيت الصلاة «منبر» على أمل أن يكون مفيدًا لمن يستخدمه دون أدنى مسؤولية؛ ولا حتى أي ضمان يضمن صلاحية العرض في السوق أو توافقه مع أي استخدام محدد. يمكنك مراجعة الرخصة العمومية العامة لجنو لمزيد من التفاصيل.\n"
 "\n"
 "من المفترض أن تكون قد استلمت نسخة من رخصة جنو العامة مع هذا البرنامج؛ في حال عدم استلامك لذلك، يمكنك مكاتبة:\n"
 "Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA."
@@ -357,11 +357,11 @@ msgstr "تقويم الصلاة"
 
 #: ../data/minbar.glade.h:38
 msgid "Prayer Times"
-msgstr "أوقات الصّلاة"
+msgstr "مواقيت الصّلاة"
 
 #: ../data/minbar.glade.h:39
 msgid "Prayer Times on your Desktop"
-msgstr "أوقات الصلاة على مكتبك"
+msgstr "مواقيت الصلاة على مكتبك"
 
 #: ../data/minbar.glade.h:40
 msgid "Preferences"
@@ -398,7 +398,7 @@ msgstr "المنطقة الزمنية:"
 
 #: ../data/minbar.glade.h:48
 msgid "Timetable"
-msgstr "جدول الأوقات"
+msgstr "جدول المواقيت"
 
 #: ../data/minbar.glade.h:49
 msgid "Today"
@@ -505,5 +505,5 @@ msgstr "نبه أم لا"
 
 #: ../minbar.desktop.in.h:1
 msgid "Islamic prayer times"
-msgstr "أوقات الصّلاة"
+msgstr "مواقيت الصّلاة"
 

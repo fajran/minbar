@@ -939,9 +939,16 @@ void init_prefs ()
 	}
 
 	/* set UI vars */
+	/* Check existence of file */
+	FILE * testfile;
+	testfile = fopen( athan_subh_file, "r");
+	if(testfile != NULL)
+	{
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "athan_subh_chooser")),
 			(const gchar *) athan_subh_file);
+	}
+	fclose(testfile);
 	setup_file_filters();
 	gtk_file_chooser_add_filter ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "athan_subh_chooser")),
@@ -951,9 +958,14 @@ void init_prefs ()
 			(glade_xml_get_widget(xml, "athan_subh_chooser")),
 	       		filter_all);
 
+	testfile = fopen( athan_file, "r");
+	if(testfile != NULL)
+	{
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "athan_chooser")),
 			(const gchar *) athan_file);
+	}
+	fclose(testfile);
 	setup_file_filters();
 	gtk_file_chooser_add_filter ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "athan_chooser")),

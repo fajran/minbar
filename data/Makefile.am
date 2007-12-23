@@ -22,12 +22,14 @@ uninstall-local:
 
 endif
 EXTRA_DIST =						\
-	$(schemas_in_files)				\
-	$(schemas_DATA)					\
 	minbar.schemas.in.in				\
 	$(NULL)
 
-
+CLEANFILES = \
+	$(schemas_DATA)					\
+	$(schemas_in_files)				\
+	minbar.schemas.in				\
+	$(NULL)
 
 
 ## End Makefile.am

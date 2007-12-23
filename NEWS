@@ -1,3 +1,11 @@
+Minbar 0.2.1:
+	23/12/2007
+	
+	Fixed default Athan paths.
+	Many thanks Mohammed Adnène Trojette for his patience and
+		fast testing.
+
+
 Minbar 0.2:
 	22/12/2007
 
@@ -34,11 +42,11 @@ Minbar 0.2:
 	Updated and new translations:
 	-----------------------------
 	Arabic: Abderrahim Kitouni, Khaled Hosny.
-	Bosnian: Alma.
+	Bosnian: Nedim, Alma.
 	Farsi: Mohammad Derakhshani
 	French: Abdelmoam Kouka, Mohammed Adnène Trojette.	
 	Indonesian: Andika Triwidada.
-	Pashto: Nedim, Zabeeh Khan	
+	Pashto: Zabeeh Khan	
 	Spanish: Guillermo Garcia Rojas Covarrubias.
 	Turkish: Mustafa Doğan.
 	Urdu: Suleman Khalid.

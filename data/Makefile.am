@@ -9,7 +9,7 @@ schemas_in_files = minbar.schemas.in
 schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 
 minbar.schemas.in: $(srcdir)/minbar.schemas.in.in
-	 sed     -e 's,[@]datarootdir[@],$(datadir),g' \
+	 sed     -e 's,[@]datadir[@],$(datadir),g' \
 		-e 's,[@]PACKAGE[@],$(PACKAGE),g' \
 	 <$(srcdir)/minbar.schemas.in.in >minbar.schemas.in
 

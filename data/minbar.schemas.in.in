@@ -129,7 +129,7 @@
 	<applyto>/apps/minbar/athan/normal</applyto>
         <owner>minbar</owner>
         <type>string</type>
-	<default>@datarootdir@/@PACKAGE@/athan.ogg</default>
+	<default>@datadir@/@PACKAGE@/athan.ogg</default>
         <locale name="C">
           <short>Path to athan file.</short>
         </locale>
@@ -140,7 +140,7 @@
 	<applyto>/apps/minbar/athan/subh</applyto>
         <owner>minbar</owner>
         <type>string</type>
-	<default>@datarootdir@/@PACKAGE@/athan.ogg</default>
+	<default>@datadir@/@PACKAGE@/athan.ogg</default>
         <locale name="C">
           <short>Path to Subh athan file.</short>
         </locale>

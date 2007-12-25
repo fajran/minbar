@@ -2,8 +2,8 @@ Source: minbar
 Section: misc
 Priority: extra
 Maintainer: Mohammed Adnène Trojette <adn+deb@diwi.org>
-Build-Depends: cdbs, debhelper (>= 5), libglib2.0-dev, libgtk2.0-dev (>= 2.10), libglade2-dev, libitl-dev, libgconf2-dev, libgstreamer0.10-dev, gnome-pkg-tools, libnotify-dev (>= 0.4.1), libnotify-dev-gtk2.10, scrollkeeper, intltool
-Standards-Version: 3.7.2
+Build-Depends: cdbs, debhelper (>= 5), libglib2.0-dev, libgtk2.0-dev (>= 2.10), libglade2-dev, libitl-dev, libgconf2-dev, libgstreamer0.10-dev, libgnomecanvas2-dev, gnome-pkg-tools, libnotify-dev (>= 0.4.1), libxml2-dev, scrollkeeper, intltool
+Standards-Version: 3.7.3
 
 Package: minbar
 Architecture: any

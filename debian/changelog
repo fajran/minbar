@@ -1,3 +1,10 @@
+minbar (0.2.1-3) unstable; urgency=low
+
+  * Remove "DEB_CONFIGURE_SCRIPT_ENV += " from debian/rules to avoid FTBFS
+    when sh is dash. (Closes: #458794)
+
+ -- Mohammed Adnène Trojette <adn+deb@diwi.org>  Thu, 03 Jan 2008 11:02:47 +0100
+
 minbar (0.2.1-2) unstable; urgency=low
 
   * Rebootstrap with a fixed data/Makefile.am so that schemas file is

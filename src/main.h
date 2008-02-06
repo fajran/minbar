@@ -39,16 +39,18 @@ void 	setup_widgets(void);
 void 	set_status_tooltip(void);
 void 	play_events(void);
 void	update_calendar(void);
-void	calculate_qibla_direction(void);
 void	setup_locations_applet(void);
+void	set_file_status(gboolean);
 
+#if USE_GSTREAMER
 /* Gstreamer */
 int 	init_pipelines(void);
 void 	new_pad (GstElement *element, GstPad *pad, gpointer data);
 void 	set_file_status(gboolean status);
 gboolean bus_call (GstBus *bus, GstMessage *msg, gpointer data);
-
+#endif
 /* Call backs */
+gboolean draw_qibla(GtkWidget *widget, GdkEventExpose *event, gpointer data);
 void 	stop_athan_callback(void);
 void 	play_athan_callback(void);
 void 	on_enabledathancheck_toggled_callback(GtkWidget *widget, gpointer user_data);

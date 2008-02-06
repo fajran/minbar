@@ -1,3 +1,11 @@
+2008-02-06  Abderrahim Kitouni <a.kitouni@gmail.com>
+	* src/main.c: add xine as backend for athan playback, and rsvg for
+			qibla.
+	* data/minbar.glade: use a GtkDrawinArea instead of a GnomeCanvas.
+	* src/main.h: add prototypes.
+	* data/Compass.svg: new file
+	* configure.ac, Makefile.am, data/Makefile.am: updated.
+	
 2007-12-23  Djihed Afifi <djihed@gmail.com>
 	
 	* 0.2.1: release.

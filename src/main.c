@@ -23,22 +23,34 @@
 #include <glade/glade.h>
 #include <itl/prayer.h>
 #include <itl/hijri.h>
-#include <gst/gst.h>
 #include <glib/gi18n.h>
+
 #include <string.h>
-#include <libgnomecanvas/libgnomecanvas.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include "main.h"
 #include "defines.h"
 #include "prefs.h"
 #include "locations-xml.h" 
 
+
 #define USE_TRAY_ICON   1
 #define USE_NOTIFY	(USE_TRAY_ICON & HAVE_NOTIFY)
 
+#if USE_GSTREAMER
+#include <gst/gst.h>
+#else
+#include <xine.h>
+#endif
+
 #if USE_NOTIFY
 #include <libnotify/notify.h>
+#endif
+
+#if USE_RSVG
+#include <librsvg/rsvg.h>
+#include <librsvg/rsvg-cairo.h>
 #endif
 
 /* Preferences */ 
@@ -73,10 +85,17 @@ static GKeyFile		* conffile;
 #endif
 static GladeXML		* xml;
 static GError		* err 	= NULL;
+#if USE_GSTREAMER
 /* For gstreamer */
 static GstElement	*pipeline, *source, *parser, *decoder, *conv, *sink;
 static GMainLoop	*loop;
 static GstBus		*bus;
+#else
+static xine_t		*xine;
+static xine_audio_port_t*audio_port;
+static xine_stream_t	*stream = NULL;
+#endif
+
 static GtkFileFilter 	*filter_all;
 static GtkFileFilter 	*filter_supported;
 
@@ -91,11 +110,16 @@ static gchar 		* next_prayer_string;
 static int 		calling_athan_for;
 /* init moved for i18n */
 gchar * hijri_month[13];
-
 gchar * time_names[6];
 
 #if USE_NOTIFY
 NotifyNotification 	* notification;
+#endif
+
+/* qibla */
+GtkWidget * qibla_drawing_area;
+#if USE_RSVG
+RsvgHandle * compass;
 #endif
 
 #if USE_TRAY_ICON
@@ -119,13 +143,15 @@ inline void set_status_tooltip()
 			time_names[2], ptList[2].hour, ptList[2].minute,
 			time_names[3], ptList[3].hour, ptList[3].minute,
 			time_names[4], ptList[4].hour, ptList[4].minute,
-			time_names[5], ptList[5].hour, ptList[5].minute,
+			time_names[5], ptList[5].hour, ptList[5].minute, 
 			next_prayer_string
 		  );
 	gtk_status_icon_set_tooltip(status_icon, tooltiptext);
 	g_free(tooltiptext);
+
 }
 #endif
+
 void update_remaining()
 {
 	/* converts times to minutes */
@@ -492,14 +518,14 @@ void on_enabledathancheck_toggled_callback(GtkWidget *widget,
 #if USE_GCONF
 	gconf_client_set_bool(client, PREF_PREF_PLAY, 
 				enable_athan, &err);
-#else
-	g_key_file_set_boolean(conffile, "prefs", "play", enable_athan);
-#endif
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
+#else
+	g_key_file_set_boolean(conffile, "prefs", "play", enable_athan);
+#endif
 }
 
 
@@ -519,15 +545,15 @@ void on_notifmenucheck_toggled_callback(GtkWidget *widget,
 #if USE_GCONF
 	gconf_client_set_bool(client, PREF_PREF_NOTIF, 
 				notif, &err);
-#else
-	g_key_file_set_boolean(conffile, "prefs", "notif", notif);
-#endif
-
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
+
+#else
+	g_key_file_set_boolean(conffile, "prefs", "notif", notif);
+#endif
 }
 
 void on_editcityokbutton_clicked_callback(GtkWidget *widget,
@@ -671,8 +697,8 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 		g_print("%s\n", err->message);
 		err = NULL;
 	}
-	gchar * file = g_strconcat(g_get_user_config_dir(),"/minbar" ,NULL);
-	g_file_set_contents(file,data,len,&err);
+	gchar * file = g_build_filename(g_get_user_config_dir(), "minbar", "prefs.conf", NULL);
+	g_file_set_contents(file, data, len, &err);
 	if(err != NULL)
 	{
 		g_print("%s\n", err->message);
@@ -694,7 +720,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	calculate_prayer_table();
 	/* And set the new labels */
 	update_prayer_labels(ptList, "salatlabel", TRUE);
-	calculate_qibla_direction();
+	gtk_widget_queue_draw(qibla_drawing_area);
 	prayer_calendar_callback();
 }
 
@@ -996,14 +1022,18 @@ void init_prefs ()
 gboolean no_stream_errors;
 void play_athan_callback()
 {
-	
+
 	/* Stop previously played file */
 	stop_athan_callback();
+#if USE_GSTREAMER
 	int returned = init_pipelines();
 	if(returned < 0)
 	{
 		exit(-1);
 	}
+#else
+	stream = xine_stream_new(xine, audio_port, NULL);
+#endif
 	gchar * athanfilename; 
 	/* set filename property on the file source. Also add a message
 	 * handler. */
@@ -1019,6 +1049,7 @@ void play_athan_callback()
 		athanfilename  = gtk_file_chooser_get_filename  
 		((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_chooser")));
 	}
+#if USE_GSTREAMER
 	g_object_set (G_OBJECT (source), "location", athanfilename, NULL);
 
 	bus = gst_pipeline_get_bus (GST_PIPELINE (pipeline));
@@ -1038,6 +1069,10 @@ void play_athan_callback()
 	
 	/* Now set to playing and iterate. */
 	gst_element_set_state (pipeline, GST_STATE_PLAYING);
+#else
+	xine_open(stream, athanfilename);
+	xine_play(stream, 0, 0);
+#endif
 
 }
 
@@ -1056,12 +1091,22 @@ void play_normal_athan_callback ()
 void stop_athan_callback()
 {
 	/* clean up nicely */
+#if USE_GSTREAMER
 	if(GST_IS_ELEMENT (pipeline))
 	{		
 		gst_element_set_state (pipeline, GST_STATE_NULL);
 		gst_object_unref (GST_OBJECT (pipeline));
 	}
+#else
+	if (stream)
+	{
+	  xine_dispose(stream);
+	  stream = NULL;
+	}
+#endif
 }
+
+#if USE_GSTREAMER
 
 gboolean bus_call (GstBus     *bus,
 	  GstMessage *msg,
@@ -1091,7 +1136,7 @@ gboolean bus_call (GstBus     *bus,
 	set_file_status(no_stream_errors);
 	return TRUE;
 }
-
+#endif
 void set_file_status(gboolean status)
 {
 	gchar * label_name = g_malloc(100);
@@ -1114,6 +1159,7 @@ void set_file_status(gboolean status)
 	g_free(label_status);
 }
 
+#if USE_GSTREAMER
 void new_pad (GstElement *element,
 	 	GstPad     *pad,
 	 	gpointer    data)
@@ -1143,6 +1189,7 @@ int init_pipelines()
 	}
 	return 1;
 }
+#endif
 
 void setup_file_filters (void)
 {
@@ -1154,7 +1201,18 @@ void setup_file_filters (void)
 	filter_supported = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter_supported,
 		_("Supported files"));
+#if USE_GSTREAMER
 	gtk_file_filter_add_mime_type (filter_supported, "application/ogg");
+#else
+	char* xine_supported = xine_get_mime_types(xine);
+	char* result = strtok(xine_supported, ":");
+	while (result != NULL)
+	{
+	  gtk_file_filter_add_mime_type (filter_supported, result);
+	  strtok(NULL, ";");
+	  result = strtok(NULL, ":");
+	}
+#endif
 	g_object_ref (filter_supported);
 }
 
@@ -1302,9 +1360,15 @@ int main(int argc, char *argv[])
 	/* init libraries */
 	gtk_init(&argc, &argv);
 	glade_init();
-	
+
+#if USE_GSTREAMER	
 	/* initialize GStreamer */
 	gst_init (&argc, &argv);
+#else
+	xine = xine_new();
+	xine_init(xine);
+	audio_port = xine_open_audio_driver(xine , "auto", NULL);
+#endif
 
 	/* command line options */
 	GOptionEntry options[] = 
@@ -1331,8 +1395,7 @@ int main(int argc, char *argv[])
 #else
 	conffile = g_key_file_new ();
 	gchar * filename = g_build_filename(g_get_user_config_dir(),"minbar", "prefs.conf" ,NULL);
-	g_key_file_load_from_file (conffile, filename,
-					G_KEY_FILE_NONE, &err);
+	g_key_file_load_from_file (conffile, filename, G_KEY_FILE_NONE, &err);
 	g_free(filename);
 	if(err != NULL)
 	{
@@ -1340,6 +1403,9 @@ int main(int argc, char *argv[])
 		err = NULL;
 	}
 #endif
+
+	gtk_about_dialog_set_url_hook (activate_url, NULL, NULL);
+
 	/* load the interface */
 	xml = glade_xml_new(g_build_filename(MINBAR_DATADIR,GLADE_MAIN_INTERFACE,NULL), NULL, NULL);
 	/* connect the signals in the interface */
@@ -1353,7 +1419,7 @@ int main(int argc, char *argv[])
 	load_system_tray();
 #endif
 		
-	/* Initialise preferenes and variables */	
+	/* Initialize preferences and variables */	
 	init_prefs();
 	init_vars();
 
@@ -1362,7 +1428,7 @@ int main(int argc, char *argv[])
 	update_prayer_labels(ptList, "salatlabel", TRUE);
 	update_calendar();
 	prayer_calendar_callback();
-	calculate_qibla_direction();
+	gtk_widget_queue_draw(qibla_drawing_area);
 #if USE_TRAY_ICON
 	/* set system tray tooltip text */
 	set_status_tooltip();
@@ -1379,159 +1445,108 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-double qibla;
-GnomeCanvasGroup *root;
-void calculate_qibla_direction()
+
+gboolean draw_qibla (GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
-	GtkWidget * canvas = (GtkWidget *)glade_xml_get_widget(xml, "qibla_canvas");
-	/* needed so we don't draw on previous when loaction is changed*/
-	if(root)
-	{
-		while (root->item_list) 
-		{
-			gtk_object_destroy (GTK_OBJECT (root->item_list->data));
-		}
-	}
-	
-	/* just in case */	
-	gtk_widget_set_direction ((GtkWidget*)canvas, GTK_TEXT_DIR_RTL);
-	gnome_canvas_set_pixels_per_unit((GnomeCanvas*) canvas, 1);	
+	double height =  (double) widget->allocation.height;
+	double width  =  (double) widget->allocation.width;
 
-	root = gnome_canvas_root (GNOME_CANVAS (canvas));
-
-	double height =  (double) GTK_WIDGET (canvas)->allocation.height;
-	double width  =  (double) GTK_WIDGET (canvas)->allocation.width;
-	if(height <40)
-	{
-		height = 140;
-	}
-	if(width < 40)
-	{
-		width = 180;
-	}
-	/*gtk_widget_set_width*/
 	double actual;
-	
-	gnome_canvas_set_scroll_region((GnomeCanvas *) canvas, 0.0, 0.0, width , height);
 
-	/* we want a circle, so pick the smallest */
-	if (width < height)
-		actual = width;
-	else
-		actual = height;
-	
-	/* the circle */
-	gnome_canvas_item_new (root,
-				gnome_canvas_ellipse_get_type (),
-				"x1", (width - actual + 10) / 2,
-				"y1", (height - actual + 10) / 2,
-				"x2", width - ((width - actual + 10) / 2),
-				"y2", height - ((height - actual + 10) / 2),
-				"fill_color_rgba", 0x00000020,
-				"outline_color", "darkgreen",
-				"width_pixels", 1,
-				NULL);
+	/* use cairo */
+	cairo_t *context = gdk_cairo_create(widget->window);
 
-	/* center dot */
-	gnome_canvas_item_new (root,
-				gnome_canvas_ellipse_get_type (),
-				"x1", (width / 2) - 2.5,
-				"y1", (height / 2) - 2.5,
-				"x2", (width / 2) + 2.5,
-				"y2", (height / 2) + 2.5,
-				"fill_color", "blue",
-				"width_pixels", 0,
-				NULL);
-	qibla = getNorthQibla(loc);
+	double qibla = getNorthQibla(loc);
 	/* it was deg, convert to rad */
-	double qiblarad = - (qibla * (M_PI / 2)) / 90;
-	double nq = (actual - 10) / 2;
-	double lastx = (cos(qiblarad - (M_PI/2))) * nq;
-	double lasty = (sin(qiblarad - (M_PI/2))) * nq;
-
-	GnomeCanvasPoints * points;
-	points = gnome_canvas_points_new (2);
-	points->coords[0] = width / 2;
-	points->coords[1] = height / 2;
-	points->coords[2] = lastx + (width / 2);
-	points->coords[3] = lasty + (height / 2);
-
-	
-	/* if the place is Makkah itself, don't draw arrow */
-	if((int)(lat * 100 ) == 2143 && (int)(lon * 100 ) == 3977)
-	{
-		gchar * qiblabuf;
-		qiblabuf = g_malloc(100);
-
-		g_snprintf(qiblabuf, 100,
-			"%s",
-			_("In Makkah!")
-			);
-	double level = (height / 2) - 20.0;
-
-	
-	gnome_canvas_item_new (root,
-			       gnome_canvas_text_get_type (),
-			       "text", qiblabuf,
-			       "x", width / 2,
-			       "y", level,
-			       "font", "sans-serif 9",
-			       "anchor", GTK_ANCHOR_CENTER,
-			       "justification", GTK_JUSTIFY_CENTER,
-			       "fill_color", "black",
-			       NULL);
-	g_free(qiblabuf);
-	}
-	else
-	{
-		/* the qibla arrow */
-
-	gnome_canvas_item_new (root,
-				gnome_canvas_line_get_type (),
-				"points", points,
-				"fill_color", "blue",
-				"width_pixels", 2,
-				"first_arrowhead", FALSE,
-				"last_arrowhead", TRUE,
-				"arrow_shape_a", 9.0,
-				"arrow_shape_b", 7.0,
-				"arrow_shape_c", 4.0,
-				NULL);
-	int deg, min;
-	double sec;
-
-	decimal2Dms (qibla, &deg, &min, &sec);
-	
-	/* text should not overlap with arrow */
-	double level;
-	if(fabs(qibla) > 90)
-		level = (height / 2) - 20.0;
-	else
-		level = (height / 2) + 20.0;
+	double qiblarad = - (qibla * G_PI) / 180;
 
 	gchar * qiblabuf;
-	qiblabuf = g_malloc(300);
 
-	g_snprintf(qiblabuf, 300,
-			("%s\n%d %s"),
-			_("Qibla direction"),
-			abs(deg),
-			(qibla == 0 || fabs(qibla) == 180) ? "" : qibla < 0 ? _("East") : _("West")
-			);
-	
-	gnome_canvas_item_new (root,
-			       gnome_canvas_text_get_type (),
-			       "text", qiblabuf,
-			       "x", width / 2,
-			       "y", level,
-			       "font", "sans-serif 9",
-			       "anchor", GTK_ANCHOR_CENTER,
-			       "justification", GTK_JUSTIFY_CENTER,
-			       "fill_color", "black",
-			       NULL);
-	
-	g_free(qiblabuf);
+	cairo_save(context); /* for transforms */
+
+	/* if the place is Makkah itself, don't draw */
+	if((int)(lat * 10 ) == 214 && (int)(lon * 10 ) == 397) /* be less restrictive */
+	{
+	  qiblabuf = g_malloc(100);
+	  g_snprintf(qiblabuf, 100,
+		     "%s",
+		     _("In Makkah!")
+		     );
 	}
+	else
+	{
+#if USE_RSVG
+		actual = height*580/680 < width ? height*580/680 : width;
+
+		/* center the compass */
+		cairo_translate(context, (width-actual)/2, (height-(actual*680/580))/2);
+		cairo_scale(context, actual/580, actual/580);
+		rsvg_handle_render_cairo_sub(compass, context, "#compass");
+
+		/* the ibra */
+
+		cairo_rotate(context, qiblarad);
+		double dx = (388 * sin(qiblarad) + 290 * cos(qiblarad)) - 290;
+		double dy = (388 * cos(qiblarad) - 290 * sin(qiblarad)) - 388;
+		cairo_translate(context, dx, dy); /* recenter */
+
+		rsvg_handle_render_cairo_sub(compass, context, "#ibra");
+#else
+		actual = height < width ? height : width;
+
+		double nq = (actual - 10) / 2;
+
+		/* transform: translate to center and make the y axis point to qibla */
+		cairo_translate(context, width/2, height/2);
+		cairo_rotate(context, qiblarad + G_PI);
+
+		/* the circle background */
+		cairo_set_source_rgba(context, 0, 0, 0, 0.08);
+		cairo_arc(context, 0, 0, nq, 0, 2*G_PI);
+		cairo_fill(context);
+
+		/* the circle */
+		cairo_set_source_rgb(context, 0, 1, 0);
+		cairo_arc(context, 0, 0, nq, 0, 2*G_PI);
+		cairo_stroke(context);
+
+		/* the center dot */
+		cairo_set_source_rgb(context, 0, 0, 1);
+		cairo_arc(context, 0, 0, 2.5, 0, 2*G_PI);
+		cairo_fill(context);
+
+		/* the arrow */
+
+		cairo_set_line_width(context, 2.0);
+		cairo_move_to(context, 0, 0);
+		cairo_line_to(context, 0, nq);
+		cairo_stroke(context);
+
+		cairo_move_to(context, 0, nq);
+		cairo_rel_line_to(context, 3, -5);
+		cairo_rel_line_to(context, -6, 0);
+		cairo_close_path(context);
+		cairo_fill(context);
+#endif
+	qiblabuf = g_malloc(300);
+	g_snprintf(qiblabuf, 300,
+		   "%s\n%d %s",
+		   _("Qibla direction"),
+		   (int) rint(fabs(qibla)),
+		   (floor(qibla) == 0 || rint(fabs(qibla)) == 180) ? "" : qibla < 0 ? _("East") : _("West")
+		   );
+	}
+
+	gtk_widget_set_tooltip_text(widget, qiblabuf);
+
+	/* restore the transform */
+	cairo_restore(context);
+
+	g_free(qiblabuf);
+
+	/* free the cairo context */
+	cairo_destroy(context);
+	return TRUE;
 }
 
 void window_state_event_callback (GtkWidget *widget, 
@@ -1562,30 +1577,6 @@ activate_url (GtkAboutDialog *about,
 void setup_widgets()
 {
 	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
-	gtk_window_set_icon_name(GTK_WINDOW (mainwindow), "minbar");
-
-	GtkWidget * aboutd = glade_xml_get_widget(xml, "aboutdialog");
-	gtk_about_dialog_set_name((GtkAboutDialog * )aboutd, program_name);
-	
-	gtk_about_dialog_set_url_hook (/*(GtkAboutDialog * )aboutd,*/ activate_url, NULL, NULL);
-	
-	gtk_about_dialog_set_website ((GtkAboutDialog * )aboutd, "http://djihed.com/minbar");
-	gtk_about_dialog_set_website_label ((GtkAboutDialog * )aboutd, _("Minbar Website"));
-
-	gtk_window_set_icon_name(GTK_WINDOW (aboutd), "minbar");
-
-	const char *artists[] =
-	{
-		"Yulian Ardiansyah <yulian.ardiansyah@gmail.com>",
-     		NULL
-   	};
-
-	gtk_window_set_transient_for((GtkWindow *)glade_xml_get_widget(xml, "locationsDialog") ,
-                                        (GtkWindow *)glade_xml_get_widget(xml, "editcity"));
-	gtk_about_dialog_set_artists((GtkAboutDialog * )aboutd, artists);
-
-	gtk_window_set_icon_name(GTK_WINDOW (glade_xml_get_widget(xml, "CalendarDialog")), "minbar");
-	gtk_window_set_icon_name(GTK_WINDOW (glade_xml_get_widget(xml, "editcity")), "gtk-preferences");
 
 	/* set the prayer names in the time table */
 	/* done here so we don't duplicate translation */
@@ -1640,6 +1631,13 @@ void setup_widgets()
 	gtk_widget_set_sensitive ( (GtkWidget *) notif_t, FALSE);
 	GtkWidget * notif_c =  glade_xml_get_widget(xml, "notifmenucheck");
 	gtk_widget_set_sensitive ( (GtkWidget *) notif_c, FALSE);
+#endif
+
+	qibla_drawing_area = (GtkWidget *)glade_xml_get_widget(xml, "qibla_drawing_area");
+#if USE_RSVG
+	gchar * filename = g_build_filename(MINBAR_DATADIR ,"Compass.svg", NULL);
+	compass = rsvg_handle_new_from_file(filename, NULL); /* err */
+	g_free(filename);
 #endif
 }
 

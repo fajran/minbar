@@ -1,5 +1,9 @@
 dist_pkgdata_DATA = athan.ogg minbar.glade Locations.xml
 
+if USE_RSVG
+dist_pkgdata_DATA += Compass.svg
+endif
+
 if USE_GCONF
 @INTLTOOL_SCHEMAS_RULE@
 

@@ -30,7 +30,7 @@ GNOME_MAINTAINER_MODE_DEFINES
 # Check for required packages
 # ***************************
 
-pkg_modules="gtk+-2.0 >= 2.10 glib-2.0 libglade-2.0 gstreamer-0.10 libgnomecanvas-2.0 libxml-2.0"
+pkg_modules="gtk+-2.0 >= 2.10 glib-2.0 libglade-2.0 libxml-2.0"
 PKG_CHECK_MODULES(MINBAR, [$pkg_modules])
 
 AC_CHECK_HEADER(itl/prayer.h,ITL_LIBS=-litl,AC_MSG_ERROR("itl/prayer.h not found."))
@@ -112,6 +112,44 @@ elif test x"$gconf" = "xauto" && test x"$gconf_available" = "xyes"; then
 fi
 AM_CONDITIONAL(USE_GCONF, test x"$gconf" = "xyes")
 
+#***********************************
+# Athan playback (gstreamer or xine)
+#***********************************
+AC_ARG_ENABLE(gstreamer, [AS_HELP_STRING([--enable-gstreamer],
+		[whether to use gstreamer or xine for athan playback 
+		(by default use xine if available)])],
+		[gstreamer=$enableval],
+		[gstreamer=auto])
+
+PKG_CHECK_MODULES(GSTREAMER, [gstreamer-0.10], gstreamer_available=yes, gstreamer_available=no)
+PKG_CHECK_MODULES(XINE, [libxine], xine_available=yes, xine_available=no)
+
+if test x"$gstreamer" = "xyes"; then
+	if test x"$gstreamer_available" = "xyes"; then
+		AC_DEFINE([USE_GSTREAMER], [1], [Define to 1 if you want to use gstreamer.])
+	else
+		AC_MSG_ERROR("You asked for the use of Gstreamer but it's not available")
+	fi
+elif test x"$xine_available" = "xno"; then
+	if test x"$gstreamer_available" = "xyes"; then
+		AC_DEFINE([USE_GSTREAMER], [1], [Define to 1 if you want to use gstreamer.])
+		gstreamer=yes
+	else
+		AC_MSG_ERROR(["You need either libxine or gstreamer for athan
+				   playback (libxine preferred)"])
+	fi
+fi
+
+AM_CONDITIONAL(USE_GSTREAMER, test "x$gstreamer" = "xyes")
+#******
+# Rsvg
+#******
+PKG_CHECK_MODULES(RSVG, [librsvg-2.0], rsvg=yes, rsvg=no)
+if test x"$rsvg" = "xyes"; then
+	AC_DEFINE([USE_RSVG], [1], [Define to 1 if you want to use rsvg for better qibla rendering.])
+	AM_CONDITIONAL(USE_RSVG, true)
+fi
+
 # ********************
 # Internationalisation
 # ********************
@@ -166,16 +204,16 @@ AC_OUTPUT
 
 echo ""
 echo ----------------------------------------------------------------------
-echo "Configure Summary 
+echo "Configure Summary
 
 	Source code location .......:  ${srcdir}
-	Compiler ...................:  ${CC} 
+	Compiler ...................:  ${CC}
 	Extra Compiler Warnings ....:  ${WARN_CFLAGS}
 	Extra debugging support ....:  ${enable_debug}
 "
 
 if test x"$enable_libnotify" = xyes; then
-	echo "	Libnotify notifications ....: Enabled (version $LIBNOTIFY_VERSION_MAJOR.\ 
+	echo "	Libnotify notifications ....: Enabled (version $LIBNOTIFY_VERSION_MAJOR.\
 $LIBNOTIFY_VERSION_MINOR.$LIBNOTIFY_VERSION_MICRO)."
 else
 	echo "	Libnotify notifications ....: Disabled."
@@ -187,5 +225,13 @@ else
 fi
 if test x"$relative" = xyes; then
 	echo "	Using relative pathnames : minbar should be called from its directory."
+fi
+if test x"$gstreamer" = "xyes"; then
+   	echo "	Athan playback .............: gstreamer."
+else
+   	echo "	Athan playback .............: libxine."
+fi
+if test x"$rsvg" = "xyes"; then
+   	echo "	Using rsvg for Qibla direction."
 fi
 echo ----------------------------------------------------------------------

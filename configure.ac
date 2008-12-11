@@ -1,6 +1,5 @@
 
-
-AC_INIT([minbar], [0.2.1],[mailto:djihed@gmail.com],[minbar])
+AC_INIT([minbar], [0.3.0],[mailto:djihed@gmail.com],[minbar])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip -Wall])
 
@@ -30,7 +29,7 @@ GNOME_MAINTAINER_MODE_DEFINES
 # Check for required packages
 # ***************************
 
-pkg_modules="gtk+-2.0 >= 2.10 glib-2.0 libglade-2.0 libxml-2.0"
+pkg_modules="gtk+-2.0 >= 2.10 glib-2.0 libglade-2.0 libxml-2.0 libpanelapplet-2.0"
 PKG_CHECK_MODULES(MINBAR, [$pkg_modules])
 
 AC_CHECK_HEADER(itl/prayer.h,ITL_LIBS=-litl,AC_MSG_ERROR("itl/prayer.h not found."))

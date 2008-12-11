@@ -1,8 +1,15 @@
-dist_pkgdata_DATA = athan.ogg minbar.glade Locations.xml
+dist_pkgdata_DATA = athan.ogg minbar.glade Locations.xml minbar-applet.server 
+
+serverdir = $(libdir)/bonobo/servers
+server_in_files = minbar-applet.server.in
+server_DATA = $(server_in_files:.server.in=.server)
+
 
 if USE_RSVG
 dist_pkgdata_DATA += Compass.svg
 endif
+
+
 
 if USE_GCONF
 @INTLTOOL_SCHEMAS_RULE@
@@ -25,6 +32,10 @@ uninstall-local:
 	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) gconftool-2 --makefile-uninstall-rule minbar.schemas
 
 endif
+
+$(server_DATA): $(server_in_files)
+	sed -e "s|\@BINDIR\@|$(bindir)|" $< > $@
+
 EXTRA_DIST =						\
 	minbar.schemas.in.in				\
 	$(NULL)
@@ -33,7 +44,10 @@ CLEANFILES = \
 	$(schemas_DATA)					\
 	$(schemas_in_files)				\
 	minbar.schemas.in				\
+	$(server_DATA) \
 	$(NULL)
 
+xmldir = $(datadir)/minbar-applet
+xml_DATA = minbar-applet.xml
 
 ## End Makefile.am

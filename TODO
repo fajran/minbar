@@ -7,6 +7,8 @@ Support more media types
 See gnome-commander for build summary
 Build systems: properly specify auxiliary files, clean files.
 -different graphics for salat times
+use libgweather for locations.
+
 
 DONE
 --0.2

@@ -29,7 +29,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include "main.h"
 #include "defines.h"
 #include "prefs.h"
 #include "locations-xml.h" 
@@ -52,6 +51,8 @@
 #include <librsvg/rsvg.h>
 #include <librsvg/rsvg-cairo.h>
 #endif
+
+#include "main.h"
 
 /* Preferences */ 
 static const gchar * 	program_name ;
@@ -87,7 +88,8 @@ static GladeXML		* xml;
 static GError		* err 	= NULL;
 #if USE_GSTREAMER
 /* For gstreamer */
-static GstElement	*pipeline, *source, *parser, *decoder, *conv, *sink;
+/*static GstElement	*pipeline, *source, *parser, *decoder, *conv, *sink;*/
+static GstElement	*pipeline;
 static GMainLoop	*loop;
 static GstBus		*bus;
 #else
@@ -1034,41 +1036,48 @@ void play_athan_callback()
 #else
 	stream = xine_stream_new(xine, audio_port, NULL);
 #endif
-	gchar * athanfilename; 
+	gchar * athanuri; 
 	/* set filename property on the file source. Also add a message
 	 * handler. */
 
 	no_stream_errors = TRUE;
 	if(calling_athan_for == 0)
 	{
-		athanfilename  = gtk_file_chooser_get_filename  
+		athanuri  = gtk_file_chooser_get_uri  
 		((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_subh_chooser")));
 	}
 	else
 	{
-		athanfilename  = gtk_file_chooser_get_filename  
+		athanuri  = gtk_file_chooser_get_uri  
 		((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_chooser")));
 	}
 #if USE_GSTREAMER
-	g_object_set (G_OBJECT (source), "location", athanfilename, NULL);
+/*	g_object_set (G_OBJECT (source), "", athanfilename, NULL); */
+	g_object_set (G_OBJECT (pipeline), "uri", athanuri, NULL);
 
 	bus = gst_pipeline_get_bus (GST_PIPELINE (pipeline));
 	gst_bus_add_watch (bus, bus_call, loop);
 	gst_object_unref (bus);
 
 	/* put all elements in a bin */
-	gst_bin_add_many (GST_BIN (pipeline),
+/*	gst_bin_add_many (GST_BIN (pipeline),
 		    source, parser, decoder, conv, sink, NULL);
-
+*/
 	/* link together - note that we cannot link the parser and
 	 * decoder yet, becuse the parser uses dynamic pads. For that,
 	 * we set a pad-added signal handler. */
-	gst_element_link (source, parser);
+/*	gst_element_link (source, parser);
 	gst_element_link_many (decoder, conv, sink, NULL);
 	g_signal_connect (parser, "pad-added", G_CALLBACK (new_pad), NULL);
-	
+*/
+
 	/* Now set to playing and iterate. */
 	gst_element_set_state (pipeline, GST_STATE_PLAYING);
+	g_main_loop_run (loop);
+
+  	/* clean up nicely */
+  	gst_element_set_state (pipeline, GST_STATE_NULL);
+  	gst_object_unref (GST_OBJECT (pipeline));
 #else
 	xine_open(stream, athanfilename);
 	xine_play(stream, 0, 0);
@@ -1115,6 +1124,7 @@ gboolean bus_call (GstBus     *bus,
 	switch (GST_MESSAGE_TYPE (msg)) {
 		case GST_MESSAGE_EOS:
 			/* End of Stream */
+			g_main_loop_quit (loop);
 			break;
 		case GST_MESSAGE_ERROR: {
 			gchar *debug;
@@ -1126,6 +1136,7 @@ gboolean bus_call (GstBus     *bus,
 			g_print (_("Error: %s\n"), err->message);
 			g_error_free (err);
 			
+			g_main_loop_quit (loop);
 			no_stream_errors= FALSE;
 			break;
 		}
@@ -1160,31 +1171,34 @@ void set_file_status(gboolean status)
 }
 
 #if USE_GSTREAMER
-void new_pad (GstElement *element,
+/*void new_pad (GstElement *element,
 	 	GstPad     *pad,
 	 	gpointer    data)
 {
 	GstPad *sinkpad;
-	/* We can now link this pad with the audio decoder */
 	sinkpad = gst_element_get_pad (decoder, "sink");
 	gst_pad_link (pad, sinkpad);
 
 	gst_object_unref (sinkpad);
-}
+}*/
 
 
 
 int init_pipelines()
 {
 	/* create elements */
-	pipeline 	= gst_pipeline_new ("audio-player");
+/*	pipeline 	= gst_pipeline_new ("audio-player");
 	source 		= gst_element_factory_make ("filesrc", "file-source");
 	parser 		= gst_element_factory_make ("oggdemux", "ogg-parser");
 	decoder 	= gst_element_factory_make ("vorbisdec", "vorbis-decoder");
 	conv 		= gst_element_factory_make ("audioconvert", "converter");
 	sink 		= gst_element_factory_make ("alsasink", "alsa-output");
 	if (!pipeline || !source || !parser || !decoder || !conv || !sink) {
-		g_print ("One element could not be created\n");
+		g_print ("One element could not be created\n");*/
+	pipeline	= gst_element_factory_make ("playbin", "play");
+
+	if (!pipeline) {
+		g_print ("pipeline could not be created\n");
 		return -1;
 	}
 	return 1;
@@ -1203,6 +1217,7 @@ void setup_file_filters (void)
 		_("Supported files"));
 #if USE_GSTREAMER
 	gtk_file_filter_add_mime_type (filter_supported, "application/ogg");
+	gtk_file_filter_add_mime_type (filter_supported, "audio/*");
 #else
 	char* xine_supported = xine_get_mime_types(xine);
 	char* result = strtok(xine_supported, ":");
@@ -1364,6 +1379,7 @@ int main(int argc, char *argv[])
 #if USE_GSTREAMER	
 	/* initialize GStreamer */
 	gst_init (&argc, &argv);
+	loop = g_main_loop_new (NULL, FALSE);
 #else
 	xine = xine_new();
 	xine_init(xine);

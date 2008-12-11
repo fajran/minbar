@@ -7,4 +7,4 @@ Icon=minbar
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=GNOME;GTK;Utility;Utility;
+Categories=GNOME;GTK;Utility;

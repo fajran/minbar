@@ -41,7 +41,6 @@ void 	play_events(void);
 void	update_calendar(void);
 void	setup_locations_applet(void);
 void	set_file_status(gboolean);
-
 #if USE_GSTREAMER
 /* Gstreamer */
 int 	init_pipelines(void);

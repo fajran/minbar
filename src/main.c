@@ -1171,34 +1171,14 @@ void set_file_status(gboolean status)
 }
 
 #if USE_GSTREAMER
-/*void new_pad (GstElement *element,
-	 	GstPad     *pad,
-	 	gpointer    data)
-{
-	GstPad *sinkpad;
-	sinkpad = gst_element_get_pad (decoder, "sink");
-	gst_pad_link (pad, sinkpad);
-
-	gst_object_unref (sinkpad);
-}*/
-
-
-
 int init_pipelines()
 {
 	/* create elements */
-/*	pipeline 	= gst_pipeline_new ("audio-player");
-	source 		= gst_element_factory_make ("filesrc", "file-source");
-	parser 		= gst_element_factory_make ("oggdemux", "ogg-parser");
-	decoder 	= gst_element_factory_make ("vorbisdec", "vorbis-decoder");
-	conv 		= gst_element_factory_make ("audioconvert", "converter");
-	sink 		= gst_element_factory_make ("alsasink", "alsa-output");
-	if (!pipeline || !source || !parser || !decoder || !conv || !sink) {
-		g_print ("One element could not be created\n");*/
 	pipeline	= gst_element_factory_make ("playbin", "play");
 
 	if (!pipeline) {
 		g_print ("pipeline could not be created\n");
+                /* FIXME: returning -1 crashes.  */
 		return -1;
 	}
 	return 1;

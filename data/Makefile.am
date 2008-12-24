@@ -1,4 +1,4 @@
-dist_pkgdata_DATA = athan.ogg minbar.glade Locations.xml minbar-applet.server 
+dist_pkgdata_DATA = Compass.svg athan.ogg minbar.glade Locations.xml minbar-applet.server minbar-applet.xml 
 
 serverdir = $(libdir)/bonobo/servers
 server_in_files = minbar-applet.server.in

@@ -32,7 +32,7 @@
 #include "defines.h"
 #include "prefs.h"
 #include "locations-xml.h" 
-
+#include "config.h"
 
 #define USE_TRAY_ICON   1
 #define USE_NOTIFY	(USE_TRAY_ICON & HAVE_NOTIFY)
@@ -56,21 +56,10 @@
 
 /* Preferences */ 
 static const gchar * 	program_name ;
-static gfloat 		lat;
-static gfloat 		height;
-static gfloat 		lon;
-static gchar 		* city_name;
-static gboolean 	enable_athan;
-static double 		correction = 0.0;
-static gboolean		notif;
-static int		notiftime;
-static int 		method;
 static int 		next_prayer_id = -1;
-static gboolean 	start_hidden;
-static gboolean		close_closes;
-static gchar *		athan_file;
-static gchar * 		athan_subh_file;
 static gboolean 	* start_hidden_arg = FALSE;
+
+static MinbarConfig* config;
 
 /* for prayer.h functions */
 static Date 		* prayerDate;
@@ -79,11 +68,6 @@ static Method		* calcMethod;
 static Prayer 		ptList[6];
 
 /* For libraries */
-#if USE_GCONF
-static GConfClient	* client;
-#else
-static GKeyFile		* conffile;
-#endif
 static GladeXML		* xml;
 static GError		* err 	= NULL;
 #if USE_GSTREAMER
@@ -280,9 +264,9 @@ void update_date_label()
 void calculate_prayer_table()
 {
 	/* Update the values */
-	loc->degreeLat 		= lat;
-	loc->degreeLong 	= lon;
-	loc->gmtDiff		= correction;	
+	loc->degreeLat 		= config->latitude;
+	loc->degreeLong 	= config->longitude;
+	loc->gmtDiff		= config->correction;	
 	getPrayerTimes (loc, calcMethod, prayerDate, ptList);	
 	next_prayer();
 	update_remaining();
@@ -304,12 +288,12 @@ void play_events()
 		/* covert to minutes */
 		int pt_minutes = ptList[i].hour*60 + ptList[i].minute;
 #if USE_NOTIFY		
-		if ((cur_minutes + notiftime == pt_minutes ) && notif)
+		if ((cur_minutes + config->notification_time == pt_minutes ) && config->notification)
 		{
 			gchar * message;
 			message = g_malloc(400);
 			g_snprintf(message, 400, _("%d minutes until %s prayer."), 
-					notiftime, time_names[i]); 
+					config->notification_time, time_names[i]); 
 			show_notification(message);
 			g_free(message);
 		}
@@ -317,9 +301,9 @@ void play_events()
 		if (cur_minutes == pt_minutes)
 		{
 			calling_athan_for = i;
-			if(enable_athan){play_athan_callback();}
+			if(config->athan_enabled){play_athan_callback();}
 #if USE_NOTIFY
-			if(notif)
+			if(config->notification)
 			{
 				gchar * message;
 				message = g_malloc(400);
@@ -471,9 +455,9 @@ void init_vars()
 	update_date();
 
 	/* Location variables */
-	loc->degreeLat 		= lat;
-	loc->degreeLong 	= lon;
-	loc->gmtDiff 		= correction;
+	loc->degreeLat 		= config->latitude;
+	loc->degreeLong 	= config->longitude;
+	loc->gmtDiff 		= config->correction;
 	loc->dst		= 0;
 	loc->seaLevel 		= 0;
 	loc->pressure 		= 1010;
@@ -483,79 +467,48 @@ void init_vars()
 void on_enabledathanmenucheck_toggled_callback(GtkWidget *widget,
 				gpointer user_data)
 {
-	enable_athan = gtk_check_menu_item_get_active((GtkCheckMenuItem * ) widget);
+	config->athan_enabled = gtk_check_menu_item_get_active((GtkCheckMenuItem * ) widget);
 
 	gtk_toggle_button_set_active((GtkToggleButton * )
 			glade_xml_get_widget( xml, "enabledathancheck"),
-			enable_athan);
+			config->athan_enabled);
 	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
 			glade_xml_get_widget( xml, "playathan"),
-			enable_athan);
+			config->athan_enabled);
 
-#if USE_GCONF
-	gconf_client_set_bool(client, PREF_PREF_PLAY, 
-				enable_athan, &err);
-#else
-	g_key_file_set_boolean(conffile, "prefs", "play", enable_athan);
-#endif
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
+	config_save(config);
 }
 
 void on_enabledathancheck_toggled_callback(GtkWidget *widget,
 				gpointer user_data)
 {
-	enable_athan = gtk_toggle_button_get_active((GtkToggleButton * ) widget);
+	config->athan_enabled = gtk_toggle_button_get_active((GtkToggleButton * ) widget);
 	
 	gtk_toggle_button_set_active((GtkToggleButton * )
 			glade_xml_get_widget( xml, "enabledathancheck"),
-			enable_athan);
+			config->athan_enabled);
 	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
 			glade_xml_get_widget( xml, "playathan"),
-			enable_athan);
+			config->athan_enabled);
 
-#if USE_GCONF
-	gconf_client_set_bool(client, PREF_PREF_PLAY, 
-				enable_athan, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-#else
-	g_key_file_set_boolean(conffile, "prefs", "play", enable_athan);
-#endif
+	config_save(config);
 }
 
 
 void on_notifmenucheck_toggled_callback(GtkWidget *widget, 
 		gpointer user_data)
 {
-	notif = gtk_check_menu_item_get_active((GtkCheckMenuItem * ) widget);
+	config->notification = gtk_check_menu_item_get_active((GtkCheckMenuItem * ) widget);
 
 	gtk_toggle_button_set_active((GtkToggleButton * )
 			glade_xml_get_widget( xml, "yesnotif"),
 			
-			notif);
+			config->notification);
 	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
 			glade_xml_get_widget( xml, "notifmenucheck"),
-			notif);
+			config->notification);
 
-#if USE_GCONF
-	gconf_client_set_bool(client, PREF_PREF_NOTIF, 
-				notif, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-#else
-	g_key_file_set_boolean(conffile, "prefs", "notif", notif);
-#endif
+	config_save(config);
 }
 
 void on_editcityokbutton_clicked_callback(GtkWidget *widget,
@@ -565,150 +518,36 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	GtkWidget*  entrywidget;	
 	/* Setting what was found to editcity dialog*/
 	entrywidget 	= glade_xml_get_widget( xml, "longitude");	
-	lon 		=  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+	config->longitude 		=  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
 
 	entrywidget 	= glade_xml_get_widget( xml, "latitude");
-	lat 		=  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+	config->latitude 		=  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
 
 	entrywidget 	= glade_xml_get_widget( xml, "cityname");
-	g_stpcpy(city_name, gtk_entry_get_text((GtkEntry *)entrywidget)); 
+	g_stpcpy(config->city, gtk_entry_get_text((GtkEntry *)entrywidget)); 
 
 	entrywidget 	= glade_xml_get_widget( xml, "correction");
-	correction 	=  (double)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+	config->correction 	=  (double)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
 
 	entrywidget 	= glade_xml_get_widget( xml, "yesnotif");
-	notif 		=  gtk_toggle_button_get_active((GtkToggleButton *)entrywidget);
+	config->notification 		=  gtk_toggle_button_get_active((GtkToggleButton *)entrywidget);
 
 	entrywidget 	= glade_xml_get_widget( xml, "notiftime");
-	notiftime 	=  (int)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
+	config->notification_time 	=  (int)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
 
 	entrywidget 	= glade_xml_get_widget( xml, "startHidden");
-	start_hidden 	=  gtk_toggle_button_get_active((GtkToggleButton *)entrywidget);
+	config->start_hidden 	=  gtk_toggle_button_get_active((GtkToggleButton *)entrywidget);
 
 	entrywidget 	= glade_xml_get_widget( xml, "methodcombo");
-	method 		=  (int)gtk_combo_box_get_active((GtkComboBox *)entrywidget)  + 1;
+	config->method 		=  (int)gtk_combo_box_get_active((GtkComboBox *)entrywidget)  + 1;
 
-	if(method < 0 || method > 6 ) { method = 5; }
-	getMethod(method, calcMethod);
+	if(config->method < 0 || config->method > 6 ) { config->method = 5; }
+	getMethod(config->method, calcMethod);
 
-#if USE_GCONF
-        /* set gconf settings */
+	config->athan_subh = gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_subh_chooser")));
+	config->athan_normal = gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_chooser")));
 
-	gconf_client_set_float(client, PREF_CITY_LAT, lat, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-	gconf_client_set_float(client, PREF_CITY_LON, lon, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-	gconf_client_set_string(client, PREF_CITY_NAME, 
-						city_name, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-	gconf_client_set_float(client, PREF_CITY_CORRECTION, 
-						correction, &err);
-
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-	gconf_client_set_bool(client, PREF_PREF_NOTIF, notif, &err);
-
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-	gconf_client_set_bool(client, PREF_PREF_HIDDEN, start_hidden, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-	gconf_client_set_int(client, PREF_PREF_NOTIF_TIME, notiftime, &err);
-
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	gconf_client_set_int(client, PREF_PREF_METHOD, method, &err);
-
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	gconf_client_set_string(client, PREF_ATHAN_SUBH, 
-			gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_subh_chooser")))
-			, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	gconf_client_set_string(client, PREF_ATHAN_NORMAL, 
-			gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_chooser")))
-			, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-#else
-	g_key_file_set_double(conffile, "city", "latitude", lat);	
-	g_key_file_set_double(conffile, "city", "longitude", lon);
-	g_key_file_set_string(conffile, "city", "name", city_name);
-	g_key_file_set_double(conffile, "city", "height", height);
-	g_key_file_set_double(conffile, "prefs", "correction", correction);
-
-	g_key_file_set_boolean(conffile, "prefs", "play", enable_athan);
-	g_key_file_set_boolean(conffile, "prefs", "starthidden", start_hidden);
-	g_key_file_set_boolean(conffile, "prefs", "notif", notif);
-	g_key_file_set_integer(conffile, "prefs", "notiftime", notiftime);
-
-	g_key_file_set_integer(conffile, "prefs", "method", method);
-
-	g_key_file_set_string(conffile, "athan", "normal", 
-			gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_chooser")))
-			);
-	g_key_file_set_string(conffile, "athan", "subh", 
-			gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_subh_chooser")))
-			);
-
-	// write this config to the file
-	gsize len;
-	gchar* data = g_key_file_to_data (conffile, &len, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	gchar * file = g_build_filename(g_get_user_config_dir(), "minbar", "prefs.conf", NULL);
-	g_file_set_contents(file, data, len, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	g_free(data);
-	g_free(file);
-#endif
+	config_save(config);
 
 	/* Now hide the cityedit dialog */
 	gtk_widget_hide(glade_xml_get_widget( xml, "editcity"));
@@ -716,7 +555,7 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 	/* And set the city string in the main window */
 	gtk_label_set_text((GtkLabel *)
 			(glade_xml_get_widget(xml, "locationname"))
-			,(const gchar *)city_name);
+			,(const gchar *)config->city);
 
 	/* Now calculate new timetable */
 	calculate_prayer_table();
@@ -729,237 +568,66 @@ void on_editcityokbutton_clicked_callback(GtkWidget *widget,
 
 void init_prefs ()
 {
-#if USE_GCONF
-	lat 	= gconf_client_get_float(client, PREF_CITY_LAT, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	lon 	= gconf_client_get_float(client, PREF_CITY_LON, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	city_name = gconf_client_get_string(client, PREF_CITY_NAME, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	height 	= gconf_client_get_float(client, PREF_CITY_HEIGHT, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	enable_athan  = gconf_client_get_bool(client, PREF_PREF_PLAY, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	correction  = gconf_client_get_float(client, PREF_CITY_CORRECTION, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	method  = gconf_client_get_int(client, PREF_PREF_METHOD, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	if( method < 0 || method > 6)
+	if( config->method < 0 || config->method > 6)
 	{
 		g_printerr(_("Invalid calculation method in preferences, using 5: Muslim world League \n"));
 	}
-	start_hidden  = gconf_client_get_bool(client, PREF_PREF_HIDDEN, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
 
 	calcMethod 		= g_malloc(sizeof(Method));
-	getMethod(method, calcMethod);
+	getMethod(config->method, calcMethod);
 
-
-	notif  = gconf_client_get_bool(client, PREF_PREF_NOTIF, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	notiftime  = gconf_client_get_int(client, PREF_PREF_NOTIF_TIME, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-	close_closes  = gconf_client_get_bool(client, PREF_PREF_CLOSES, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	athan_file  = gconf_client_get_string(client, PREF_ATHAN_NORMAL, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	athan_subh_file  = gconf_client_get_string(client, PREF_ATHAN_SUBH, &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-#else
-
-	lat = g_key_file_get_double(conffile, "city", "latitude", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	lon 	= g_key_file_get_double(conffile, "city", "longitude", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	city_name = g_key_file_get_string(conffile, "city", "name", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	height 	= g_key_file_get_double(conffile, "city", "height", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	enable_athan  = g_key_file_get_boolean(conffile, "prefs", "play", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	correction  = g_key_file_get_double(conffile, "prefs", "correction", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	method  = g_key_file_get_integer(conffile, "prefs", "method", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	if( method < 0 || method > 6)
-	{
-		g_printerr(_("Invalid calculation method in preferences, using 5: Muslim world League \n"));
-	}
-	start_hidden  = g_key_file_get_boolean(conffile, "prefs", "starthidden", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-
-	calcMethod 		= g_malloc(sizeof(Method));
-	getMethod(method, calcMethod);
-
-	notif  = g_key_file_get_boolean(conffile, "prefs", "notif", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	notiftime  = g_key_file_get_integer(conffile, "prefs", "notiftime", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	close_closes  = g_key_file_get_boolean(conffile, "prefs", "closes", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	athan_file  = g_key_file_get_string(conffile, "athan", "normal", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-	athan_subh_file  = g_key_file_get_string(conffile, "athan", "subh", &err);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
-#endif
 
 	GtkWidget*  entrywidget;	
 	
 	/* Setting what was found to editcity dialog*/
 	entrywidget = glade_xml_get_widget( xml, "latitude");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, lat);
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->latitude);
 
 	entrywidget = glade_xml_get_widget( xml, "longitude");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, lon);
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->longitude);
 
 	entrywidget = glade_xml_get_widget( xml, "cityname");	
-	gtk_entry_set_text((GtkEntry *)entrywidget, city_name);
+	gtk_entry_set_text((GtkEntry *)entrywidget, config->city);
 
 	entrywidget = glade_xml_get_widget( xml, "correction");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, correction);
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->correction);
 
 	entrywidget = glade_xml_get_widget( xml, "yesnotif");	
-	gtk_toggle_button_set_active((GtkToggleButton *)entrywidget, notif);
+	gtk_toggle_button_set_active((GtkToggleButton *)entrywidget, config->notification);
 	
 	entrywidget = glade_xml_get_widget( xml, "notiftime");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, notiftime);
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->notification_time);
 
 	entrywidget = glade_xml_get_widget( xml, "methodcombo");	
-	gtk_combo_box_set_active((GtkComboBox *)entrywidget, method-1);
+	gtk_combo_box_set_active((GtkComboBox *)entrywidget, config->method-1);
 
 	/* Set the play athan check box */
 	entrywidget = glade_xml_get_widget( xml, "enabledathancheck");
-	gtk_toggle_button_set_active((GtkToggleButton *) entrywidget, enable_athan);
+	gtk_toggle_button_set_active((GtkToggleButton *) entrywidget, config->athan_enabled);
 	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
 			glade_xml_get_widget( xml, "playathan"),
-			enable_athan);
+			config->athan_enabled);
 
 	/* notitication menu item */
 	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
 			glade_xml_get_widget( xml, "notifmenucheck"),
-			notif);
+			config->notification);
 
 	/* Start minimised checkbox */
 	gtk_toggle_button_set_active((GtkToggleButton * )
 			glade_xml_get_widget( xml, "startHidden"),
-			start_hidden);
+			config->start_hidden);
 
 	/* And set the city string in the main window */
 	gtk_label_set_text((GtkLabel *)
 			(glade_xml_get_widget(xml, "locationname")),
-		       	(const gchar *)city_name);
+		       	(const gchar *)config->city);
 
 	/* show on start up? */
 	GtkWidget * mainwindow = glade_xml_get_widget(xml, "mainWindow");
 	
 #if USE_TRAY_ICON
-	if(!start_hidden && !start_hidden_arg)
+	if(!config->start_hidden && !start_hidden_arg)
 	{
 		gtk_widget_show(mainwindow);
 	}
@@ -973,13 +641,13 @@ void init_prefs ()
 	/* set UI vars */
 	/* Check existence of file */
 	FILE * testfile;
-	testfile = fopen( athan_subh_file, "r");
+	testfile = fopen( config->athan_subh, "r");
 	if(testfile != NULL)
 	{
 	fclose(testfile);
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "athan_subh_chooser")),
-			(const gchar *) athan_subh_file);
+			(const gchar *) config->athan_subh);
 	}
 	else
 	{
@@ -995,14 +663,14 @@ void init_prefs ()
 			(glade_xml_get_widget(xml, "athan_subh_chooser")),
 	       		filter_all);
 
-	testfile = fopen( athan_file, "r");
+	testfile = fopen( config->athan_normal, "r");
 	if(testfile != NULL)
 	{
 
 	fclose(testfile);
 	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
 			(glade_xml_get_widget(xml, "athan_chooser")),
-			(const gchar *) athan_file);
+			(const gchar *) config->athan_normal);
 	}
 	else
 	{
@@ -1243,7 +911,7 @@ void load_system_tray()
 
 void check_quit_callback(GtkWidget *widget, gpointer data)
 {
-	if(close_closes)
+	if(config->close_closes)
 		gtk_main_quit();
 	else
 		gtk_widget_hide(glade_xml_get_widget(xml, "mainWindow"));
@@ -1366,6 +1034,10 @@ int main(int argc, char *argv[])
 	audio_port = xine_open_audio_driver(xine , "auto", NULL);
 #endif
 
+	/* init config */
+	config_init();
+	config = config_read();
+
 	/* command line options */
 	GOptionEntry options[] = 
 	{
@@ -1384,20 +1056,6 @@ int main(int argc, char *argv[])
 	
 #if USE_NOTIFY
 	notify_init(program_name);
-#endif
-#if USE_GCONF
-	/* load gconf client */
-	client = gconf_client_get_default();
-#else
-	conffile = g_key_file_new ();
-	gchar * filename = g_build_filename(g_get_user_config_dir(),"minbar", "prefs.conf" ,NULL);
-	g_key_file_load_from_file (conffile, filename, G_KEY_FILE_NONE, &err);
-	g_free(filename);
-	if(err != NULL)
-	{
-		g_print("%s\n", err->message);
-		err = NULL;
-	}
 #endif
 
 	gtk_about_dialog_set_url_hook (activate_url, NULL, NULL);
@@ -1461,7 +1119,7 @@ gboolean draw_qibla (GtkWidget *widget, GdkEventExpose *event, gpointer data)
 	cairo_save(context); /* for transforms */
 
 	/* if the place is Makkah itself, don't draw */
-	if((int)(lat * 10 ) == 214 && (int)(lon * 10 ) == 397) /* be less restrictive */
+	if((int)(config->latitude * 10 ) == 214 && (int)(config->longitude * 10 ) == 397) /* be less restrictive */
 	{
 	  qiblabuf = g_malloc(100);
 	  g_snprintf(qiblabuf, 100,
@@ -1714,9 +1372,9 @@ void locationok_callback()
 	gtk_widget_hide(glade_xml_get_widget(xml, "locationsDialog"));
 	/*g_print("%s, %f,%f \n", loc->name, loc->longitude, loc->latitude);*/
 
-	lat = (loc->latitude * 180) / M_PI;
-	lon = (loc->longitude * 180) / M_PI;
-	city_name = g_strdup(loc->name);  /* is this ok or should I use g_strdup ? */
+	config->latitude = (loc->latitude * 180) / M_PI;
+	config->longitude = (loc->longitude * 180) / M_PI;
+	config->city = g_strdup(loc->name);  /* is this ok or should I use g_strdup ? */
 
 	/* update the editcity dialog (copied from init_vars) */
 
@@ -1724,13 +1382,13 @@ void locationok_callback()
 
 	/* Setting what was found to editcity dialog*/
 	entrywidget = glade_xml_get_widget( xml, "latitude");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, lat);
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->latitude);
 
 	entrywidget = glade_xml_get_widget( xml, "longitude");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, lon);
+	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->longitude);
 
 	entrywidget = glade_xml_get_widget( xml, "cityname");	
-	gtk_entry_set_text((GtkEntry *)entrywidget, city_name);
+	gtk_entry_set_text((GtkEntry *)entrywidget, config->city);
 }
 
 

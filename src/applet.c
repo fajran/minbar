@@ -164,7 +164,7 @@ about_cb(BonoboUIComponent *ui_container,
              const gchar       *cname)
 {
   static const gchar *authors[] = {
-    "Fajran Iman Rusadi <fajran@gmail.com>",
+    "Fajran Iman Rusadi <fajran@ubuntu.com>",
     NULL
   };
   static gchar *license[] = {

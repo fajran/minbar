@@ -19,6 +19,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifndef PREFS_H_
+#define PREFS_H_
+
 #if USE_GCONF
 #include <gconf/gconf-client.h>
 #define MINBAR_PREFDIR 		"/apps/minbar"
@@ -38,5 +41,7 @@
 
 #else
 #include <glib.h>
+
+#endif
 
 #endif

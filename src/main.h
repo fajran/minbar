@@ -19,6 +19,21 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifndef MAIN_H_
+#define MAIN_H_
+
+#include "config.h"
+
+
+#include <gtk/gtk.h>
+#include <itl/prayer.h>
+#if USE_GSTREAMER
+#include <gst/gst.h>
+#else
+#include <xine.h>
+#endif
+
+
 
 /* Functions */ 
 void 	calculate_prayer_table(void);
@@ -68,11 +83,14 @@ void 	play_subh_athan_callback(void);
 void 	play_normal_athan_callback(void);
 void 	prayer_calendar_callback(void);
 void	minute_label_callback(GtkWidget *widget, gpointer user_data);
-void 	load_locations_callback(void);
 void 	locationok_callback(void);
-void 	find_entry_changed(GtkEditable *entry);
-gboolean find_location (GtkTreeModel *model, GtkTreeIter *iter, const gchar *location, gboolean go_parent);
-void	find_next_clicked (GtkButton *button);
 gboolean tray_destroy_cb (GtkObject *object);
 void	activate_url (GtkAboutDialog *about, const gchar *link, gpointer data);
+
+void minbar_apply_config(void);
+
+MinbarConfig *config;
+
+
+#endif
 

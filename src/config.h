@@ -26,7 +26,7 @@
 #include <glib/gi18n.h>
 
 typedef struct _MinbarConfig {
-	gchar* city;
+	const gchar* city;
 	gdouble latitude;
 	gdouble longitude;
 

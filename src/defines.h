@@ -19,6 +19,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifndef DEFINES_H_
+#define DEFINES_H_
 
 
 #define MINBAR_DEFAULT_ATHAN	"athan.ogg"
@@ -42,3 +44,5 @@
 #define	REMAIN_MARKUP_START 	"<span color='darkgreen'><b>"
 #define	REMAIN_MARKUP_END 	"</b></span>"
 
+
+#endif

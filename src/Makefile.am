@@ -1,6 +1,6 @@
 bin_PROGRAMS = minbar minbar-applet
 
-minbar_SOURCES = main.c main.h defines.h prefs.h locations-xml.c locations-xml.h config.c config.h
+minbar_SOURCES = main.c main.h defines.h prefs.h locations-xml.c locations-xml.h config.c config.h preferences.c preferences.h
 
 minbar_CPPFLAGS = 				\
 	-DG_LOG_DOMAIN=\"Minbar\"		\

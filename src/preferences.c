@@ -60,8 +60,11 @@ void find_next_clicked (GtkButton *button);
 void 
 preferences_set_notification(gboolean notification)
 {
-	gtk_toggle_button_set_active((GtkToggleButton *)widgets->notification, notification);
-	config->notification = notification;
+	printf("set notification: %d\n", notification);
+	if (dialog && widgets)
+	{
+		gtk_toggle_button_set_active((GtkToggleButton *)widgets->notification, notification);
+	}
 }
 
 static gboolean
@@ -77,7 +80,7 @@ update_config (void)
 {
 	config->latitude = gtk_spin_button_get_value((GtkSpinButton*)widgets->latitude);
 	config->longitude = gtk_spin_button_get_value((GtkSpinButton *)widgets->longitude);
-	config->city = gtk_entry_get_text((GtkEntry*)widgets->city);
+	config->city = g_strdup(gtk_entry_get_text((GtkEntry*)widgets->city));
 
 	config->correction = gtk_spin_button_get_value((GtkSpinButton *)widgets->correction);
 	config->method = gtk_combo_box_get_active((GtkComboBox *)widgets->method) + 1;
@@ -154,6 +157,8 @@ response (GtkWidget *widget, gint id, gpointer data)
 {
 	if (id == GTK_RESPONSE_OK)
 	{
+		update_config();
+		config_save(config);
 		minbar_apply_config();
 	}
 
@@ -188,7 +193,6 @@ setup_dialog()
 	
 	widgets = g_malloc(sizeof(PreferencesWidgets));
 	
-	/* Setting what was found to editcity dialog*/
 	widgets->latitude = glade_xml_get_widget( xml, "latitude");	
 	widgets->longitude = glade_xml_get_widget( xml, "longitude");	
 	widgets->city = glade_xml_get_widget( xml, "cityname");	

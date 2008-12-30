@@ -34,6 +34,7 @@
 #include "locations-xml.h" 
 #include "config.h"
 #include "preferences.h"
+#include "calendar.h"
 
 #define USE_TRAY_ICON   1
 #define USE_NOTIFY	(USE_TRAY_ICON & HAVE_NOTIFY)
@@ -61,9 +62,6 @@ static int 		next_prayer_id = -1;
 static gboolean 	* start_hidden_arg = FALSE;
 
 /* for prayer.h functions */
-static Date 		* prayerDate;
-static Location		* loc;
-static Method		* calcMethod;
 static Prayer 		ptList[6];
 
 /* For libraries */
@@ -95,7 +93,6 @@ static gchar 		* next_prayer_string;
 static int 		calling_athan_for;
 /* init moved for i18n */
 gchar * hijri_month[13];
-gchar * time_names[6];
 
 #if USE_NOTIFY
 NotifyNotification 	* notification;
@@ -505,71 +502,14 @@ void on_notifmenucheck_toggled_callback(GtkWidget *widget,
 {
 	config->notification = gtk_check_menu_item_get_active((GtkCheckMenuItem * ) widget);
 
-	gtk_toggle_button_set_active((GtkToggleButton * )
-			glade_xml_get_widget( xml, "yesnotif"),
-			
-			config->notification);
-	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
-			glade_xml_get_widget( xml, "notifmenucheck"),
-			config->notification);
-
+	preferences_set_notification(config->notification);
 	config_save(config);
 }
 
-void on_editcityokbutton_clicked_callback(GtkWidget *widget,
-	       				gpointer user_data) 
+void on_calendar_button_clicked(GtkWidget *widget, gpointer data)
 {
-
-	GtkWidget*  entrywidget;	
-	/* Setting what was found to editcity dialog*/
-	entrywidget 	= glade_xml_get_widget( xml, "longitude");	
-	config->longitude 		=  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
-
-	entrywidget 	= glade_xml_get_widget( xml, "latitude");
-	config->latitude 		=  gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
-
-	entrywidget 	= glade_xml_get_widget( xml, "cityname");
-	g_stpcpy(config->city, gtk_entry_get_text((GtkEntry *)entrywidget)); 
-
-	entrywidget 	= glade_xml_get_widget( xml, "correction");
-	config->correction 	=  (double)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
-
-	entrywidget 	= glade_xml_get_widget( xml, "yesnotif");
-	config->notification 		=  gtk_toggle_button_get_active((GtkToggleButton *)entrywidget);
-
-	entrywidget 	= glade_xml_get_widget( xml, "notiftime");
-	config->notification_time 	=  (int)gtk_spin_button_get_value((GtkSpinButton *)entrywidget);
-
-	entrywidget 	= glade_xml_get_widget( xml, "startHidden");
-	config->start_hidden 	=  gtk_toggle_button_get_active((GtkToggleButton *)entrywidget);
-
-	entrywidget 	= glade_xml_get_widget( xml, "methodcombo");
-	config->method 		=  (int)gtk_combo_box_get_active((GtkComboBox *)entrywidget)  + 1;
-
-	if(config->method < 0 || config->method > 6 ) { config->method = 5; }
-	getMethod(config->method, calcMethod);
-
-	config->athan_subh = gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_subh_chooser")));
-	config->athan_normal = gtk_file_chooser_get_filename ((GtkFileChooser *) (glade_xml_get_widget(xml, "athan_chooser")));
-
-	config_save(config);
-
-	/* Now hide the cityedit dialog */
-	gtk_widget_hide(glade_xml_get_widget( xml, "editcity"));
-
-	/* And set the city string in the main window */
-	gtk_label_set_text((GtkLabel *)
-			(glade_xml_get_widget(xml, "locationname"))
-			,(const gchar *)config->city);
-
-	/* Now calculate new timetable */
-	calculate_prayer_table();
-	/* And set the new labels */
-	update_prayer_labels(ptList, "salatlabel", TRUE);
-	gtk_widget_queue_draw(qibla_drawing_area);
-	prayer_calendar_callback();
+	calendar_show();
 }
-
 
 void init_prefs ()
 {
@@ -581,34 +521,7 @@ void init_prefs ()
 	calcMethod 		= g_malloc(sizeof(Method));
 	getMethod(config->method, calcMethod);
 
-
-	GtkWidget*  entrywidget;	
-	
-	/* Setting what was found to editcity dialog*/
-	entrywidget = glade_xml_get_widget( xml, "latitude");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->latitude);
-
-	entrywidget = glade_xml_get_widget( xml, "longitude");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->longitude);
-
-	entrywidget = glade_xml_get_widget( xml, "cityname");	
-	gtk_entry_set_text((GtkEntry *)entrywidget, config->city);
-
-	entrywidget = glade_xml_get_widget( xml, "correction");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->correction);
-
-	entrywidget = glade_xml_get_widget( xml, "yesnotif");	
-	gtk_toggle_button_set_active((GtkToggleButton *)entrywidget, config->notification);
-	
-	entrywidget = glade_xml_get_widget( xml, "notiftime");	
-	gtk_spin_button_set_value((GtkSpinButton *)entrywidget, config->notification_time);
-
-	entrywidget = glade_xml_get_widget( xml, "methodcombo");	
-	gtk_combo_box_set_active((GtkComboBox *)entrywidget, config->method-1);
-
 	/* Set the play athan check box */
-	entrywidget = glade_xml_get_widget( xml, "enabledathancheck");
-	gtk_toggle_button_set_active((GtkToggleButton *) entrywidget, config->athan_enabled);
 	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
 			glade_xml_get_widget( xml, "playathan"),
 			config->athan_enabled);
@@ -617,11 +530,6 @@ void init_prefs ()
 	gtk_check_menu_item_set_active((GtkCheckMenuItem * )
 			glade_xml_get_widget( xml, "notifmenucheck"),
 			config->notification);
-
-	/* Start minimised checkbox */
-	gtk_toggle_button_set_active((GtkToggleButton * )
-			glade_xml_get_widget( xml, "startHidden"),
-			config->start_hidden);
 
 	/* And set the city string in the main window */
 	gtk_label_set_text((GtkLabel *)
@@ -643,55 +551,9 @@ void init_prefs ()
 #else
 	gtk_widget_show(mainwindow);
 #endif
-	/* set UI vars */
-	/* Check existence of file */
-	FILE * testfile;
-	testfile = fopen( config->athan_subh, "r");
-	if(testfile != NULL)
-	{
-	fclose(testfile);
-	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
-			(glade_xml_get_widget(xml, "athan_subh_chooser")),
-			(const gchar *) config->athan_subh);
-	}
-	else
-	{
-		calling_athan_for = 0;
-		set_file_status(FALSE);
-	}
-	setup_file_filters();
-	gtk_file_chooser_add_filter ((GtkFileChooser *) 
-			(glade_xml_get_widget(xml, "athan_subh_chooser")),
-	       		filter_supported);
 
-	gtk_file_chooser_add_filter ((GtkFileChooser *) 
-			(glade_xml_get_widget(xml, "athan_subh_chooser")),
-	       		filter_all);
-
-	testfile = fopen( config->athan_normal, "r");
-	if(testfile != NULL)
-	{
-
-	fclose(testfile);
-	gtk_file_chooser_set_filename  ((GtkFileChooser *) 
-			(glade_xml_get_widget(xml, "athan_chooser")),
-			(const gchar *) config->athan_normal);
-	}
-	else
-	{
-		calling_athan_for = 1;
-		set_file_status(FALSE);
-	}
-	setup_file_filters();
-	gtk_file_chooser_add_filter ((GtkFileChooser *) 
-			(glade_xml_get_widget(xml, "athan_chooser")),
-	       		filter_supported);
-
-	gtk_file_chooser_add_filter ((GtkFileChooser *) 
-			(glade_xml_get_widget(xml, "athan_chooser")),
-	       		filter_all);
-
-
+	g_signal_connect(glade_xml_get_widget(xml, "calendarbutton"), "clicked",
+		G_CALLBACK(on_calendar_button_clicked), NULL);
 }
 
 gboolean no_stream_errors;
@@ -1305,5 +1167,21 @@ void setup_widgets()
 void
 minbar_apply_config(void)
 {
+	if (config->method < 0 || config->method > 6) {
+		config->method = 5; 
+	}
+	getMethod(config->method, calcMethod);
 
+	/* And set the city string in the main window */
+	gtk_label_set_text((GtkLabel *)
+			(glade_xml_get_widget(xml, "locationname"))
+			,(const gchar *)config->city);
+
+	/* Now calculate new timetable */
+	calculate_prayer_table();
+
+	/* And set the new labels */
+	update_prayer_labels(ptList, "salatlabel", TRUE);
+	gtk_widget_queue_draw(qibla_drawing_area);
+	prayer_calendar_callback();
 }

@@ -89,7 +89,11 @@ void	activate_url (GtkAboutDialog *about, const gchar *link, gpointer data);
 
 void minbar_apply_config(void);
 
+gchar * time_names[6];
 MinbarConfig *config;
+Location		* loc;
+Method		* calcMethod;
+Date 		* prayerDate;
 
 
 #endif

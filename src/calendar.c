@@ -17,7 +17,7 @@ typedef struct _CalendarWidgets
 static CalendarWidgets* widgets;
 
 static void
-update_date (void)
+update_calendar (void)
 {
 	guint * year = g_malloc(sizeof(guint));
 	guint * month = g_malloc(sizeof(guint));
@@ -80,7 +80,7 @@ delete_event (GtkWidget *widget, gpointer data)
 static void
 on_day_selected (GtkWidget *widget, gpointer data)
 {
-	update_date();
+	update_calendar();
 }
 
 static void
@@ -161,7 +161,7 @@ calendar_show (void)
 	
 		dialog = glade_xml_get_widget(glade_xml, "CalendarDialog");
 		setup_dialog();
-		update_date();
+		update_calendar();
 	}
 
 	gtk_window_present(GTK_WINDOW(dialog));
@@ -172,6 +172,6 @@ calendar_update (void)
 {
 	if (dialog != NULL)
 	{
-		// TODO
+		update_calendar();
 	}
 }
